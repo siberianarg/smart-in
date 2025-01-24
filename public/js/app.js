@@ -22949,8 +22949,8 @@ __webpack_require__.r(__webpack_exports__);
       persons: [{
         id: 1,
         firstName: "Beka",
-        age: 30,
-        job: "buzinessman"
+        age: 19,
+        job: "driver"
       }, {
         id: 2,
         firstName: "Zhan",
@@ -22961,12 +22961,30 @@ __webpack_require__.r(__webpack_exports__);
         firstName: "Ilya",
         age: 30,
         job: "boss"
+      }, {
+        id: 4,
+        firstName: "Olga",
+        age: 20,
+        job: "manager"
+      }, {
+        id: 5,
+        firstName: "Saltanat",
+        age: 20,
+        job: "waiter"
       }]
     };
   },
   computed: {
-    vasyaJob: function vasyaJob() {
-      return this.firstName + " работает в булышной";
+    //вычисляемые свойства
+    personAgeMoreThanTwenty: function personAgeMoreThanTwenty() {
+      return this.persons.filter(function (person) {
+        return person.age >= 20;
+      });
+    },
+    personAgeLessThanTwenty: function personAgeLessThanTwenty() {
+      return this.persons.filter(function (person) {
+        return person.age < 20;
+      });
     }
   },
   mounted: function mounted() {},
@@ -23057,7 +23075,7 @@ var _hoisted_3 = {
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_thirdComponent = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("thirdComponent");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_thirdComponent), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.persons, function (person) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_thirdComponent), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.personAgeMoreThanTwenty, function (person) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(person.id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(person.firstName), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(person.age), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(person.job), 1 /* TEXT */)]);
   }), 256 /* UNKEYED_FRAGMENT */))])])]);
 }
