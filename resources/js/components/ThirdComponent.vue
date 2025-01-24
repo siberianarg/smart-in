@@ -4,11 +4,14 @@
 
 <script>
 export default {
-    name: "ThirdComponent",
+    name: "thirdComponent",
     components: {},
-    data() {},
+    data() {
+        return {};
+    },
     mounted() {},
-    methods: [],
+    methods: {
+    },
     watch: {},
 };
 </script>

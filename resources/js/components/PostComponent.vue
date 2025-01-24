@@ -1,16 +1,16 @@
 <template>
     <div>
-        <ThirdComponent> </ThirdComponent>
+        <thirdComponent> </thirdComponent>
         <div>Name: {{ firstName }}</div>
     </div>
 </template>
 
 <script>
-import ThirdComponent from "./ThirdComponent.vue";
+import thirdComponent from "./thirdComponent.vue";
 export default {
-    name: "PostComponent",
+    name: "postComponent",
     components: {
-        ThirdComponent 
+        thirdComponent 
     },
     data() {
         return {
