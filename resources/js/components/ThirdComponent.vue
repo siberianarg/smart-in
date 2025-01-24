@@ -1,5 +1,5 @@
 <template>
-Bye bye
+    <div>bye bye</div>
 </template>
 
 <script>
@@ -10,10 +10,7 @@ export default {
     mounted() {},
     methods: [],
     watch: {},
-}
-
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

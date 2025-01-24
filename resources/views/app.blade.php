@@ -25,11 +25,11 @@
     </div>
 
     <div id="appSecond" class="main-container">
-        <app-component></app-component>
+        <post-component></post-component>
     </div>
 
     <div id="appThird" class="main-container">
-        <app-component></app-component>
+        <third-component></third-component>
     </div>
 
     <script src="{{ mix('js/app.js') }}" defer></script>
