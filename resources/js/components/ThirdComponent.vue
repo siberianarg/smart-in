@@ -1,5 +1,8 @@
 <template>
     <div>Third</div>
+    <v-btn text="button" @click="sayHi" />
+
+    <v-btn icon="$vuetify" text="Salam" @click="saySalam"/>
 </template>
 
 <script>
@@ -11,6 +14,12 @@ export default {
     },
     mounted() {},
     methods: {
+        sayHi() {
+            console.log("Hi");
+        },
+        saySalam() {
+            console.log("SALAM")
+        }
     },
     watch: {},
 };
