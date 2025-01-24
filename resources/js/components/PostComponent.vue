@@ -1,7 +1,24 @@
 <template>
     <div>
         <thirdComponent> </thirdComponent>
-        <div>Name: {{ firstName }}</div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Jobe</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="person in persons">
+                    <th scope="row">{{ person.id }}</th>
+                    <td>{{ person.firstName }}</td>
+                    <td>{{ person.age }}</td>
+                    <td>{{ person.job }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </template>
 
@@ -10,16 +27,36 @@ import thirdComponent from "./thirdComponent.vue";
 export default {
     name: "postComponent",
     components: {
-        thirdComponent 
+        thirdComponent,
     },
     data() {
         return {
-            firstName: "Beka",
-            age: 20,
-            bolean: false,
-            arr: [[]],
-            someObj: "Zhan"
+            persons: [
+                {      
+                    id: 1,
+                    firstName: "Beka",
+                    age: 30,
+                    job: "buzinessman",
+                },
+                {
+                    id: 2,
+                    firstName: "Zhan",
+                    age: 31,
+                    job: "developer",
+                },
+                {
+                    id: 3,
+                    firstName: "Ilya",
+                    age: 30,
+                    job: "boss",
+                },
+            ],
         };
+    },
+    computed: {
+        vasyaJob() {
+            return this.firstName + " работает в булышной";
+        },
     },
     mounted() {},
     methods: {},
