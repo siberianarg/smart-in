@@ -22937,10 +22937,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _ThirdComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ThirdComponent.vue */ "./resources/js/components/ThirdComponent.vue");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "PostComponent",
-  components: {},
-  data: function data() {},
+  components: {
+    ThirdComponent: _ThirdComponent_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      firstName: "Beka",
+      age: 20,
+      bolean: false,
+      arr: [[]],
+      someObj: "Zhan"
+    };
+  },
   mounted: function mounted() {},
   methods: {},
   watch: {}
@@ -23004,7 +23016,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, "Hello BRO!");
+  var _component_ThirdComponent = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ThirdComponent");
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ThirdComponent), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, "Name: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.firstName), 1 /* TEXT */)]);
 }
 
 /***/ }),
@@ -23023,7 +23036,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, "bye bye");
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, "Third");
 }
 
 /***/ }),

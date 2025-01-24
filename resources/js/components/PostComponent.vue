@@ -1,18 +1,30 @@
 <template>
-    <div>Hello BRO!</div>
+    <div>
+        <ThirdComponent> </ThirdComponent>
+        <div>Name: {{ firstName }}</div>
+    </div>
 </template>
 
 <script>
+import ThirdComponent from "./ThirdComponent.vue";
 export default {
     name: "PostComponent",
-    components: {},
-    data() {},
+    components: {
+        ThirdComponent 
+    },
+    data() {
+        return {
+            firstName: "Beka",
+            age: 20,
+            bolean: false,
+            arr: [[]],
+            someObj: "Zhan"
+        };
+    },
     mounted() {},
     methods: {},
     watch: {},
 };
 </script>
 
-<style>
-
-</style>
+<style scoped></style>
