@@ -28,9 +28,9 @@
         <post-component></post-component>
     </div>
 
-    <div id="appThird" class="p-1 main-container">
+    <!-- <div id="appThird" class="p-5 main-container">
         <third-component></third-component>
-    </div>
+    </div> -->
 
     <script src="{{ mix('js/app.js') }}" defer></script>
 </body>

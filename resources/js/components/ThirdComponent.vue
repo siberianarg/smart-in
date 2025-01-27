@@ -1,6 +1,6 @@
 <template>
     <div>Third</div>
-    <v-btn text="button" @click="sayHi" />
+    <v-btn text="hello" @click="sayHi" />
 
     <v-btn icon="$vuetify" text="Salam" @click="saySalam"/>
 </template>
