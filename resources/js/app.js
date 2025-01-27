@@ -19,4 +19,5 @@ function createVue(name, containerId, component) {
 
 createVue(app, "#app", appComponent);
 createVue(appSecond, "#appSecond", postComponent);
-createVue(appThird, "#appThird", thirdComponent);
+// createVue(appThird, "#appThird", thirdComponent);
+// createVue(appCreate, "#appCreate", createComponent);

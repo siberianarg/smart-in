@@ -1,7 +1,8 @@
 <template>
     <div>
+        <createComponent> </createComponent>
         <thirdComponent> </thirdComponent>
-        <table class="table">
+        <!-- <table class="table">
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -18,18 +19,20 @@
                     <td>{{ person.job }}</td>
                 </tr>
             </tbody>
-        </table>
-
+        </table> -->
     </div>
 </template>
 
 <script>
 import axios from "axios";
 import thirdComponent from "./thirdComponent.vue";
+import createComponent from "./createComponent.vue";
+
 export default {
     name: "postComponent",
     components: {
         thirdComponent,
+        createComponent,
     },
     data() {
         return {
