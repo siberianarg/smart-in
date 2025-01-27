@@ -22938,7 +22938,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "createComponent"
+  name: "createComponent",
+  data: function data() {
+    return {
+      name: null,
+      age: null,
+      job: null
+    };
+  },
+  methods: {
+    addPerson: function addPerson() {
+      console.log(this.name, this.age, this.job);
+    }
+  }
 });
 
 /***/ }),
@@ -23056,10 +23068,51 @@ __webpack_require__.r(__webpack_exports__);
 var _hoisted_1 = {
   "class": "w-25"
 };
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"mb-3\"><input type=\"text\" class=\"form-control\" id=\"name\" placeholder=\"Disabled input\"></div><div class=\"mb-3\"><input type=\"number\" class=\"form-control\" id=\"agle\" placeholder=\"Disabled input\"></div><div class=\"mb-3\"><input type=\"text\" class=\"form-control\" id=\"job\" placeholder=\"Disabled input\"></div><div class=\"mb-3\"><input type=\"submit\" class=\"btn btn-primary\" value=\"Добавить\"></div>", 4);
-var _hoisted_6 = [_hoisted_2];
+var _hoisted_2 = {
+  "class": "mb-3"
+};
+var _hoisted_3 = {
+  "class": "mb-3"
+};
+var _hoisted_4 = {
+  "class": "mb-3"
+};
+var _hoisted_5 = {
+  "class": "mb-3"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [].concat(_hoisted_6));
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    "class": "form-control",
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.name = $event;
+    }),
+    id: "name",
+    placeholder: "Disabled input"
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.name]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "number",
+    "class": "form-control",
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $data.age = $event;
+    }),
+    id: "agle",
+    placeholder: "Disabled input"
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.age]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    "class": "form-control",
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return $data.job = $event;
+    }),
+    id: "job",
+    placeholder: "Disabled input"
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.job]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "submit",
+    "class": "btn btn-primary",
+    onClick: _cache[3] || (_cache[3] = function () {
+      return $options.addPerson && $options.addPerson.apply($options, arguments);
+    }),
+    value: "Добавить"
+  })])]);
 }
 
 /***/ }),
