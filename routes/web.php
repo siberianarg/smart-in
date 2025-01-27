@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\PersonController;
 
 Route::get('/', function () {
     return view('app');
@@ -10,4 +10,4 @@ Route::get('/', function () {
 // Auth::routes();
 Route::get("/home", [App\Http\Controllers\HomeController::class, 'index']) -> name('home');
 
-Route::get("/posts", PostController::class); 
+Route::get("/persons", PersonController::class); 
