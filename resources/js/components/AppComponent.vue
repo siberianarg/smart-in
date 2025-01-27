@@ -1,6 +1,6 @@
 <template>
-    <div>Hello</div>
-    <div>{{ totaltime }}</div>
+    <div>Work Table</div>
+    <!-- <div>{{ totaltime }}</div> -->
 </template>
 
 <script>
