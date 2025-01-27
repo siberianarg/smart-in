@@ -1,19 +1,28 @@
 <template>
-Bye bye
+    <div>Third</div>
+    <v-btn text="button" @click="sayHi" />
+
+    <v-btn icon="$vuetify" text="Salam" @click="saySalam"/>
 </template>
 
 <script>
 export default {
-    name: "ThirdComponent",
+    name: "thirdComponent",
     components: {},
-    data() {},
+    data() {
+        return {};
+    },
     mounted() {},
-    methods: [],
+    methods: {
+        sayHi() {
+            console.log("Hi");
+        },
+        saySalam() {
+            console.log("SALAM")
+        }
+    },
     watch: {},
-}
-
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

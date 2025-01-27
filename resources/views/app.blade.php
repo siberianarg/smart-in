@@ -20,16 +20,16 @@
         }
     </style>
 
-    <div id="app" class="main-container">
+    <div id="app" class="p-5">
         <app-component></app-component>
     </div>
 
-    <div id="appSecond" class="main-container">
-        <app-component></app-component>
+    <div id="appSecond" class="p-5">
+        <post-component></post-component>
     </div>
 
-    <div id="appThird" class="main-container">
-        <app-component></app-component>
+    <div id="appThird" class="p-1 main-container">
+        <third-component></third-component>
     </div>
 
     <script src="{{ mix('js/app.js') }}" defer></script>

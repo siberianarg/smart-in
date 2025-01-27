@@ -1,8 +1,8 @@
 import { createApp } from "vue";
 
-import AppComponent from "./components/AppComponent.vue";
-import PostComponent from "./components/PostComponent.vue";
-import ThirdComponent from "./components/ThirdComponent.vue";
+import appComponent from "./components/appComponent.vue";
+import postComponent from "./components/postComponent.vue";
+import thirdComponent from "./components/thirdComponent.vue";
 
 import vuetify from "./plugins/vuetify";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -17,6 +17,6 @@ function createVue(name, containerId, component) {
     name.mount(containerId);
 }
 
-createVue(app, "#app", AppComponent);
-createVue(appThird, "#appThird", PostComponent);
-createVue(appSecond, "#appSecond", ThirdComponent);
+createVue(app, "#app", appComponent);
+createVue(appSecond, "#appSecond", postComponent);
+createVue(appThird, "#appThird", thirdComponent);
