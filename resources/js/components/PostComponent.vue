@@ -41,23 +41,23 @@ export default {
     },
 
     mounted() {
-        this.getPersons()
+        // this.getPersons()
     },
 
     methods: {
-        getPersons() {
-            axios.get('/persons')
-            .then( res =>  // data from backend
-            {
-                this.persons = res.data
-            })
-            .catch( error => {
+        // getPersons() {
+        //     axios.get('/persons')
+        //     .then( res =>  // data from backend
+        //     {
+        //         this.persons = res.data
+        //     })
+        //     .catch( error => {
 
-            })
-            .finally({
+        //     })
+        //     .finally({
                 
-            })
-        }
+        //     })
+        // }
     },
     computed: {},
     watch: {},

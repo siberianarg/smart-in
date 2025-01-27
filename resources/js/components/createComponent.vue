@@ -6,7 +6,7 @@
                 class="form-control"
                 v-model="name"
                 id="name"
-                placeholder="Disabled input"
+                placeholder="name"
             />
         </div>
         <div class="mb-3">
@@ -14,8 +14,8 @@
                 type="number"
                 class="form-control"
                 v-model="age"
-                id="agle"
-                placeholder="Disabled input"
+                id="age"
+                placeholder="age"
             />
         </div>
         <div class="mb-3">
@@ -24,20 +24,21 @@
                 class="form-control"
                 v-model="job"
                 id="job"
-                placeholder="Disabled input"
+                placeholder="job"
             />
         </div>
         <div class="mb-3">
-            <input 
-            type="submit" 
-            class="btn btn-primary" 
-            @click="addPerson"
-            value="Добавить" />
+            <input
+                @click.prevent="addPerson"
+                class="btn btn-primary"
+                value="Добавить"
+            />
         </div>
     </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
     name: "createComponent",
     data() {
