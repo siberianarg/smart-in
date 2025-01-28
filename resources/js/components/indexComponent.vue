@@ -104,6 +104,7 @@ export default {
     },
     mounted() {
         this.getPeople();
+        console.log(this.$parent.parentLog())
     },
     methods: {
         getPeople() {
@@ -137,6 +138,7 @@ export default {
                     this.getPeople();
                 });
         },
+
         deletePerson(id) {
             axios
                 .delete(`/api/people/${id}`)
@@ -144,6 +146,10 @@ export default {
                     console.log(res);
                     this.getPeople();
                 });
+        },
+
+        indexLog() {
+            console.log('this is indexComponent')
         },
     },
 };
