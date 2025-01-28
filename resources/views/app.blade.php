@@ -20,7 +20,7 @@
         }
     </style>
 
-    <div id="app" class="p-5">
+    <div id="app" class="p-0">
         <app-component></app-component>
     </div>
 
