@@ -8,6 +8,7 @@
                     <th scope="col">Age</th>
                     <th scope="col">Job</th>
                     <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,6 +32,15 @@
                                 outlined
                             >
                                 Edit
+                            </v-btn>
+                        </td>
+                        <td>
+                            <v-btn
+                                color="danger"
+                                @click.prevent="deletePerson(person.id)"
+                                outlined
+                            >
+                                УДАЛИТЬ
                             </v-btn>
                         </td>
                     </tr>
@@ -122,6 +132,14 @@ export default {
                     age: this.age,
                     job: this.job,
                 })
+                .then((res) => {
+                    console.log(res);
+                    this.getPeople();
+                });
+        },
+        deletePerson(id) {
+            axios
+                .delete(`/api/people/${id}`)
                 .then((res) => {
                     console.log(res);
                     this.getPeople();
