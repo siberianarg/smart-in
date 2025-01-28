@@ -13,37 +13,7 @@
             </thead>
             <tbody>
                 <template v-for="(person, index) in people">
-                    <tr :class="isEdit(person.id) ? 'd-none' : ''">
-                        <th scope="row">{{ person.id }}</th>
-                        <td>{{ person.name }}</td>
-                        <td>{{ person.age }}</td>
-                        <td>{{ person.job }}</td>
-                        <td>
-                            <v-btn
-                                color="success"
-                                @click.prevent="
-                                    changeEditPersonId(
-                                        person.id,
-                                        person.name,
-                                        person.age,
-                                        person.job
-                                    )
-                                "
-                                outlined
-                            >
-                                Edit
-                            </v-btn>
-                        </td>
-                        <td>
-                            <v-btn
-                                color="danger"
-                                @click.prevent="deletePerson(person.id)"
-                                outlined
-                            >
-                                УДАЛИТЬ
-                            </v-btn>
-                        </td>
-                    </tr>
+                    <showComponent :person="person" :ref="`show_${person.id}`"></showComponent>
                     <editComponent :person="person" :ref="`edit_${person.id}`"></editComponent>
                 </template>
             </tbody>
@@ -53,11 +23,13 @@
 
 <script>
 import editComponent from "./editComponent.vue";
+import showComponent from "./showComponent.vue";
 import axios from "axios";
 export default {
     name: "indexComponent",
     components: {
         editComponent,
+        showComponent,
     },
     data() {
         return {
