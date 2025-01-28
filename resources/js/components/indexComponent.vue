@@ -11,7 +11,7 @@
                 </tr>
             </thead>
             <tbody>
-                <template v-for="person in people">
+                <template v-for="(person, index) in people">
                     <tr>
                         <th scope="row">{{ person.id }}</th>
                         <td>{{ person.name }}</td>
@@ -39,7 +39,7 @@
                         <td>
                             <v-text-field
                                 type="text"
-                                v-model="person.name"
+                                v-model="name"
                                 label="name"
                                 outlined
                                 class="mb-3"
@@ -48,7 +48,7 @@
                         <td>
                             <v-text-field
                                 type="number"
-                                v-model="person.age"
+                                v-model="age"
                                 label="age"
                                 filled
                                 class="mb-3"
@@ -57,7 +57,7 @@
                         <td>
                             <v-text-field
                                 type="text"
-                                v-model="person.job"
+                                v-model="job"
                                 label="job"
                                 outlined
                                 class="mb-3"
@@ -66,7 +66,7 @@
                         <td>
                             <v-btn
                                 color="success"
-                                @click.prevent="updatePerson(person.id)"
+                                @click.prevent="updatePerson(index)"
                                 outlined
                             >
                                 Update
@@ -114,11 +114,13 @@ export default {
         },
 
         updatePerson(id) {
+            console.log(this.people);
+            console.log("id: " + id);
+            console.log(this.people[id]);
             console.log("updatePerson: " + this.name, this.age, this.job);
             this.editPersonId = null;
 
             axios
-
                 .patch(`/api/people/${id}`, {
                     name: this.name,
                     age: this.age,
@@ -126,7 +128,6 @@ export default {
                 })
                 .then((res) => {
                     console.log(res);
-
                     // this.people = res.data;
                 });
         },
