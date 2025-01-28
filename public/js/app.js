@@ -23020,10 +23020,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.editPersonId === id;
     },
     updatePerson: function updatePerson(id) {
-      console.log(this.people);
-      console.log("id: " + id);
-      console.log(this.people[id]);
-      console.log("updatePerson: " + this.name, this.age, this.job);
+      var _this2 = this;
       this.editPersonId = null;
       axios__WEBPACK_IMPORTED_MODULE_0__["default"].patch("/api/people/".concat(id), {
         name: this.name,
@@ -23031,7 +23028,7 @@ __webpack_require__.r(__webpack_exports__);
         job: this.job
       }).then(function (res) {
         console.log(res);
-        // this.people = res.data;
+        _this2.getPeople();
       });
     }
   }
@@ -23077,10 +23074,8 @@ __webpack_require__.r(__webpack_exports__);
     //         this.persons = res.data
     //     })
     //     .catch( error => {
-
     //     })
     //     .finally({
-
     //     })
     // }
   },
@@ -23260,7 +23255,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 8 /* PROPS */, ["modelValue"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_v_btn, {
       color: "success",
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-        return $options.updatePerson(index);
+        return $options.updatePerson(person.id);
       }, ["prevent"]),
       outlined: ""
     }, {

@@ -52,10 +52,8 @@ export default {
         //         this.persons = res.data
         //     })
         //     .catch( error => {
-
         //     })
         //     .finally({
-                
         //     })
         // }
     },

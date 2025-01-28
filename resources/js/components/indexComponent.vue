@@ -66,7 +66,7 @@
                         <td>
                             <v-btn
                                 color="success"
-                                @click.prevent="updatePerson(index)"
+                                @click.prevent="updatePerson(person.id)"
                                 outlined
                             >
                                 Update
@@ -114,10 +114,6 @@ export default {
         },
 
         updatePerson(id) {
-            console.log(this.people);
-            console.log("id: " + id);
-            console.log(this.people[id]);
-            console.log("updatePerson: " + this.name, this.age, this.job);
             this.editPersonId = null;
 
             axios
@@ -128,7 +124,7 @@ export default {
                 })
                 .then((res) => {
                     console.log(res);
-                    // this.people = res.data;
+                    this.getPeople();
                 });
         },
     },
