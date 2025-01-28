@@ -11,13 +11,9 @@ export default {
         return {};
     },
     props: {
-        obj: {
-            type: Object, // Указываем тип данных
-            required: true, // Делаем пропс обязательным
-        },
+        obj: {},
     },
     mounted() {
-        this.$parent.$parent.parentLog();
     },
     methods: {},
 };

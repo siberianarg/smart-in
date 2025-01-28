@@ -62,11 +62,7 @@ export default {
                         error.response ? error.response.data : error.message
                     );
                 });
-            this.getTable();
-        },
-
-        getTable() {
-            window.location.reload();
+            this.$parent.$refs.index.getPeople()
         },
     },
 };
