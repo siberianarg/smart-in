@@ -22937,6 +22937,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "createComponent",
@@ -22949,7 +22950,16 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     addPerson: function addPerson() {
-      console.log(this.name, this.age, this.job);
+      console.log("appPerson func: " + this.name, this.age, this.job);
+      axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/people/store", {
+        name: this.name,
+        age: this.age,
+        job: this.job
+      }).then(function (res) {
+        console.log("Response:", res);
+      })["catch"](function (error) {
+        console.error("Error:", error.response ? error.response.data : error.message);
+      });
     }
   }
 });

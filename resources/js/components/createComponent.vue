@@ -50,7 +50,22 @@ export default {
     },
     methods: {
         addPerson() {
-            console.log(this.name, this.age, this.job);
+            console.log("appPerson func: " + this.name, this.age, this.job);
+            axios
+                .post("/api/people/store", {
+                    name: this.name,
+                    age: this.age,
+                    job: this.job,
+                })
+                .then((res) => {
+                    console.log("Response:", res);
+                })
+                .catch((error) => {
+                    console.error(
+                        "Error:",
+                        error.response ? error.response.data : error.message
+                    );
+                });
         },
     },
 };
