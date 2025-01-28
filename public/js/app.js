@@ -22952,7 +22952,7 @@ __webpack_require__.r(__webpack_exports__);
     addPerson: function addPerson() {
       var _this = this;
       console.log("appPerson func: " + this.name, this.age, this.job);
-      axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/people/store", {
+      axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/people", {
         name: this.name,
         age: this.age,
         job: this.job

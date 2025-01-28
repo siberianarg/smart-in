@@ -52,7 +52,7 @@ export default {
         addPerson() {
             console.log("appPerson func: " + this.name, this.age, this.job);
             axios
-                .post("/api/people/store", {
+                .post("/api/people", {
                     name: this.name,
                     age: this.age,
                     job: this.job,
