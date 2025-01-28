@@ -2,12 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PersonController;
+use App\Http\Controllers\HomeController;
 
-Route::get('/', function () {
-    return view('app');
-}); 
+Route::get('/', [HomeController::class, 'i']); 
 
 // Auth::routes();
-Route::get("/home", [App\Http\Controllers\HomeController::class, 'index']) -> name('home');
+Route::get("/home/{is_vue_pade}", [HomeController::class, 'index'])->name('home')->where( 'is_vue_pade', '.*');
 
 // Route::get("/persons", PersonController::class); 

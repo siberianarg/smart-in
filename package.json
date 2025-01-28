@@ -34,6 +34,7 @@
         "popper.js": "^1.16.1",
         "vue-router": "^4.3.2",
         "vuetify": "^3.6.0-beta.0.0",
-        "vuex": "^4.0.2"
+        "vuex": "^4.0.2",
+        "webpack": "^5.97.1"
     }
 }

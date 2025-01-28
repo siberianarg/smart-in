@@ -1,38 +1,33 @@
 <template>
     <div class="w-25">
-        <div class="mb-3">
-            <input
+        <div class="mb-1">
+            <v-text-field
                 type="text"
-                class="form-control"
                 v-model="name"
-                id="name"
-                placeholder="name"
+                label="name"
+                outlined
             />
         </div>
-        <div class="mb-3">
-            <input
+        <div class="mb-1">
+            <v-text-field
                 type="number"
-                class="form-control"
                 v-model="age"
-                id="age"
-                placeholder="age"
+                label="age"
+                outlined
             />
         </div>
-        <div class="mb-3">
-            <input
-                type="text"
-                class="form-control"
+        <div class="mb-1">
+            <v-text-field
+                type="job"
                 v-model="job"
-                id="job"
-                placeholder="job"
+                label="job"
+                outlined
             />
         </div>
         <div class="mb-3">
-            <input
-                @click.prevent="addPerson"
-                class="btn btn-primary"
-                value="Добавить"
-            />
+            <v-btn @click.prevent="addPerson" color="blue" outlined>
+                Добавить
+            </v-btn>
         </div>
     </div>
 </template>
@@ -58,9 +53,9 @@ export default {
                     job: this.job,
                 })
                 .then((res) => {
-                    this.name = null
-                    this.age = null
-                    this.job = null
+                    this.name = null;
+                    this.age = null;
+                    this.job = null;
                     console.log("Response:", res);
                 })
                 .catch((error) => {
@@ -69,6 +64,11 @@ export default {
                         error.response ? error.response.data : error.message
                     );
                 });
+            this.getTable();
+        },
+
+        getTable() {
+            window.location.reload();
         },
     },
 };
