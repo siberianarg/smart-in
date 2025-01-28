@@ -20,7 +20,7 @@ export default {
         return {};
     },
     mounted() {
-        console.log("in post:" + this.$refs.index.indexLog());
+        // console.log("in post:" + this.$refs.index.indexLog());
     },
     methods: {
         parentLog() {

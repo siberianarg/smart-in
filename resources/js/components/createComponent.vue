@@ -14,13 +14,18 @@
                 Добавить
             </v-btn>
         </div>
+        <someComponent></someComponent>
     </div>
 </template>
 
 <script>
+import someComponent from "./someComponent.vue";
 import axios from "axios";
 export default {
     name: "createComponent",
+    components: {
+        someComponent,
+    },
     data() {
         return {
             name: null,
@@ -29,7 +34,7 @@ export default {
         };
     },
     mounted() {
-        console.log("in create:" + this.$parent.$refs.index.indexLog());
+        // console.log("in create:" + this.$parent.$refs.index.indexLog());
     },
     methods: {
         addPerson() {
