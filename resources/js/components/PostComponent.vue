@@ -1,7 +1,7 @@
 <template>
     <div>
         <createComponent> </createComponent>
-        <thirdComponent> </thirdComponent>
+        <indexComponent></indexComponent>
         <!-- <table class="table">
             <thead>
                 <tr>
@@ -25,14 +25,14 @@
 
 <script>
 import axios from "axios";
-import thirdComponent from "./thirdComponent.vue";
 import createComponent from "./createComponent.vue";
+import indexComponent from "./indexComponent.vue";
 
 export default {
     name: "postComponent",
     components: {
-        thirdComponent,
         createComponent,
+        indexComponent,
     },
     data() {
         return {
