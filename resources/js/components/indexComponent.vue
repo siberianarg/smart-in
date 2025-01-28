@@ -17,14 +17,14 @@
                         <td>{{ person.name }}</td>
                         <td>{{ person.age }}</td>
                         <td>{{ person.job }}</td>
-                        <td><a href="#" @click.prevent="changeEditPersonId(person.id)" class="btn btn-success">Edit</a></td>
+                        <td><a href="#" @click.prevent="changeEditPersonId(person.id, person.name, person.age, person.job)" class="btn btn-success">Edit</a></td>
                     </tr>
                     <tr v-if="editPersonId === person.id">
                         <th scope="row">{{ person.id }}</th>
                         <td><input type="text" class="form-control" v-model="person.name"></td>
                         <td><input type="number" class="form-control" v-model="person.age"></td>
                         <td><input type="text" class="form-control" v-model="person.job"></td>
-                        <td><a href="#" @click.prevent="updatePerson(person)" class="btn btn-success">Update</a></td>
+                        <td><a href="#" @click.prevent="updatePerson(person.id)" class="btn btn-success">Update</a></td>
                     </tr>
                 </template>
             </tbody>
@@ -39,7 +39,10 @@ export default {
     data() {
         return {
             people: null,
-            editPersonId: null
+            editPersonId: null,
+            name: null,
+            age: null,
+            job: null,
         };
     },
     mounted() {
@@ -52,13 +55,27 @@ export default {
             });
         },
 
-        changeEditPersonId(id) {
+        changeEditPersonId(id, name, age, job) {
             this.editPersonId = id
+            this.name = name
+            this.age = age
+            this.job = job
         }, 
 
         isEdit(id) {
             return this.editPersonId === id
-        }
+        },
+
+        updatePerson(id) {
+            this.editPersonId = null;
+            console.log(this.name, this.age, this.job)
+            axios.patch(`/api/people/${id}`, {name: this.name, age: this.age, job: this.job})
+            .then((res) => {
+                console.log(res);
+                
+                // this.people = res.data;
+            })
+        },
     },
 };
 </script>

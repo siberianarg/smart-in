@@ -22988,7 +22988,10 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       people: null,
-      editPersonId: null
+      editPersonId: null,
+      name: null,
+      age: null,
+      job: null
     };
   },
   mounted: function mounted() {
@@ -23001,11 +23004,27 @@ __webpack_require__.r(__webpack_exports__);
         _this.people = res.data;
       });
     },
-    changeEditPersonId: function changeEditPersonId(id) {
+    changeEditPersonId: function changeEditPersonId(id, name, age, job) {
       this.editPersonId = id;
+      this.name = name;
+      this.age = age;
+      this.job = job;
     },
     isEdit: function isEdit(id) {
       return this.editPersonId === id;
+    },
+    updatePerson: function updatePerson(id) {
+      this.editPersonId = null;
+      console.log(this.name, this.age, this.job);
+      axios__WEBPACK_IMPORTED_MODULE_0__["default"].patch("/api/people/".concat(id), {
+        name: this.name,
+        age: this.age,
+        job: this.job
+      }).then(function (res) {
+        console.log(res);
+
+        // this.people = res.data;
+      });
     }
   }
 });
@@ -23192,7 +23211,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(person.id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(person.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(person.age), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(person.job), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: "#",
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-        return $options.changeEditPersonId(person.id);
+        return $options.changeEditPersonId(person.id, person.name, person.age, person.job);
       }, ["prevent"]),
       "class": "btn btn-success"
     }, "Edit", 8 /* PROPS */, _hoisted_4)])]), $data.editPersonId === person.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(person.id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -23216,7 +23235,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 8 /* PROPS */, _hoisted_9), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, person.job]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: "#",
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-        return _ctx.updatePerson(person);
+        return $options.updatePerson(person.id);
       }, ["prevent"]),
       "class": "btn btn-success"
     }, "Update", 8 /* PROPS */, _hoisted_10)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64 /* STABLE_FRAGMENT */);
