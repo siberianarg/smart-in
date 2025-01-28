@@ -12,7 +12,7 @@
             </thead>
             <tbody>
                 <template v-for="(person, index) in people">
-                    <tr>
+                    <tr :class="isEdit(person.id) ? 'd-none' : ''">
                         <th scope="row">{{ person.id }}</th>
                         <td>{{ person.name }}</td>
                         <td>{{ person.age }}</td>
@@ -34,7 +34,7 @@
                             </v-btn>
                         </td>
                     </tr>
-                    <tr v-if="editPersonId === person.id">
+                    <tr :class="isEdit(person.id) ? '' : 'd-none'">
                         <th scope="row">{{ person.id }}</th>
                         <td>
                             <v-text-field
@@ -50,7 +50,7 @@
                                 type="number"
                                 v-model="age"
                                 label="age"
-                                filled
+                                outlined
                                 class="mb-3"
                             />
                         </td>
