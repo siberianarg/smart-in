@@ -1,15 +1,17 @@
 <template>
-    <!-- <div>Work App</div> -->
-    <!-- <div>{{ totaltime }}</div> -->
+    <div><postComponent></postComponent></div>
 </template>
 
 <script>
+import postComponent from './postComponent.vue';
+
 export default {
     name: "appComponent",
-    components: {},
+    components: {
+        postComponent,
+    },
     data() {
         return {
-            totaltime: "12344556",
         };
     },
     mounted() {},
