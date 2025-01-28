@@ -14,7 +14,7 @@
                 Добавить
             </v-btn>
         </div>
-        <someComponent></someComponent>
+        <someComponent color="red" number="20" isPublished="true"></someComponent>
     </div>
 </template>
 

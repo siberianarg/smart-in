@@ -1,5 +1,7 @@
 <template>
-    <div>1111</div>
+    <div>Color: {{ color }}</div>
+    <div>Number: {{ number }}</div>
+    <div>is published: {{ isPublished }}</div>
 </template>
 
 <script>
@@ -8,8 +10,9 @@ export default {
     data() {
         return {};
     },
+    props: ["color", "number", "isPublished"],
     mounted() {
-       this.$parent.$parent.parentLog();
+        this.$parent.$parent.parentLog();
     },
     methods: {},
 };
