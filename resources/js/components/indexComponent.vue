@@ -44,45 +44,7 @@
                             </v-btn>
                         </td>
                     </tr>
-                    <tr :class="isEdit(person.id) ? '' : 'd-none'">
-                        <th scope="row">{{ person.id }}</th>
-                        <td>
-                            <v-text-field
-                                type="text"
-                                v-model="name"
-                                label="name"
-                                outlined
-                                class="mb-3"
-                            />
-                        </td>
-                        <td>
-                            <v-text-field
-                                type="number"
-                                v-model="age"
-                                label="age"
-                                outlined
-                                class="mb-3"
-                            />
-                        </td>
-                        <td>
-                            <v-text-field
-                                type="text"
-                                v-model="job"
-                                label="job"
-                                outlined
-                                class="mb-3"
-                            />
-                        </td>
-                        <td>
-                            <v-btn
-                                color="success"
-                                @click.prevent="updatePerson(person.id)"
-                                outlined
-                            >
-                                Update
-                            </v-btn>
-                        </td>
-                    </tr>
+                    <editComponent :person="person" :ref="`edit_${person.id}`"></editComponent>
                 </template>
             </tbody>
         </table>
@@ -90,9 +52,13 @@
 </template>
 
 <script>
+import editComponent from "./editComponent.vue";
 import axios from "axios";
 export default {
     name: "indexComponent",
+    components: {
+        editComponent,
+    },
     data() {
         return {
             people: null,
@@ -114,9 +80,10 @@ export default {
 
         changeEditPersonId(id, name, age, job) {
             this.editPersonId = id;
-            this.name = name;
-            this.age = age;
-            this.job = job;
+            console.log(this.$refs.edit_1[0]) //добрались до компонента
+            this.$refs.edit.name = name;
+            this.$refs.edit.age = age;
+            this.$refs.edit.job = job;
         },
 
         isEdit(id) {
@@ -143,10 +110,6 @@ export default {
                 console.log(res);
                 this.getPeople();
             });
-        },
-
-        indexLog() {
-            console.log("this is indexComponent");
         },
     },
 };
