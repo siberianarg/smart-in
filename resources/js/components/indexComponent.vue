@@ -19,12 +19,12 @@
                         <td>{{ person.job }}</td>
                         <td><a href="#" @click.prevent="changeEditPersonId(person.id)" class="btn btn-success">Edit</a></td>
                     </tr>
-                    <tr class="d-none">
+                    <tr v-if="editPersonId === person.id">
                         <th scope="row">{{ person.id }}</th>
-                        <td><input type ="text" class="form-control"></td>
-                        <td><input type ="number" class="form-control"></td>
-                        <td><input type ="text" class="form-control"></td>
-                        <td><a href="#" class="btn btn-success">Update</a></td>
+                        <td><input type="text" class="form-control" v-model="person.name"></td>
+                        <td><input type="number" class="form-control" v-model="person.age"></td>
+                        <td><input type="text" class="form-control" v-model="person.job"></td>
+                        <td><a href="#" @click.prevent="updatePerson(person)" class="btn btn-success">Update</a></td>
                     </tr>
                 </template>
             </tbody>
@@ -39,7 +39,7 @@ export default {
     data() {
         return {
             people: null,
-            editPersonID: null,
+            editPersonId: null
         };
     },
     mounted() {
@@ -51,9 +51,13 @@ export default {
                 this.people = res.data;
             });
         },
+
         changeEditPersonId(id) {
-            console.log(id);
-            this.editPersonI = id
+            this.editPersonId = id
+        }, 
+
+        isEdit(id) {
+            return this.editPersonId === id
         }
     },
 };
