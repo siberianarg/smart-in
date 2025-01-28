@@ -1,28 +1,13 @@
 <template>
     <div class="w-25">
         <div class="mb-1">
-            <v-text-field
-                type="text"
-                v-model="name"
-                label="name"
-                outlined
-            />
+            <v-text-field type="text" v-model="name" label="name" outlined />
         </div>
         <div class="mb-1">
-            <v-text-field
-                type="number"
-                v-model="age"
-                label="age"
-                outlined
-            />
+            <v-text-field type="number" v-model="age" label="age" outlined />
         </div>
         <div class="mb-1">
-            <v-text-field
-                type="job"
-                v-model="job"
-                label="job"
-                outlined
-            />
+            <v-text-field type="job" v-model="job" label="job" outlined />
         </div>
         <div class="mb-3">
             <v-btn @click.prevent="addPerson" color="blue" outlined>
@@ -42,6 +27,9 @@ export default {
             age: null,
             job: null,
         };
+    },
+    mounted() {
+        console.log("in create:" + this.$parent.$refs.index.indexLog());
     },
     methods: {
         addPerson() {

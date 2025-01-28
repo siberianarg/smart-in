@@ -104,7 +104,6 @@ export default {
     },
     mounted() {
         this.getPeople();
-        console.log(this.$parent.parentLog())
     },
     methods: {
         getPeople() {
@@ -140,16 +139,14 @@ export default {
         },
 
         deletePerson(id) {
-            axios
-                .delete(`/api/people/${id}`)
-                .then((res) => {
-                    console.log(res);
-                    this.getPeople();
-                });
+            axios.delete(`/api/people/${id}`).then((res) => {
+                console.log(res);
+                this.getPeople();
+            });
         },
 
         indexLog() {
-            console.log('this is indexComponent')
+            console.log("this is indexComponent");
         },
     },
 };

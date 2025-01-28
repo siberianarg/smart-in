@@ -20,13 +20,12 @@ export default {
         return {};
     },
     mounted() {
-        console.log(this.$refs.index.indexLog());
-        
+        console.log("in post:" + this.$refs.index.indexLog());
     },
     methods: {
         parentLog() {
-            console.log('this is postComponent')
-        }
+            console.log("this is postComponent");
+        },
     },
     computed: {},
     watch: {},
