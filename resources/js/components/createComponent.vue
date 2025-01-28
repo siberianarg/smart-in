@@ -1,47 +1,45 @@
 <template>
     <div class="w-25">
         <div class="mb-1">
-            <v-text-field
-                type="text"
-                v-model="name"
-                label="name"
-                outlined
-            />
+            <v-text-field type="text" v-model="name" label="name" outlined />
         </div>
         <div class="mb-1">
-            <v-text-field
-                type="number"
-                v-model="age"
-                label="age"
-                outlined
-            />
+            <v-text-field type="number" v-model="age" label="age" outlined />
         </div>
         <div class="mb-1">
-            <v-text-field
-                type="job"
-                v-model="job"
-                label="job"
-                outlined
-            />
+            <v-text-field type="job" v-model="job" label="job" outlined />
         </div>
         <div class="mb-3">
             <v-btn @click.prevent="addPerson" color="blue" outlined>
                 Добавить
             </v-btn>
         </div>
+        <someComponent :obj="obj"></someComponent>
     </div>
 </template>
 
 <script>
+import someComponent from "./someComponent.vue";
 import axios from "axios";
 export default {
     name: "createComponent",
+    components: {
+        someComponent,
+    },
     data() {
         return {
             name: null,
             age: null,
             job: null,
+            obj: {
+                color: "yellow",
+                number: 11,
+                isPublished: false
+            }
         };
+    },
+    mounted() {
+        // console.log("in create:" + this.$parent.$refs.index.indexLog());
     },
     methods: {
         addPerson() {
@@ -64,11 +62,7 @@ export default {
                         error.response ? error.response.data : error.message
                     );
                 });
-            this.getTable();
-        },
-
-        getTable() {
-            window.location.reload();
+            this.$parent.$refs.index.getPeople()
         },
     },
 };

@@ -13,76 +13,8 @@
             </thead>
             <tbody>
                 <template v-for="(person, index) in people">
-                    <tr :class="isEdit(person.id) ? 'd-none' : ''">
-                        <th scope="row">{{ person.id }}</th>
-                        <td>{{ person.name }}</td>
-                        <td>{{ person.age }}</td>
-                        <td>{{ person.job }}</td>
-                        <td>
-                            <v-btn
-                                color="success"
-                                @click.prevent="
-                                    changeEditPersonId(
-                                        person.id,
-                                        person.name,
-                                        person.age,
-                                        person.job
-                                    )
-                                "
-                                outlined
-                            >
-                                Edit
-                            </v-btn>
-                        </td>
-                        <td>
-                            <v-btn
-                                color="danger"
-                                @click.prevent="deletePerson(person.id)"
-                                outlined
-                            >
-                                УДАЛИТЬ
-                            </v-btn>
-                        </td>
-                    </tr>
-                    <tr :class="isEdit(person.id) ? '' : 'd-none'">
-                        <th scope="row">{{ person.id }}</th>
-                        <td>
-                            <v-text-field
-                                type="text"
-                                v-model="name"
-                                label="name"
-                                outlined
-                                class="mb-3"
-                            />
-                        </td>
-                        <td>
-                            <v-text-field
-                                type="number"
-                                v-model="age"
-                                label="age"
-                                outlined
-                                class="mb-3"
-                            />
-                        </td>
-                        <td>
-                            <v-text-field
-                                type="text"
-                                v-model="job"
-                                label="job"
-                                outlined
-                                class="mb-3"
-                            />
-                        </td>
-                        <td>
-                            <v-btn
-                                color="success"
-                                @click.prevent="updatePerson(person.id)"
-                                outlined
-                            >
-                                Update
-                            </v-btn>
-                        </td>
-                    </tr>
+                    <showComponent :person="person" :ref="`show_${person.id}`"></showComponent>
+                    <editComponent :person="person" :ref="`edit_${person.id}`"></editComponent>
                 </template>
             </tbody>
         </table>
@@ -90,9 +22,15 @@
 </template>
 
 <script>
+import editComponent from "./editComponent.vue";
+import showComponent from "./showComponent.vue";
 import axios from "axios";
 export default {
     name: "indexComponent",
+    components: {
+        editComponent,
+        showComponent,
+    },
     data() {
         return {
             people: null,
@@ -114,9 +52,12 @@ export default {
 
         changeEditPersonId(id, name, age, job) {
             this.editPersonId = id;
-            this.name = name;
-            this.age = age;
-            this.job = job;
+            let editName = `edit_${id}`
+            let fullEditName = this.$refs[editName][0]
+            
+            fullEditName.name = name;
+            fullEditName.age = age;
+            fullEditName.job = job;
         },
 
         isEdit(id) {
@@ -137,13 +78,12 @@ export default {
                     this.getPeople();
                 });
         },
+
         deletePerson(id) {
-            axios
-                .delete(`/api/people/${id}`)
-                .then((res) => {
-                    console.log(res);
-                    this.getPeople();
-                });
+            axios.delete(`/api/people/${id}`).then((res) => {
+                console.log(res);
+                this.getPeople();
+            });
         },
     },
 };
