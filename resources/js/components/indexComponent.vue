@@ -80,10 +80,12 @@ export default {
 
         changeEditPersonId(id, name, age, job) {
             this.editPersonId = id;
-            console.log(this.$refs.edit_1[0]) //добрались до компонента
-            this.$refs.edit.name = name;
-            this.$refs.edit.age = age;
-            this.$refs.edit.job = job;
+            let editName = `edit_${id}`
+            let fullEditName = this.$refs[editName][0]
+            
+            fullEditName.name = name;
+            fullEditName.age = age;
+            fullEditName.job = job;
         },
 
         isEdit(id) {
