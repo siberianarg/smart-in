@@ -22950,12 +22950,16 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     addPerson: function addPerson() {
+      var _this = this;
       console.log("appPerson func: " + this.name, this.age, this.job);
       axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/people/store", {
         name: this.name,
         age: this.age,
         job: this.job
       }).then(function (res) {
+        _this.name = null;
+        _this.age = null;
+        _this.job = null;
         console.log("Response:", res);
       })["catch"](function (error) {
         console.error("Error:", error.response ? error.response.data : error.message);

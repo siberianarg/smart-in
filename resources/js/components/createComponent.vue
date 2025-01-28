@@ -58,6 +58,9 @@ export default {
                     job: this.job,
                 })
                 .then((res) => {
+                    this.name = null
+                    this.age = null
+                    this.job = null
                     console.log("Response:", res);
                 })
                 .catch((error) => {
