@@ -10,11 +10,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                <tr v-for="person in people">
+                    <th scope="row">{{ person.id }}</th>
+                    <td>{{ person.name }}</td>
+                    <td>{{ person.age }}</td>
+                    <td>{{ person.job }}</td>
                 </tr>
             </tbody>
         </table>
@@ -26,9 +26,21 @@ import axios from "axios";
 export default {
     name: "indexComponent",
     data() {
-        return {};
+        return {
+            people: null
+
+        };
     },
-    methods: {},
+    mounted() {
+        this.getPeople();
+    },
+    methods: {
+        getPeople() {
+            axios.get("/api/people").then((res) => {
+                this.people = res.data
+            });
+        },
+    },
 };
 </script>
 

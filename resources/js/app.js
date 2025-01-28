@@ -2,7 +2,6 @@ import { createApp } from "vue";
 
 import appComponent from "./components/appComponent.vue";
 import postComponent from "./components/postComponent.vue";
-import thirdComponent from "./components/thirdComponent.vue";
 
 import vuetify from "./plugins/vuetify";
 import "bootstrap/dist/css/bootstrap.min.css";
