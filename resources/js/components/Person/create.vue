@@ -1,6 +1,8 @@
 <template>
     <div>
-        Create
+        <div>
+            Create
+        </div>
     </div>
 </template>
 
