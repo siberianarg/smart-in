@@ -13,8 +13,7 @@ export default {
     props: {
         obj: {},
     },
-    mounted() {
-    },
+    mounted() {},
     methods: {},
 };
 </script>

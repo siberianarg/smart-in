@@ -44,9 +44,6 @@
 import axios from "axios";
 export default {
     name: "editComponent",
-    props: [
-        'person',
-    ],
     data() {
         return {
             name: null,
@@ -54,6 +51,7 @@ export default {
             job: null,
         };
     },
+    props: ["person"],
     mounted() {},
     methods: {
         updatePerson(id) {
