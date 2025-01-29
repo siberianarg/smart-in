@@ -35,11 +35,11 @@
 <script>
 export default {
     name: "showComponent",
-    props: ["person"],
     components: {},
     data() {
         return {};
     },
+    props: ["person"],
     mounted() {},
     methods: {
         changeEditPersonId(id, name, age, job) {
