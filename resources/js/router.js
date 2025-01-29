@@ -1,15 +1,15 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import peopleIndex from "./components/indexComponent.vue";
+// import peopleIndex from "./components/indexComponent.vue";
 import peopleCreate from "./components/createComponent.vue";
 import peopleEdit from "./components/editComponent.vue";
-import notFound from "./components/editComponent.vue";
+
 
 const routes = [
     {
         path: "/people",
+        component: () => import("./components/indexComponent.vue"),
         name: "people.index",
-        component: peopleIndex,
     },
     {
         path: "/people/add",
@@ -21,11 +21,6 @@ const routes = [
         name: "people.edit",
         component: peopleEdit,
         props: true,
-    },
-    {
-        path: "/:pathMatch(.*)*",
-        name: "notfound",
-        component: notFound,
     },
 ];
 

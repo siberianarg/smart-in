@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import createComponent from "./createComponent.vue";
 import indexComponent from "./indexComponent.vue";
 
