@@ -49,7 +49,6 @@ export default {
                 this.people = res.data;
             });
         },
-
         changeEditPersonId(id, name, age, job) {
             this.editPersonId = id;
             let editName = `edit_${id}`
@@ -59,11 +58,9 @@ export default {
             fullEditName.age = age;
             fullEditName.job = job;
         },
-
         isEdit(id) {
             return this.editPersonId === id;
         },
-
         updatePerson(id) {
             this.editPersonId = null;
 
@@ -78,7 +75,6 @@ export default {
                     this.getPeople();
                 });
         },
-
         deletePerson(id) {
             axios.delete(`/api/people/${id}`).then((res) => {
                 console.log(res);
