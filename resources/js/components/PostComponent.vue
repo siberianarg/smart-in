@@ -19,14 +19,8 @@ export default {
     data() {
         return {};
     },
-    mounted() {
-        // console.log("in post:" + this.$refs.index.indexLog());
-    },
-    methods: {
-        parentLog() {
-            console.log("this is postComponent");
-        },
-    },
+    mounted() {},
+    methods: {},
     computed: {},
     watch: {},
 };

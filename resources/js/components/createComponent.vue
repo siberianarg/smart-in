@@ -14,17 +14,14 @@
                 Добавить
             </v-btn>
         </div>
-        <someComponent :obj="obj"></someComponent>
     </div>
 </template>
 
 <script>
-import someComponent from "./someComponent.vue";
 import axios from "axios";
 export default {
     name: "createComponent",
     components: {
-        someComponent,
     },
     data() {
         return {
@@ -38,9 +35,7 @@ export default {
             }
         };
     },
-    mounted() {
-        // console.log("in create:" + this.$parent.$refs.index.indexLog());
-    },
+    mounted() {},
     methods: {
         addPerson() {
             console.log("appPerson func: " + this.name, this.age, this.job);
