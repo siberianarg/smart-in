@@ -51,7 +51,6 @@ export default {
             fullEditName.age = age;
             fullEditName.job = job;
         },
-
         deletePerson(id) {
             axios.delete(`/api/people/${id}`).then((res) => {
                 console.log(res);
