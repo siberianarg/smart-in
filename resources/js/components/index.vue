@@ -1,13 +1,14 @@
 <template>
     <div>
-        <router-view>111</router-view>
+        <router-link :to="{ name: 'people.index' }">People</router-link>
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
 
 export default {
-    name: "appComponent",
+    name: "index",
     components: {
     },
     data() {
