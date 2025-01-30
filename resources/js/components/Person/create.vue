@@ -37,10 +37,8 @@ export default {
                     age: this.age,
                     job: this.job,
                 })
-                .then((response) => {
-                    router.push({
-                        name: "person.index",
-                    });
+                .then(() => {
+                    router.push({ name: "person.index" }); //redirect
                 })
                 .catch((error) => {
                     console.error(

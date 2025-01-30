@@ -1,18 +1,46 @@
 <template>
     <div>
-        <router-view>Index</router-view>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Job</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(person, index) in people" :key="person.id"> <!--для оптимизации рендеринга?-->
+                    <td>{{ person.name }}</td>
+                    <td>{{ person.age }}</td>
+                    <td>{{ person.job }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
     name: "index",
     components: {},
     data() {
-        return {};
+        return {
+            people: null,
+        };
     },
-    mounted() {},
-    methods: {},
+    mounted() {
+        this.getPeople();
+    },
+    methods: {
+        getPeople() {
+            axios.get("/api/people")
+            .then((response) => {
+                this.people = response.data;
+            })
+            .catch();
+        },
+    },
     watch: {},
 };
 </script>
