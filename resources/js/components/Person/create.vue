@@ -10,7 +10,7 @@
             <v-text-field type="text" v-model="job" label="job" outlined />
         </div>
         <div class="mb-1">
-            <v-btn @click.prevent="store" color="blue" outlined> Add </v-btn>
+            <v-btn :disabled="!isDisabled" @click.prevent="store" color="blue" outlined> Add </v-btn>
         </div>
     </div>
 </template>
@@ -48,7 +48,13 @@ export default {
                 });
         },
     },
+    computed: {
+        isDisabled() {
+            return this.name && this.age && this.job
+        }
+    },
     watch: {},
+    
 };
 </script>
 

@@ -10,7 +10,7 @@
             <v-text-field type="text" v-model="job" label="job" outlined />
         </div>
         <div class="mb-1">
-            <v-btn @click.prevent="updatePerson" color="blue" outlined>
+            <v-btn :disabled="!isDisabled" @click.prevent="updatePerson" color="blue" outlined>
                 Update
             </v-btn>
         </div>
@@ -67,6 +67,11 @@ export default {
                 });
         },
     },
+    computed: {
+        isDisabled() {
+            return this.name && this.age && this.job
+        }
+    }
 };
 </script>
 
