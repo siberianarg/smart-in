@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table class="table">
+        <v-table density="compact">
             <thead>
                 <tr>
                     <th scope="col">Name</th>
@@ -15,7 +15,7 @@
                     <td>{{ person.job }}</td>
                 </tr>
             </tbody>
-        </table>
+        </v-table>
     </div>
 </template>
 
