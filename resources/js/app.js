@@ -2,6 +2,7 @@ import { createApp } from "vue"
 
 import index from "./components/index.vue"
 import router from './router'
+import store from './store'
 
 import vuetify from "./plugins/vuetify"
 import "bootstrap/dist/css/bootstrap.min.css"
@@ -13,4 +14,5 @@ const app = createApp(index)
 
 app.use(vuetify)
 app.use(router)
+app.use(store)
 app.mount('#app')
