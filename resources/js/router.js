@@ -1,27 +1,27 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-// import peopleIndex from "./components/indexComponent.vue";
-import peopleCreate from "./components/createComponent.vue";
-import peopleEdit from "./components/editComponent.vue";
-
-
 const routes = [
     {
-        path: "/people",
-        component: () => import("./components/indexComponent.vue"),
-        name: "people.index",
+        path: "/tasks",
+        component: () => import("./components/Task/index.vue"),
+        name: "task.index",
     },
     {
-        path: "/people/add",
-        name: "people.add",
-        component: peopleCreate,
+        path: "/tasks/add",
+        component: () => import("./components/Task/add.vue"),
+        name: "task.add",
     },
     {
-        path: "/people/edit/:id",
-        name: "people.edit",
-        component: peopleEdit,
-        props: true,
+        path: "/tasks/edit/:id",
+        component: () => import("./components/Task/edit.vue"),
+        name: "task.edit",
     },
+    {
+        path: "/tasks/:id", 
+        component: () => import("./components/Task/show"),
+        name: "task.show",
+    }
+    
 ];
 
 const router = createRouter({
