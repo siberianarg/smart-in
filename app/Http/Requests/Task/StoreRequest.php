@@ -25,7 +25,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'description' => 'required|string',
-            'status' => 'required|boolean',
+            'is_completed' => 'boolean',
         ];
     }
 }

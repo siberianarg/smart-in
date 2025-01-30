@@ -3,44 +3,56 @@
         <v-table density="compact">
             <thead>
                 <tr>
-                    <th scope="col">Description</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Data</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
+                    <th class="text-grey-darken-1">Description</th>
+                    <th class="text-grey-darken-1">Status</th>
+                    <th class="text-grey-darken-1">Create data</th>
+                    <th class="text-grey-darken-1">Action</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(task, index) in tasks" :key="task.id">
-                    <!--для оптимизации рендеринга?-->
+                    <v-btn
+                        :to="{ name: 'task.show', params: { id: task.id } }"
+                        variant="plain"
+                        color="black"
+                    >
+                        {{ task.description }}
+                    </v-btn>
                     <td>
-                        <router-link
-                            :to="{
-                                name: 'task.show',
-                                params: { id: task.id },
-                            }"
-                            >{{ task.description }}
-                        </router-link>
+                        <v-chip
+                            :color="task.is_completed ? 'green' : 'red'"
+                            dark
+                        >
+                            {{ getStatus(task.is_completed) }}
+                        </v-chip>
                     </td>
-                    <td>{{ task.status }}</td>
-                    <td>{{ task.data }}</td>
                     <td>
-                        <router-link
+                        <v-tooltip text="Дата создания">
+                            <template v-slot:activator="{ props }">
+                                <span v-bind="props">{{
+                                    formatDate(task.created_at)
+                                }}</span>
+                            </template>
+                        </v-tooltip>
+                    </td>
+                    <td>
+                        <v-btn
+                            color="blue"
+                            outlined
                             :to="{
                                 name: 'task.edit',
                                 params: { id: task.id },
                             }"
                         >
                             Edit
-                        </router-link>
-                    </td>
-                    <td>
-                        <a
-                            @click.prevent="deleteTask(task.id)"
-                            href="#"
-                            class="btn btn-outline-danger"
-                            >Delete</a
+                        </v-btn>
+                        <v-btn
+                            color="red"
+                            outlined
+                            @click="deleteTask(task.id)"
                         >
+                            Delete
+                        </v-btn>
                     </td>
                 </tr>
             </tbody>
@@ -49,32 +61,47 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "axios"
 export default {
     name: "index",
     components: {},
     data() {
         return {
-            tasks: null,
+            tasks: [],
         };
     },
     mounted() {
-        this.getTasks();
+        this.getTasks()
     },
     methods: {
         getTasks() {
             axios
                 .get("/api/tasks")
                 .then((result) => {
-                    this.tasks = result.data.data;
+                    this.tasks = result.data.data
+                    console.log(result.data.data)
                 })
                 .catch();
         },
         deleteTask(id) {
-            axios.delete(`/api/tasks/${id}`).then((result) => {
+            axios.delete(`/api/tasks/${id}`).then(() => {
                 this.getTasks();
-                // router.push({ name: "task.index" });
             });
+        },
+        getStatus(isCompleted) {
+            if (isCompleted === 1) return "Done"
+            if (isCompleted === 0) return "Not done"
+            return "Unknown"; 
+        },
+        formatDate(date) {
+            const options = {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+            };
+            return new Date(date).toLocaleString("ru-RU", options)
         },
     },
     watch: {},

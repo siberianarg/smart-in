@@ -18,7 +18,8 @@ class TaskResource extends JsonResource
             // атрибутивный состав
             'id' => $this->id,
             'description' => $this->description,
-            'status' => $this->age,
+            'is_completed' => $this->is_completed,
+            'created_at' => $this->created_at, 
         ];
     }
 }
