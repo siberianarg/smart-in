@@ -7,6 +7,7 @@
                     <th scope="col">Age</th>
                     <th scope="col">Job</th>
                     <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,6 +25,14 @@
                         >
                             Edit
                         </router-link>
+                    </td>
+                    <td>
+                        <a
+                            @click.prevent="deletePerson(person.id)"
+                            href="#"
+                            class="btn btn-outline-danger"
+                            >Delete</a
+                        >
                     </td>
                 </tr>
             </tbody>
@@ -52,6 +61,12 @@ export default {
                     this.people = result.data;
                 })
                 .catch();
+        },
+        deletePerson(id) {
+            axios.delete(`/api/people/${id}`).then((result) => {
+                this.getPeople();
+                // router.push({ name: "person.index" });
+            });
         },
     },
     watch: {},
