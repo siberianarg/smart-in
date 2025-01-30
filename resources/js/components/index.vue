@@ -1,20 +1,17 @@
 <template>
     <div>
-        <router-link :to="{ name: 'people.index' }"> People </router-link>
-        <router-link :to="{ name: 'people.create' }"> Add </router-link>
+        <router-link :to="{ name: 'person.index' }"> People </router-link>
+        <router-link :to="{ name: 'person.create' }"> Add </router-link>
         <router-view></router-view>
     </div>
 </template>
 
 <script>
-
 export default {
     name: "index",
-    components: {
-    },
+    components: {},
     data() {
-        return {
-        };
+        return {};
     },
     mounted() {},
     methods: {},

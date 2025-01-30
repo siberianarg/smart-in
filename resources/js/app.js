@@ -1,6 +1,6 @@
 import { createApp } from "vue"
 
-import appComponent from "./components/index.vue"
+import index from "./components/index.vue"
 import router from './router'
 
 import vuetify from "./plugins/vuetify"
@@ -9,7 +9,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js"
 import "./bootstrap"
 
 // Создаем экземпляр Vue и подключаем роутер
-const app = createApp(appComponent)
+const app = createApp(index)
 
 app.use(vuetify)
 app.use(router)

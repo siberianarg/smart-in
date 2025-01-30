@@ -9,12 +9,11 @@ use App\Models\Person;
 
 class StoreController extends Controller
 {
-    public function __invoke(StoreRequest $request)
+    public function __invoke(StoreRequest $request) //request
     {
-        $data = $request->validated();
-        $person = Person::create($data);
-        return $person;
-        // response()->json($data)
+        $data = $request->validated(); //get data
+        $person = Person::create($data); //create data
+        return $person; 
     }
 
 
