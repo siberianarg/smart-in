@@ -19,7 +19,6 @@
 
 <script>
 import axios from "axios";
-import router from "../../router";
 
 export default {
     name: "edit",
@@ -39,9 +38,9 @@ export default {
             axios
                 .get(`/api/people/${this.$route.params.id}`)
                 .then((result) => {
-                    this.name = result.data.name;
-                    this.age = result.data.age;
-                    this.job = result.data.job;
+                    this.name = result.data.data.name;
+                    this.age = result.data.data.age;
+                    this.job = result.data.data.job;
                 })
                 .catch((error) => {
                     console.error("ошибка загрузки данных:", error);
@@ -56,7 +55,7 @@ export default {
                 })
                 .then(() => {
                     // alert(`данные ${this.name} успешно обновлены`);
-                    router.push({
+                    this.$router.push({
                         name: "person.show",
                         params: {
                             id: this.$route.params.id,

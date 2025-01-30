@@ -66,7 +66,7 @@ export default {
             axios
                 .get("/api/people")
                 .then((result) => {
-                    this.people = result.data;
+                    this.people = result.data.data;
                 })
                 .catch();
         },

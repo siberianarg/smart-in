@@ -32,7 +32,7 @@ export default {
             axios
                 .get(`/api/people/${this.$route.params.id}`)
                 .then((result) => {
-                    this.person = result.data;
+                    this.person = result.data.data;
                 })
                 .catch((error) => {
                     console.error("ошибка загрузки данных:", error);

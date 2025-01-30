@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import router from "../../router";
+
 import axios from "axios";
 export default {
     name: "create",
@@ -38,7 +38,7 @@ export default {
                     job: this.job,
                 })
                 .then(() => {
-                    router.push({ name: "person.index" }) //redirect
+                    this.$router.push({ name: "person.index" }) //redirect
                 })
                 .catch((error) => {
                     console.error(
