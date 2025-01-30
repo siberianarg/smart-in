@@ -11,6 +11,16 @@ const routes = [
         component: () => import("./components/Person/create"),
         name: "person.create",
     },
+    {
+        path: "/people/:id/edit", //динамичный параметр для роутра
+        component: () => import("./components/Person/edit"),
+        name: "person.edit",
+    },
+    {
+        path: "/people/show", 
+        component: () => import("./components/Person/show"),
+        name: "person.show",
+    },
 ];
 
 const router = createRouter({

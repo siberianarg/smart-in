@@ -35,8 +35,8 @@ export default {
     methods: {
         getPeople() {
             axios.get("/api/people")
-            .then((response) => {
-                this.people = response.data;
+            .then((result) => {
+                this.people = result.data;
             })
             .catch();
         },

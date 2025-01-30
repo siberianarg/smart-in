@@ -38,7 +38,7 @@ export default {
                     job: this.job,
                 })
                 .then(() => {
-                    router.push({ name: "person.index" }); //redirect
+                    router.push({ name: "person.index" }) //redirect
                 })
                 .catch((error) => {
                     console.error(
