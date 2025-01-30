@@ -13,7 +13,15 @@
             <tbody>
                 <tr v-for="(person, index) in people" :key="person.id">
                     <!--для оптимизации рендеринга?-->
-                    <td>{{ person.name }}</td>
+                    <td>
+                        <router-link
+                            :to="{
+                                name: 'person.show',
+                                params: { id: person.id },
+                            }"
+                            >{{ person.name }}
+                        </router-link>
+                    </td>
                     <td>{{ person.age }}</td>
                     <td>{{ person.job }}</td>
                     <td>
