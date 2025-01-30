@@ -55,8 +55,13 @@ export default {
                     job: this.job,
                 })
                 .then(() => {
-                    alert(`данные ${this.name} успешно обновлены`);
-                    router.push({ name: "person.show" });
+                    // alert(`данные ${this.name} успешно обновлены`);
+                    router.push({
+                        name: "person.show",
+                        params: {
+                            id: this.$route.params.id,
+                        },
+                    });
                 })
                 .catch((error) => {
                     console.error("Ошибка обновления:", error);

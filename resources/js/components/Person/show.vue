@@ -1,21 +1,44 @@
 <template>
-    <div>
-        Show
+    <div v-if="person">
+        <!-- show при условии что person не null-->
+        <div>Name: {{ this.person.name }}</div>
+        <div>Age: {{ this.person.age }}</div>
+        <div>Job: {{ this.person.job }}</div>
+        <router-link
+            :to="{
+                name: 'person.edit',
+                params: { id: this.person.id },
+            }"
+        >
+            Edit
+        </router-link>
     </div>
 </template>
 
 <script>
-
 export default {
     name: "show",
-    components: {
-    },
+    components: {},
     data() {
         return {
+            person: null,
         };
     },
-    mounted() {},
-    methods: {},
+    mounted() {
+        this.getPerson();
+    },
+    methods: {
+        getPerson() {
+            axios
+                .get(`/api/people/${this.$route.params.id}`)
+                .then((result) => {
+                    this.person = result.data;
+                })
+                .catch((error) => {
+                    console.error("ошибка загрузки данных:", error);
+                });
+        },
+    },
     watch: {},
 };
 </script>
