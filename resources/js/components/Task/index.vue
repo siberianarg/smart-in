@@ -82,8 +82,8 @@ export default {
             axios
                 .get("/api/tasks")
                 .then((result) => {
-                    this.tasks = result.data.data;
-                    console.log(result.data.data);
+                    this.tasks = result.data.data
+                    // console.log(result.data.data)
                 })
                 .catch();
         },
@@ -93,8 +93,8 @@ export default {
             });
         },
         getStatus(isCompleted) {
-            if (isCompleted === 1) return "Завершен";
-            if (isCompleted === 0) return "Не завершен";
+            if (isCompleted === 1) return "Завершен"
+            if (isCompleted === 0) return "Не завершен"
             return "Unknown";
         },
         formatDate(date) {
@@ -105,7 +105,7 @@ export default {
                 hour: "numeric",
                 minute: "numeric",
             };
-            return new Date(date).toLocaleString("ru-RU", options);
+            return new Date(date).toLocaleString("ru-RU", options)
         },
     },
     watch: {},

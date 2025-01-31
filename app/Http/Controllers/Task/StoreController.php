@@ -11,11 +11,16 @@ class StoreController extends Controller
 {
     public function __invoke(StoreRequest $request) //request
     {
-        $data = $request->validated(); //get data
-        Task::create($data); //create data
-        return response(); 
+        try {
+            $data = $request->validated(); // get data
+            Task::create($data); // create data
+
+            return response()->json(['message' => 'Task created successfully'], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error creating task',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
-    // add try-catch
-
-
 }

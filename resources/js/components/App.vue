@@ -15,7 +15,7 @@ export default {
     name: "index",
     components: {},
     data() {
-        return {};
+        return {}
     },
     mounted() {},
     methods: {},

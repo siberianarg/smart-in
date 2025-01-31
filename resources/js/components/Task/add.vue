@@ -15,7 +15,7 @@
         <div class="mb-1">
             <v-btn
                 :disabled="!isDisabled"
-                @click.prevent="store"
+                @click="store"
                 color="blue"
                 outlined
                 text="Создать"
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "axios"
 export default {
     name: "create",
     components: {},
@@ -43,19 +43,20 @@ export default {
                     description: this.description,
                 })
                 .then(() => {
-                    this.$router.push({ name: "task.index" }); //redirect
+                    // alert(`данные ${this.description} успешно добавлены`)
+                    this.$router.push({ name: "task.index" });
                 })
                 .catch((error) => {
                     console.error(
                         "Error:",
-                        error.response ? error.response.data : error.messstatus
+                        error.response ? error.response.data : error.message
                     );
                 });
         },
     },
     computed: {
         isDisabled() {
-            return this.description;
+            return this.description
         },
     },
     watch: {},

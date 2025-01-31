@@ -15,7 +15,7 @@
         <div class="mb-1">
             <v-btn
                 :disabled="!isDisabled"
-                @click.prevent="updateTask"
+                @click="updateTask"
                 color="blue"
                 outlined
                 text="Изменить"
@@ -44,8 +44,8 @@ export default {
             axios
                 .get(`/api/tasks/${this.$route.params.id}`)
                 .then((result) => {
-                    this.description = result.data.data.description;
-                    this.is_completed = result.data.data.status;
+                    this.description = result.data.data.description
+                    this.is_completed = result.data.data.status
                 })
                 .catch((error) => {
                     console.error("ошибка загрузки данных:", error)
@@ -59,13 +59,11 @@ export default {
                 })
                 .then(() => {
                     // alert(`данные ${this.description} успешно обновлены`);
-                    this.$router.push({
-                        name: "task.index",
-                    });
+                    this.$router.push({ name: "task.index" })
                 })
                 .catch((error) => {
                     console.error("Ошибка обновления:", error)
-                });
+                })
         },
     },
     computed: {

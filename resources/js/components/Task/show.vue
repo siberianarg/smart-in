@@ -40,12 +40,12 @@ export default {
                     this.task = result.data.data;
                 })
                 .catch((error) => {
-                    console.error("ошибка загрузки данных:", error);
+                    console.error("ошибка загрузки данных:", error)
                 });
         },
         getStatus(isCompleted) {
-            if (isCompleted === 1) return "Done";
-            if (isCompleted === 0) return "Not done";
+            if (isCompleted === 1) return "Done"
+            if (isCompleted === 0) return "Not done"
             return "Unknown";
         },
     },
