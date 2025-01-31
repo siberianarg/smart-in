@@ -2,10 +2,10 @@
 <template>
     <div v-if="task">
         <!-- show при условии что person не null-->
-        <div>Description: {{ this.task.description }}</div>
+        <div>Описание:{{ this.task.description }}</div>
         <div>
             <v-chip :color="this.task.is_completed ? 'green' : 'red'" dark>
-                Status: {{ getStatus(task.is_completed) }}
+                Статус: {{ getStatus(task.is_completed) }}
             </v-chip>
         </div>
         <v-btn
@@ -15,9 +15,8 @@
                 name: 'task.edit',
                 params: { id: this.task.id },
             }"
-        >
-            Edit
-        </v-btn>
+            text="редактировать"
+        />
     </div>
 </template>
 
@@ -47,7 +46,7 @@ export default {
         getStatus(isCompleted) {
             if (isCompleted === 1) return "Done"
             if (isCompleted === 0) return "Not done"
-            return "Unknown"
+            return "Unknown";
         },
     },
     watch: {},

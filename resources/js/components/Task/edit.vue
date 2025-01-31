@@ -2,6 +2,7 @@
     <div class="w-25">
         <div class="mb-1">
             <v-text-field
+                class="mt-3"
                 type="text"
                 v-model="description"
                 label="description"
@@ -14,12 +15,11 @@
         <div class="mb-1">
             <v-btn
                 :disabled="!isDisabled"
-                @click.prevent="updateTask"
+                @click="updateTask"
                 color="blue"
                 outlined
-            >
-                Update
-            </v-btn>
+                text="Изменить"
+                />
         </div>
     </div>
 </template>
@@ -44,8 +44,8 @@ export default {
             axios
                 .get(`/api/tasks/${this.$route.params.id}`)
                 .then((result) => {
-                    this.description = result.data.data.description;
-                    this.is_completed = result.data.data.status;
+                    this.description = result.data.data.description
+                    this.is_completed = result.data.data.status
                 })
                 .catch((error) => {
                     console.error("ошибка загрузки данных:", error)
@@ -53,19 +53,17 @@ export default {
         },
         updateTask() {
             axios
-                .patch(`/api/tasks/${this.$route.params.id}`, {
+                .post(`/api/tasks/${this.$route.params.id}`, {
                     description: this.description,
                     isCompleated: this.isCompleated,
                 })
                 .then(() => {
                     // alert(`данные ${this.description} успешно обновлены`);
-                    this.$router.push({
-                        name: "task.index",
-                    });
+                    this.$router.push({ name: "task.index" })
                 })
                 .catch((error) => {
                     console.error("Ошибка обновления:", error)
-                });
+                })
         },
     },
     computed: {

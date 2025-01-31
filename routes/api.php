@@ -13,9 +13,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'tasks'], function () {
-    Route::post('/', StoreController::class);
     Route::get('/', IndexController::class);
     Route::get('/{task}', ShowController::class);
-    Route::patch('/{task}', UpdateController::class);
+    Route::post('/', StoreController::class);
+    Route::post('/{task}', UpdateController::class);
     Route::delete('/{task}', DeleteController::class);
 });

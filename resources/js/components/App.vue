@@ -1,7 +1,11 @@
 <template>
     <div>
-        <v-btn color="blue" outlined :to="{ name: 'task.index' }"> Tasks </v-btn>
-        <v-btn color="green" outlined :to="{ name: 'task.add' }"> Create </v-btn>
+        <v-btn color="blue" outlined class="mr-2" :to="{ name: 'task.index' }">
+            Задачи
+        </v-btn>
+        <v-btn color="green" outlined :to="{ name: 'task.add' }">
+            Создать задачу
+        </v-btn>
         <router-view></router-view>
     </div>
 </template>
@@ -11,7 +15,7 @@ export default {
     name: "index",
     components: {},
     data() {
-        return {};
+        return {}
     },
     mounted() {},
     methods: {},

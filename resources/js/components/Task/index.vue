@@ -1,15 +1,15 @@
 <template>
-    <div>
+    <div v-if="is_end">
         <v-table density="compact">
             <thead>
                 <tr>
-                    <th class="text-grey-darken-1">Description</th>
-                    <th class="text-grey-darken-1">Status</th>
-                    <th class="text-grey-darken-1">Create data</th>
-                    <th class="text-grey-darken-1">Action</th>
+                    <th class="text-grey-darken-1">Описание</th>
+                    <th class="text-grey-darken-1">Статус</th>
+                    <th class="text-grey-darken-1">Дата создания</th>
+                    <th class="text-grey-darken-1">Действие</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody v-if="tasks.length > 0">
                 <tr v-for="(task, index) in tasks" :key="task.id">
                     <v-btn
                         :to="{ name: 'task.show', params: { id: task.id } }"
@@ -37,6 +37,7 @@
                     </td>
                     <td>
                         <v-btn
+                            class="mr-2"
                             color="blue"
                             outlined
                             :to="{
@@ -44,14 +45,14 @@
                                 params: { id: task.id },
                             }"
                         >
-                            Edit
+                            Изменить
                         </v-btn>
                         <v-btn
                             color="red"
                             outlined
                             @click="deleteTask(task.id)"
                         >
-                            Delete
+                            Удалить
                         </v-btn>
                     </td>
                 </tr>
@@ -61,17 +62,20 @@
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
 export default {
     name: "index",
     components: {},
     data() {
         return {
             tasks: [],
+            is_end: false,
         };
     },
+    completed: {},
     mounted() {
-        this.getTasks()
+        this.getTasks();
+        this.is_end = true;
     },
     methods: {
         getTasks() {
@@ -79,7 +83,7 @@ export default {
                 .get("/api/tasks")
                 .then((result) => {
                     this.tasks = result.data.data
-                    console.log(result.data.data)
+                    // console.log(result.data.data)
                 })
                 .catch();
         },
@@ -89,9 +93,9 @@ export default {
             });
         },
         getStatus(isCompleted) {
-            if (isCompleted === 1) return "Done"
-            if (isCompleted === 0) return "Not done"
-            return "Unknown"; 
+            if (isCompleted === 1) return "Завершен"
+            if (isCompleted === 0) return "Не завершен"
+            return "Unknown";
         },
         formatDate(date) {
             const options = {
