@@ -13,8 +13,9 @@ class StoreController extends Controller
     {
         $data = $request->validated(); //get data
         Task::create($data); //create data
-        return response([]); 
+        return response(); 
     }
+    // add try-catch
 
 
 }

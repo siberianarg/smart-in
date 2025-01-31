@@ -2,6 +2,7 @@
     <div class="w-25">
         <div class="mb-1">
             <v-text-field
+                class="mt-3"
                 type="text"
                 v-model="description"
                 label="description"
@@ -17,9 +18,8 @@
                 @click.prevent="updateTask"
                 color="blue"
                 outlined
-            >
-                Update
-            </v-btn>
+                text="Изменить"
+                />
         </div>
     </div>
 </template>
@@ -53,7 +53,7 @@ export default {
         },
         updateTask() {
             axios
-                .patch(`/api/tasks/${this.$route.params.id}`, {
+                .post(`/api/tasks/${this.$route.params.id}`, {
                     description: this.description,
                     isCompleated: this.isCompleated,
                 })

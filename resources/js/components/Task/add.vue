@@ -1,19 +1,30 @@
 <template>
     <div class="w-25">
         <div class="mb-1">
-            <v-text-field type="text" v-model="description" label="description" outlined />
+            <v-text-field
+                class="mt-3"
+                type="text"
+                v-model="description"
+                label="description"
+                outlined
+            />
         </div>
         <!-- <div class="mb-1">
             <v-text-field type="number" v-model="status" label="status" outlined />
         </div> -->
         <div class="mb-1">
-            <v-btn :disabled="!isDisabled" @click.prevent="store" color="blue" outlined> Create </v-btn>
+            <v-btn
+                :disabled="!isDisabled"
+                @click.prevent="store"
+                color="blue"
+                outlined
+                text="Создать"
+                />
         </div>
     </div>
 </template>
 
 <script>
-
 import axios from "axios";
 export default {
     name: "create",
@@ -21,7 +32,7 @@ export default {
     data() {
         return {
             description: null,
-            is_completed: false
+            is_completed: false,
         };
     },
     mounted() {},
@@ -32,7 +43,7 @@ export default {
                     description: this.description,
                 })
                 .then(() => {
-                    this.$router.push({ name: "task.index" }) //redirect
+                    this.$router.push({ name: "task.index" }); //redirect
                 })
                 .catch((error) => {
                     console.error(
@@ -44,11 +55,11 @@ export default {
     },
     computed: {
         isDisabled() {
-            return this.description
-        }
+            return this.description;
+        },
     },
     watch: {},
-}
+};
 </script>
 
 <style scoped></style>

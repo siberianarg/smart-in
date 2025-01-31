@@ -18,7 +18,6 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $tasks = Task::all();
-        return TaskResource::collection($tasks);
+        return TaskResource::collection(Task::all());
     }
 }
