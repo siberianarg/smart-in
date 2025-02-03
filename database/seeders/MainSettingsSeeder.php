@@ -13,7 +13,7 @@ class MainSettingsSeeder extends Seeder
         MainSettings::create([
             'accountId' => '1dd5bd55-d141-11ec-0a80-055600047495',
             'ms_token' => config('services.moysklad.token'), // либо так -> env('MS_TOKEN')
-            'UID_ms' => 'admin@smart_demo',
+            'UID_ms' => 'pogec33263@andinews.com',
         ]);
     }
 }

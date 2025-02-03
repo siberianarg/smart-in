@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Client;
+
+use GuzzleHttp\Client;
+use App\Models\MainSettings;
+
+class MoySkladClient
+{
+    private Client $client;
+    private string $token;
+
+    public function __construct(string $id) //пописать конструктор
+    {
+        $settings = MainSettings::firstOrFail($id); // findOrFail
+        $this->token = $settings->ms_token;
+        
+
+        $this->client = new Client([
+            'base_uri' => 'https://api.moysklad.ru/api/remap/1.2/',
+            'headers' => [
+                'Authorization' => 'Bearer ' . $this->token,
+                'Content-Type'  => 'application/json',
+            ]
+        ]);
+    }
+
+    public function getTasks()
+    {
+        $response = $this->client->get('entity/task');
+        return json_decode($response->getBody(), true);
+    }
+
+    public function createTask($data)
+    {
+        $response = $this->client->post('entity/task', [
+            'json' => $data
+        ]);
+        return json_decode($response->getBody(), true);
+    }
+}

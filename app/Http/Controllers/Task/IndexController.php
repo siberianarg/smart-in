@@ -6,18 +6,28 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Task\TaskResource;
 use Illuminate\Http\Request;
 use App\Models\Task;
-
+use App\Client\MoySkladClient;
 
 class IndexController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function __invoke(Request $request)
     {
-        return TaskResource::collection(Task::all());
+        $localTasks = Task::all();
+
+        try {
+            // Получаем задачи из МойСклад
+            $msClient = new MoySkladClient(
+                config('services.moysklad.token'),
+                config('services.moysklad.accountId')
+            );
+            $msTasks = collect($msClient->getTasks()['rows'] ?? []);
+        } catch (\Exception $e) {
+            $msTasks = collect(); // В случае ошибки просто игнорируем
+        }
+
+        // Объединяем задачи
+        $allTasks = $localTasks->merge($msTasks);
+
+        return TaskResource::collection($allTasks);
     }
 }

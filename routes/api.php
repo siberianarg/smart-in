@@ -19,6 +19,4 @@ Route::group(['prefix' => 'tasks'], function () {
     Route::post('/', StoreController::class);
     Route::post('/{task}', UpdateController::class);
     Route::delete('/{task}', DeleteController::class);
-    Route::get('/sync-tasks', [TaskController::class, 'syncTasks']);
-    Route::post('/tasks', [TaskController::class, 'store']);
 });
