@@ -11,8 +11,7 @@ use Carbon\Carbon;
 
 class StoreController extends HomeController {
 
-    public function __invoke(Request $request)
-    {
+    public function __invoke(Request $request) {
         $employees = $this->msClient->getEmployees();
         if (empty($employees['rows'])) {
             return response()->json(['error' => 'No employees found'], 400);

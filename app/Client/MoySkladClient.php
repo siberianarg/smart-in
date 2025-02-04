@@ -3,10 +3,9 @@
 namespace App\Client;
 
 use GuzzleHttp\Client;
-use App\Models\MainSettings;
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Log;
-use PgSql\Lob;
+use App\Models\MainSettings;
 
 class MoySkladClient
 {
@@ -14,88 +13,90 @@ class MoySkladClient
     private string $token;
     private string $id;
 
-    public function __construct($token, string $id) //пописать конструктор
+    public function __construct(?string $token = null, string $id)
     {
-        // $settings = MainSettings::firstOrFail($id); // findOrFail
-        // $this->token = $settings->ms_token;
-
-        $this->token = $token;
         $this->id = $id;
+        
+        if (is_null($token)) {
+            $settings = MainSettings::find($id);
+            if (!$settings || empty($settings->ms_token)) {
+                throw new \RuntimeException("Token for MoySklad is missing.");
+            }
+            $this->token = $settings->ms_token;
+        } else {
+            $this->token = $token;
+        }
 
         $this->client = new Client([
             'base_uri' => 'https://api.moysklad.ru/api/remap/1.2/',
-            'headers' => [
-                'Authorization' => 'Bearer ' . $this->token,
-                'Content-Type'  => 'gzip',
-            ]
+            'headers'  => [
+                'Authorization'   => 'Bearer ' . $this->token,
+                'Accept-Encoding' => 'gzip',
+                'Content-Type'    => 'application/json',
+            ],
         ]);
     }
 
-    public function getTasks()
+    /**
+     * Универсальный метод для выполнения запросов к API
+     */
+    private function request(string $method, string $url, array $options = [])
     {
         try {
-            $response = $this->client->get('entity/task');
-            return json_decode($response->getBody(), true); //try catch!
-        } catch (ClientException $e) {
-            $response = $e->getResponse();
-            $errorBody = $response->getBody()->getContents();
-            Log::error('MoySklad API Error: ' . $errorBody);
-            throw $e;
-        }
-    }
-
-    public function createTask($data)
-    {
-        $response = $this->client->post('entity/task', [
-            'json' => $data
-        ]);
-        return json_decode($response->getBody(), true);
-    }
-
-    public function deleteTask($taskId)
-    {
-        try {
-            $this->client->delete("entity/task/{$taskId}");
-            return true;
-        } catch (ClientException $e) {
-            Log::error('MoySklad API Error (deleteTask): ' . $e->getMessage());
-            return false;
-        }
-    }
-    
-    public function updateTask($taskId, $taskData)
-
-    {
-        try {
-            $response = $this->client->put("entity/task/{$taskId}", [
-                'json' => $taskData,
-            ]);
-            return json_decode($response->getBody(), true);
-        } catch (ClientException $e) {
-            Log::error('MoySklad API Error (updateTask): ' . $e->getMessage());
+            $response = $this->client->request($method, $url, $options);
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (RequestException $e) {
+            $errorBody = $e->getResponse() ? $e->getResponse()->getBody()->getContents() : 'No response body';
+            Log::error("MoySklad API Error ({$method} {$url}): " . $errorBody);
             return null;
         }
     }
 
-    public function getTaskById($taskId)
+    /**
+     * Получить все задачи
+     */
+    public function getTasks(): ?array
     {
-        try {
-            $response = $this->client->get("entity/task/{$taskId}");
-            return json_decode($response->getBody(), true);
-        } catch (ClientException $e) {
-            Log::error('MoySklad API Error (getTaskById): ' . $e->getMessage());
-            return null;
-        }
+        return $this->request('GET', 'entity/task');
     }
 
-    public function getEmployees()
+    /**
+     * Создать новую задачу
+     */
+    public function createTask(array $taskData): ?array
     {
-        try {
-            $response = $this->client->get('entity/employee');
-            return json_decode($response->getBody(), true);
-        } catch (ClientException $e) {
-            Log::error('MoySklad API Error: ' . $e->getMessage());
-            throw $e;
-        }
+        return $this->request('POST', 'entity/task', ['json' => $taskData]);
+    }
+
+    /**
+     * Удалить задачу по ID
+     */
+    public function deleteTask(string $taskId): bool
+    {
+        return (bool) $this->request('DELETE', "entity/task/{$taskId}");
+    }
+
+    /**
+     * Обновить задачу
+     */
+    public function updateTask(string $taskId, array $taskData): ?array
+    {
+        return $this->request('PUT', "entity/task/{$taskId}", ['json' => $taskData]);
+    }
+
+    /**
+     * Получить задачу по ID
+     */
+    public function getTaskById(string $taskId): ?array
+    {
+        return $this->request('GET', "entity/task/{$taskId}");
+    }
+
+    /**
+     * Получить список сотрудников
+     */
+    public function getEmployees(): ?array
+    {
+        return $this->request('GET', 'entity/employee');
     }
 }
