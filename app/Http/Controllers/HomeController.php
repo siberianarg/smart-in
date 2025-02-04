@@ -3,9 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Client\MoySkladClient;
 
 class HomeController extends Controller
 {
+    protected $msClient;
+
+    public function __construct(MoySkladClient $msClient) {
+        $this->msClient = $msClient;
+    }
+    
     public function i(){
         return to_route(
             'home', [

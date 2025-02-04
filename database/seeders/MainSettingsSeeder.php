@@ -11,9 +11,11 @@ class MainSettingsSeeder extends Seeder
     public function run()
     {
         MainSettings::create([
-            'accountId' => '1dd5bd55-d141-11ec-0a80-055600047495',
+            'accountId' => config('services.moysklad.accountId'),
             'ms_token' => config('services.moysklad.token'), // либо так -> env('MS_TOKEN')
-            'UID_ms' => 'pogec33263@andinews.com',
+            'UID_ms' => config('services.moysklad.UID_ms'), 
         ]);
+        
+        $this->command->info('MainSettings успешно обновлены.');
     }
 }

@@ -16,4 +16,6 @@ class MainSettings extends Model
         'ms_token',
         'UID_ms',
     ];
+
+    public $timestamps = false; 
 }

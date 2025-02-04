@@ -2,45 +2,45 @@
 
 namespace App\Http\Controllers\Task;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Task\StoreRequest;
 use App\Models\Task;
 use App\Client\MoySkladClient;
+use App\Http\Controllers\HomeController;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
 
-class StoreController extends Controller
-{
-    public function __invoke(StoreRequest $request)
+class StoreController extends HomeController {
+
+    public function __invoke(Request $request)
     {
-        try {
-            $data = $request->validated();
-
-            // Создаём задачу в МойСклад
-            $msClient = new MoySkladClient(
-                config('services.moysklad.token'),
-                config('services.moysklad.accountId')
-            );
-
-            $msTask = $msClient->createTask([
-                'description' => $data['description'],
-                'done' => $data['is_completed'] ?? false,
-            ]);
-
-            dd($msTask);
-
-            // Сохраняем в локальной базе с UUID из МойСклад
-            $task = Task::create([
-                'description' => $data['description'],
-                'is_completed' => $data['is_completed'] ?? false,
-                'ms_uuid' => $msTask['id'] ?? null, // Сохраняем ID из МойСклад
-            ]);
-
-            return response()->json(['message' => 'Task created successfully', 'task' => $task], 201);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Error creating task',
-                'error' => $e->getMessage(),
-            ], 500);
+        $employees = $this->msClient->getEmployees();
+        if (empty($employees['rows'])) {
+            return response()->json(['error' => 'No employees found'], 400);
         }
+
+        $firstEmployee = $employees['rows'][0];
+        $isCompleted = filter_var($request->input('is_completed', false), FILTER_VALIDATE_BOOLEAN);
+
+        $taskData = [
+            'description' => $request->input('description'),
+            'done' => $isCompleted,
+            'assignee' => [
+                'meta' => $firstEmployee['meta'],
+            ],
+        ];
+
+        $msTask = $this->msClient->createTask($taskData);
+
+        if ($msTask) {
+            $task = Task::create([
+                'ms_uuid' => $msTask['id'],
+                'description' => $taskData['description'],
+                'is_completed' => (int) $isCompleted,
+                'created_at' => Carbon::parse($msTask['created'] ?? now()),
+            ]);
+            return response()->json($task, 201);
+        }
+
+        return response()->json(['error' => 'Failed to create task'], 500);
     }
 }

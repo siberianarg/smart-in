@@ -33,6 +33,8 @@ return [
 
     'moysklad' => [
         'token' => env('MS_TOKEN'),
+        'accountId' => env('MS_ACCOUNT_ID'),
+        'UID_ms' => env('MS_UID'),
     ],
 
 ];

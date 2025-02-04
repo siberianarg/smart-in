@@ -3,31 +3,42 @@
 namespace App\Http\Controllers\Task;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Task\TaskResource;
-use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Client\MoySkladClient;
+use App\Http\Controllers\HomeController;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
 
-class IndexController extends Controller
-{
+class IndexController extends HomeController {
+
     public function __invoke(Request $request)
     {
-        $localTasks = Task::all();
+        $tasks = Task::all();
+        $msTasks = $this->msClient->getTasks();
 
-        try {
-            // Получаем задачи из МойСклад
-            $msClient = new MoySkladClient(
-                config('services.moysklad.token'),
-                config('services.moysklad.accountId')
+        $msTasksCollection = collect($msTasks['rows'])->mapWithKeys(function ($task) {
+            return [$task['id'] => [
+                'id' => $task['id'],
+                'description' => $task['description'] ?? 'Описание отсутствует',
+                'is_completed' => (bool) ($task['done'] ?? false),
+                'created_at' => Carbon::parse($task['created'] ?? now()),
+                'updated_at' => Carbon::parse($task['updated'] ?? now()),
+            ]];
+        });
+
+        foreach ($msTasksCollection as $taskId => $taskData) {
+            Task::updateOrCreate(
+                ['ms_uuid' => $taskId],
+                [
+                    'description' => $taskData['description'],
+                    'is_completed' => $taskData['is_completed'],
+                    'created_at' => $taskData['created_at'],
+                    'updated_at' => $taskData['updated_at'],
+                ]
             );
-            $msTasks = collect($msClient->getTasks()['rows'] ?? []);
-        } catch (\Exception $e) {
-            $msTasks = collect(); // В случае ошибки просто игнорируем
         }
 
-        // Объединяем задачи
-        $allTasks = $localTasks->merge($msTasks);
-
-        return TaskResource::collection($allTasks);
+        $updatedTasks = Task::all();
+        return response()->json(['data' => $updatedTasks]);
     }
 }
