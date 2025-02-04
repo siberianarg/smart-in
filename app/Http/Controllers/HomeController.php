@@ -13,7 +13,7 @@ class HomeController extends Controller
         $this->msClient = $msClient;
     }
     
-    public function i(){
+    public function redirectToTaskPage(){
         return to_route(
             'home', [
                 'is_vue_pade' => 'task',

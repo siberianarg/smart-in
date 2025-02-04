@@ -10,7 +10,15 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
-class UpdateController extends HomeController {
+class UpdateController extends Controller {
+
+    private MoySkladClient $msClient;
+
+    public function __construct(MoySkladClient $msClient)
+    {
+        $this->msClient = $msClient;
+    }
+
     public function __invoke(Request $request, $id)
     {
         $task = Task::find($id);

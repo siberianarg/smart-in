@@ -8,7 +8,9 @@ use App\Client\MoySkladClient;
 use App\Http\Controllers\HomeController;
 use Illuminate\Http\Request;
 
-class DeleteController extends HomeController {
+class DeleteController extends Controller {
+
+    private MoySkladClient $msClient;
 
     public function __construct(MoySkladClient $msClient)
     {
