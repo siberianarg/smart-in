@@ -42,6 +42,11 @@ class MoySkladClient
     {
         try {
             $response = $this->client->request($method, $url, $options);
+            $statusCode = $response->getStatusCode();
+
+        if ($method === 'DELETE') {
+            return in_array($statusCode, [200, 204]);
+        }
             return json_decode($response->getBody()->getContents(), true);
         } catch (RequestException $e) {
             $errorBody = $e->getResponse() ? $e->getResponse()->getBody()->getContents() : 'No response body';
@@ -63,23 +68,9 @@ class MoySkladClient
     }
 
     // удалить задачу по ID
-    // public function deleteTask(string $taskId)
-    // {
-    //     return  $this->request('DELETE', "entity/task/{$taskId}");
-    // }
-    
-    public function deleteTask(string $taskId): bool
+    public function deleteTask(string $taskId)
     {
-        try {
-            $response = $this->client->delete("entity/task/{$taskId}");
-            if (in_array($response->getStatusCode(), [200, 204])) {
-                return true;
-            }
-            return false;
-        } catch (RequestException $e) {
-            $errorBody = $e->getResponse() ? $e->getResponse()->getBody()->getContents() : 'No response body';
-            return false;
-        }
+        return  $this->request('DELETE', "entity/task/{$taskId}");
     }
 
     // обновить задачу
