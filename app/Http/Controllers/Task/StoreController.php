@@ -2,25 +2,52 @@
 
 namespace App\Http\Controllers\Task;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Task\StoreRequest;
 use App\Models\Task;
+use App\Client\MoySkladClient;
+use App\Http\Requests\Task\StoreRequest;
+use Illuminate\Http\JsonResponse;
+use Carbon\Carbon;
 
 class StoreController extends Controller
 {
-    public function __invoke(StoreRequest $request) //request
-    {
-        try {
-            $data = $request->validated(); // get data
-            Task::create($data); // create data
+    private MoySkladClient $msClient;
 
-            return response()->json(['message' => 'Task created successfully'], 201);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Error creating task',
-                'error' => $e->getMessage(),
-            ], 500);
+    public function __construct(MoySkladClient $msClient)
+    {
+        $this->msClient = $msClient;
+    }
+
+    public function __invoke(StoreRequest $request): JsonResponse
+    {
+        $executors = $this->msClient->getExecutor();
+        $rows = $executors['rows'] ?? [];
+
+        if (empty($rows)) {
+            return response()->json(['error' => 'No executors found'], 400);
         }
+
+        $firstEmployee = reset($rows); // безопасный способ получить первый элемент
+
+        $taskData = [
+            'description' => $request->validated()['description'],
+            'done'        => $request->validated()['is_completed'] ?? false,
+            'assignee'    => ['meta' => $firstEmployee['meta']],
+        ];
+
+        $msTask = $this->msClient->createTask($taskData);
+
+        if (!$msTask) {
+            return response()->json(['error' => 'Failed to create task'], 500);
+        }
+
+        $task = Task::create([
+            'ms_uuid'      => $msTask['id'],
+            'description'  => $taskData['description'],
+            'is_completed' => (int) $taskData['done'],
+            'created_at'   => Carbon::parse($msTask['created'] ?? now()),
+        ]);
+
+        return response()->json($task, 201);
     }
 }

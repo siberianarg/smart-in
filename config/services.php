@@ -31,4 +31,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'moysklad' => [
+        'token' => env('MS_TOKEN'),
+        'accountId' => env('MS_ACCOUNT_ID'),
+        'UID_ms' => env('MS_UID'),
+    ],
+
 ];

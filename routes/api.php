@@ -7,6 +7,7 @@ use App\Http\Controllers\Task\IndexController;
 use App\Http\Controllers\Task\UpdateController;
 use App\Http\Controllers\Task\DeleteController;
 use App\Http\Controllers\Task\ShowController;
+use App\Http\Controllers\Task\TaskController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
