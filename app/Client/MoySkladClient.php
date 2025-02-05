@@ -11,11 +11,11 @@ class MoySkladClient
 {
     private Client $client;
     private string $token;
-    
+
 
     public function __construct(?string $token = null, string $id)
     {
-        
+
         if (is_null($token)) {
             $settings = MainSettings::find($id);
             if (!$settings || empty($settings->ms_token)) {
@@ -36,7 +36,7 @@ class MoySkladClient
         ]);
     }
 
-    
+
     // метод для выполнения запросов к API
     private function request(string $method, string $url, array $options = [])
     {
@@ -63,9 +63,23 @@ class MoySkladClient
     }
 
     // удалить задачу по ID
-    public function deleteTask(string $taskId)
+    // public function deleteTask(string $taskId)
+    // {
+    //     return  $this->request('DELETE', "entity/task/{$taskId}");
+    // }
+    
+    public function deleteTask(string $taskId): bool
     {
-        return  $this->request('DELETE', "entity/task/{$taskId}");
+        try {
+            $response = $this->client->delete("entity/task/{$taskId}");
+            if (in_array($response->getStatusCode(), [200, 204])) {
+                return true;
+            }
+            return false;
+        } catch (RequestException $e) {
+            $errorBody = $e->getResponse() ? $e->getResponse()->getBody()->getContents() : 'No response body';
+            return false;
+        }
     }
 
     // обновить задачу

@@ -20,7 +20,6 @@ class DeleteController extends Controller
 
     public function __invoke($id)
     {
-        // проверка задачи в локальной БД
         $task = Task::find($id);
 
         if (!$task) {
@@ -31,17 +30,12 @@ class DeleteController extends Controller
 
         // удаляем из МойСклад
         $deleted = $this->msClient->deleteTask($ms_uuid);
-        dd($deleted);
-        
+
         if (!$deleted) {
             return response()->json(['error' => 'Failed to delete task in MoySklad'], 500);
         }
 
         $task->delete();
-
-        // проверка на удаление 
-        // $checkTask = Task::find($id);
-        // dd($checkTask);
 
         return response()->json(null, 204);
     }
