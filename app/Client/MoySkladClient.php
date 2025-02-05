@@ -11,11 +11,10 @@ class MoySkladClient
 {
     private Client $client;
     private string $token;
-    private string $id;
+    
 
     public function __construct(?string $token = null, string $id)
     {
-        $this->id = $id;
         
         if (is_null($token)) {
             $settings = MainSettings::find($id);
@@ -37,9 +36,8 @@ class MoySkladClient
         ]);
     }
 
-    /**
-     * Универсальный метод для выполнения запросов к API
-     */
+    
+    // метод для выполнения запросов к API
     private function request(string $method, string $url, array $options = [])
     {
         try {
@@ -52,50 +50,38 @@ class MoySkladClient
         }
     }
 
-    /**
-     * Получить все задачи
-     */
+    // получить все задачи 
     public function getTasks(): ?array
     {
         return $this->request('GET', 'entity/task');
     }
 
-    /**
-     * Создать новую задачу
-     */
+    // создать новую задачу
     public function createTask(array $taskData): ?array
     {
         return $this->request('POST', 'entity/task', ['json' => $taskData]);
     }
 
-    /**
-     * Удалить задачу по ID
-     */
-    public function deleteTask(string $taskId): bool
+    // удалить задачу по ID
+    public function deleteTask(string $taskId)
     {
-        return (bool) $this->request('DELETE', "entity/task/{$taskId}");
+        return  $this->request('DELETE', "entity/task/{$taskId}");
     }
 
-    /**
-     * Обновить задачу
-     */
+    // обновить задачу
     public function updateTask(string $taskId, array $taskData): ?array
     {
         return $this->request('PUT', "entity/task/{$taskId}", ['json' => $taskData]);
     }
 
-    /**
-     * Получить задачу по ID
-     */
+    // получить задачу по ID
     public function getTaskById(string $taskId): ?array
     {
         return $this->request('GET', "entity/task/{$taskId}");
     }
 
-    /**
-     * Получить список сотрудников
-     */
-    public function getEmployees(): ?array
+    // список юзера
+    public function getExecutor(): ?array
     {
         return $this->request('GET', 'entity/employee');
     }

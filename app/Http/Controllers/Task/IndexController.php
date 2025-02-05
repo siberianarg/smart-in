@@ -20,10 +20,8 @@ class IndexController extends Controller
 
     public function __invoke(Request $request): JsonResponse
     {
-        // Получаем локальные задачи
         $tasks = Task::all();
 
-        // Получаем задачи из МойСклад
         $msTasks = $this->msClient->getTasks();
         $rows = $msTasks['rows'] ?? [];
 
@@ -35,7 +33,7 @@ class IndexController extends Controller
         $msTasksCollection = collect($rows)->mapWithKeys(fn($task) => [
             $task['id'] => [
                 'id'           => $task['id'],
-                'description'  => $task['description'] ?? 'Описание отсутствует',
+                'description'  => $task['description'] ?? 'description is not exist',
                 'is_completed' => (bool) ($task['done'] ?? false),
                 'created_at'   => Carbon::parse($task['created'] ?? now()),
                 'updated_at'   => Carbon::parse($task['updated'] ?? now()),

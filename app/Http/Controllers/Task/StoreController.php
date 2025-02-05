@@ -20,11 +20,11 @@ class StoreController extends Controller
 
     public function __invoke(StoreRequest $request): JsonResponse
     {
-        $employees = $this->msClient->getEmployees();
-        $rows = $employees['rows'] ?? [];
+        $executors = $this->msClient->getExecutor();
+        $rows = $executors['rows'] ?? [];
 
         if (empty($rows)) {
-            return response()->json(['error' => 'No employees found'], 400);
+            return response()->json(['error' => 'No executors found'], 400);
         }
 
         $firstEmployee = reset($rows); // безопасный способ получить первый элемент
