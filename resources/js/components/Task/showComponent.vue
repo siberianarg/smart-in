@@ -1,23 +1,28 @@
 @@ -1,46 +0,0 @@
 <template>
-    <div v-if="task">
-        <!-- show при условии что person не null-->
-        <div>Описание:{{ this.task.description }}</div>
-        <div>
-            <v-chip :color="this.task.is_completed ? 'green' : 'red'" dark>
-                Статус: {{ getStatus(task.is_completed) }}
-            </v-chip>
-        </div>
-        <v-btn
-            color="blue"
-            outlined
-            :to="{
-                name: 'task.edit',
-                params: { id: this.task.id },
-            }"
-            text="редактировать"
-        />
-    </div>
+    <v-container v-if="task">
+        <v-card class="pa-4">
+            <v-card-title>Описание</v-card-title>
+            <v-card-text>
+                {{ task.description }}
+            </v-card-text>
+
+            <v-card-actions>
+                <v-chip :color="task.is_completed ? 'green' : 'red'" dark>
+                    {{ getStatus(task.is_completed) }}
+                </v-chip>
+
+                <v-spacer></v-spacer>
+                
+                <v-btn
+                    color="blue"
+                    outlined
+                    :to="{ name: 'task.edit', params: { id: task.id } }"
+                    text="Редактировать"
+                    />
+            </v-card-actions>
+        </v-card>
+    </v-container>
 </template>
 
 <script>
