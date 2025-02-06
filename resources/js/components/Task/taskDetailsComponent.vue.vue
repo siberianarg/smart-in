@@ -13,7 +13,8 @@
             <v-btn color="green" outlined :to="{ name: 'task.add' }">
                 Создать задачу
             </v-btn>
-            <router-view></router-view>
+            <!-- для отображения дочерних компонентов -->
+            <router-view></router-view> 
     </v-container>
 </template>
 

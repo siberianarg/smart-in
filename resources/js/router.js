@@ -4,34 +4,36 @@ const routes = [
     {
         path: "/tasks",
         component: () => import("./components/Task/taskDetailsComponent.vue"),
-        name: "taskDetails.index",
+        // name: "taskDetails.index",
+        children: [
+            {
+                path: "",
+                component: () => import("./components/Task/indexComponent.vue"),
+                name: "task.index",
+            },
+            {
+                path: "add",
+                component: () => import("./components/Task/addComponent.vue"),
+                name: "task.add",
+            },
+            {
+                path: "edit/:id",
+                component: () => import("./components/Task/editComponent.vue"),
+                name: "task.edit",
+            },
+            {
+                path: ":id",
+                component: () => import("./components/Task/showComponent.vue"),
+                name: "task.show",
+            },
+        ],
     },
     {
-        path: "/products", 
-        component: () => import("./components/Task/productDetailsComponent.vue"),
+        path: "/products",
+        component: () =>
+            import("./components/Task/productDetailsComponent.vue"),
         name: "productDetails.index",
     },
-    {
-        path: "/tasks",
-        component: () => import("./components/Task/indexComponent.vue"),
-        name: "task.index",
-    },
-    {
-        path: "/tasks/add",
-        component: () => import("./components/Task/addComponent.vue"),
-        name: "task.add",
-    },
-    {
-        path: "/tasks/edit/:id",
-        component: () => import("./components/Task/editComponent.vue"),
-        name: "task.edit",
-    },
-    {
-        path: "/tasks/:id", 
-        component: () => import("./components/Task/showComponent.vue"),
-        name: "task.show",
-    }
-    
 ];
 
 const router = createRouter({
