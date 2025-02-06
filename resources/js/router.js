@@ -31,7 +31,7 @@ const routes = [
     {
         path: "/products",
         component: () =>
-            import("./components/Task/productDetailsComponent.vue"),
+            import("./components/Product/productDetailsComponent.vue"),
         name: "productDetails.index",
     },
 ];
