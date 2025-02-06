@@ -49,17 +49,7 @@
 
         <!-- Основной контент -->
         <v-main>
-            <v-btn
-                color="blue"
-                outlined
-                class="mr-2"
-                :to="{ name: 'task.index' }"
-            >
-                Задачи
-            </v-btn>
-            <v-btn color="green" outlined :to="{ name: 'task.add' }">
-                Создать задачу
-            </v-btn>
+            <!-- были кнопки -->
             <router-view></router-view>
         </v-main>
     </v-app>
@@ -78,7 +68,11 @@ export default {
                     route: "/tasks",
                     icon: "mdi-clipboard-text",
                 },
-                { title: "Товары", route: "/products", icon: "mdi-shopping" },
+                {
+                    title: "Товары",
+                    route: "/products",
+                    icon: "mdi-shopping",
+                },
             ],
         };
     },

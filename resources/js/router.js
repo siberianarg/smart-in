@@ -3,6 +3,16 @@ import { createRouter, createWebHistory } from "vue-router";
 const routes = [
     {
         path: "/tasks",
+        component: () => import("./components/Task/taskDetailsComponent.vue"),
+        name: "taskDetails.index",
+    },
+    {
+        path: "/products", 
+        component: () => import("./components/Task/productDetailsComponent.vue"),
+        name: "productDetails.index",
+    },
+    {
+        path: "/tasks",
         component: () => import("./components/Task/indexComponent.vue"),
         name: "task.index",
     },
@@ -18,7 +28,7 @@ const routes = [
     },
     {
         path: "/tasks/:id", 
-        component: () => import("./components/Task/showComponent"),
+        component: () => import("./components/Task/showComponent.vue"),
         name: "task.show",
     }
     
