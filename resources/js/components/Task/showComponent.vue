@@ -27,7 +27,7 @@
 
 <script>
 export default {
-    name: "show",
+    name: "showComponent",
     components: {},
     data() {
         return {
