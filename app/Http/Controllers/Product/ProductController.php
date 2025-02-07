@@ -3,25 +3,30 @@
 namespace App\Http\Controllers\Product;
 
 use App\Client\MoySkladProductClient;
+use App\Client\MoySkladClient;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
-    private MoySkladProductClient $moySkladProductClient;
+    private MoySkladClient $moySkladClient;
 
     public function __construct()
     {
-        $this->moySkladProductClient = new MoySkladProductClient(null, 1); // Заменить '1' на актуальный ID настроек
+        $this->moySkladClient = new MoySkladClient(null, 1); // Заменить '1' на актуальный ID настроек
     }
 
     // Получение списка товаров
     public function index()
     {
-
-        $products = $this->moySkladProductClient->getProducts();
-        // dd($products);
-        // Проверим, что массив rows существует и не пустой
+        $products = $this->moySkladClient->getProducts();
+        dd($products);
+        $rows = $products['rows'] ?? [];
+        
+        if (empty($rows)) {
+            return response()->json(['error' => 'No tasks found in MoySklad'], 400);
+        }
         if (isset($products['rows']) && count($products['rows']) > 0) {
             return response()->json($products['rows']);
         }
@@ -33,7 +38,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $productData = $request->all();
-        $createdProduct = $this->moySkladProductClient->createProduct($productData);
+        $createdProduct = $this->moySkladClient->createProduct($productData);
         return response()->json($createdProduct);
     }
 
@@ -41,21 +46,21 @@ class ProductController extends Controller
     public function update($id, Request $request)
     {
         $productData = $request->all();
-        $updatedProduct = $this->moySkladProductClient->updateProduct($id, $productData);
+        $updatedProduct = $this->moySkladClient->updateProduct($id, $productData);
         return response()->json($updatedProduct);
     }
 
     // Удаление товара
     public function destroy($id)
     {
-        $deleted = $this->moySkladProductClient->deleteProduct($id);
+        $deleted = $this->moySkladClient->deleteProduct($id);
         return response()->json(['success' => $deleted]);
     }
 
     // Получение товара по ID
     public function show($id)
     {
-        $product = $this->moySkladProductClient->getProductById($id);
+        $product = $this->moySkladClient->getProductById($id);
         return response()->json($product);
     }
 }

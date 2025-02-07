@@ -26,6 +26,9 @@ class MoySkladClient
             $this->token = $token;
         }
 
+        // Проверим токен перед выполнением запросов
+        Log::info("MoySklad API Token: " . $this->token);
+
         $this->client = new Client([
             'base_uri' => 'https://api.moysklad.ru/api/remap/1.2/',
             'headers'  => [
@@ -44,13 +47,14 @@ class MoySkladClient
             $response = $this->client->request($method, $url, $options);
             $statusCode = $response->getStatusCode();
 
-        if ($method === 'DELETE') {
-            return in_array($statusCode, [200, 204]);
-        }
+            if ($method === 'DELETE') {
+                return in_array($statusCode, [200, 204]);
+            }
             return json_decode($response->getBody()->getContents(), true);
         } catch (RequestException $e) {
             $errorBody = $e->getResponse() ? $e->getResponse()->getBody()->getContents() : 'No response body';
             Log::error("MoySklad API Error ({$method} {$url}): " . $errorBody);
+            dd($errorBody, $this->client);
             return null;
         }
     }
@@ -89,5 +93,36 @@ class MoySkladClient
     public function getExecutor(): ?array
     {
         return $this->request('GET', 'entity/employee');
+    }
+
+    //product methods
+    public function getProducts(): ?array
+    {
+        
+        return $this->request('GET', 'entity/product');
+    }
+
+    // Создание нового продукта
+    public function createProduct(array $productData): ?array
+    {
+        return $this->request('POST', 'entity/product', ['json' => $productData]);
+    }
+
+    // Обновление продукта
+    public function updateProduct(string $productId, array $productData): ?array
+    {
+        return $this->request('PUT', "entity/product/{$productId}", ['json' => $productData]);
+    }
+
+    // Удаление продукта
+    public function deleteProduct(string $productId)
+    {
+        return $this->request('DELETE', "entity/product/{$productId}");
+    }
+
+    // Получение продукта по ID
+    public function getProductById(string $productId): ?array
+    {
+        return $this->request('GET', "entity/product/{$productId}");
     }
 }

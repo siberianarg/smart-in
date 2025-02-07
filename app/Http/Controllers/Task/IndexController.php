@@ -20,7 +20,7 @@ class IndexController extends Controller
 
     public function __invoke(Request $request): JsonResponse
     {
-        $tasks = Task::all();
+       
 
         $msTasks = $this->msClient->getTasks();
         $rows = $msTasks['rows'] ?? [];
