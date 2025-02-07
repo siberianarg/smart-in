@@ -64,7 +64,7 @@
 <script>
 import axios from "axios";
 export default {
-    name: "index",
+    name: "indexComponent",
     components: {},
     data() {
         return {
@@ -83,7 +83,6 @@ export default {
                 .get("/api/tasks")
                 .then((result) => {
                     this.tasks = result.data.data
-                    // console.log(result.data.data)
                 })
                 .catch();
         },

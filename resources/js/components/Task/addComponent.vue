@@ -27,7 +27,7 @@
 <script>
 import axios from "axios"
 export default {
-    name: "create",
+    name: "createComponent",
     components: {},
     data() {
         return {

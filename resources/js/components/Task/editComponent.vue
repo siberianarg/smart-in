@@ -28,7 +28,7 @@
 import axios from "axios"
 
 export default {
-    name: "edit",
+    name: "editComponent",
     components: {},
     data() {
         return {
