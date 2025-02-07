@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Task;
+namespace App\Http\Controllers\Product;
 
 use App\Client\MoySkladProductClient;
 use Illuminate\Http\Request;
@@ -18,8 +18,15 @@ class ProductController extends Controller
     // Получение списка товаров
     public function index()
     {
+
         $products = $this->moySkladProductClient->getProducts();
-        return response()->json($products);
+        // dd($products);
+        // Проверим, что массив rows существует и не пустой
+        if (isset($products['rows']) && count($products['rows']) > 0) {
+            return response()->json($products['rows']);
+        }
+
+        return response()->json(['message' => 'Нет товаров в системе МойСклад'], 200);
     }
 
     // Создание нового товара

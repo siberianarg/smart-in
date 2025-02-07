@@ -24,6 +24,9 @@ class MoySkladProductClient
             $this->token = $token;
         }
 
+        // Проверим токен перед выполнением запросов
+        Log::info("MoySklad API Token: " . $this->token);
+
         $this->client = new Client([
             'base_uri' => 'https://api.moysklad.ru/api/remap/1.2/',
             'headers'  => [
@@ -34,24 +37,25 @@ class MoySkladProductClient
         ]);
     }
 
+
     // Общий метод для выполнения запросов
     private function request(string $method, string $url, array $options = [])
     {
         try {
             $response = $this->client->request($method, $url, $options);
-            $statusCode = $response->getStatusCode();
+            $body = json_decode($response->getBody()->getContents(), true);
 
-            if ($method === 'DELETE') {
-                return in_array($statusCode, [200, 204]);
-            }
+            // Логируем ответ для проверки
+            Log::info("MoySklad API Response:", $body);
 
-            return json_decode($response->getBody()->getContents(), true);
+            return $body;
         } catch (RequestException $e) {
             $errorBody = $e->getResponse() ? $e->getResponse()->getBody()->getContents() : 'No response body';
             Log::error("MoySklad API Error ({$method} {$url}): " . $errorBody);
             return null;
         }
     }
+
 
     // Получение списка товаров
     public function getProducts(): ?array
