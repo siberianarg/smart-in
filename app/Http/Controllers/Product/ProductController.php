@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function __construct()
     {
         $settings = MainSettings::first();
-        dd($settings);
+        // dd($settings);
 
         if (!$settings || !$settings->ms_token || !$settings->accountId) {
             throw new \Exception('Настройки МойСклад не найдены. Пожалуйста, установите токен и accountId.');
@@ -29,18 +29,22 @@ class ProductController extends Controller
     // Получение списка товаров
     public function index(Request $request, $accountId)
     {
+
+        // Инициализируем MoySkladClient с использованием accountId
+        $this->moySkladClient = new MoySkladClient(null, $accountId);
+
+        // Получаем список продуктов
         $products = $this->moySkladClient->getProducts();
-        // dd($products);
+
+        // Проверка на наличие товаров
         $rows = $products['rows'] ?? [];
-        
+
         if (empty($rows)) {
-            return response()->json(['error' => 'No tasks found in MoySklad'], 400);
-        }
-        if (isset($products['rows']) && count($products['rows']) > 0) {
-            return response()->json($products['rows']);
+            return response()->json(['error' => 'No products found in MoySklad'], 400);
         }
 
-        return response()->json(['message' => 'Нет товаров в системе МойСклад'], 200);
+        // Возвращаем данные в формате JSON
+        return response()->json($rows);
     }
 
     // Создание нового товара

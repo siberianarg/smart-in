@@ -13,34 +13,30 @@ class MoySkladClient
     private string $token;
 
 
-    public function __construct(?string $token = null, string $id)
-    {
+    public function __construct(?string $token = null, string $accountId)
+{
+    if (is_null($token)) {
+        $settings = MainSettings::where('accountId', $accountId)->first();
 
-        if (is_null($token)) {
-            $settings = MainSettings::find($id);
-            // dd($settings);
-
-            if (!$settings || empty($settings->ms_token)) {
-                throw new \RuntimeException("Token for MoySklad is missing.");
-            }
-            $this->token = $settings->ms_token;
-        } else {
-            $this->token = $token;
+        if (!$settings || empty($settings->ms_token)) {
+            throw new \RuntimeException("Token for MoySklad is missing.");
         }
-        // dd($this->token);
-
-        // Проверим токен перед выполнением запросов
-        Log::info("MoySklad API Token: " . $this->token);
-
-        $this->client = new Client([
-            'base_uri' => 'https://api.moysklad.ru/api/remap/1.2/',
-            'headers'  => [
-                'Authorization'   => 'Bearer ' . $this->token,
-                'Accept-Encoding' => 'gzip',
-                'Content-Type'    => 'application/json',
-            ],
-        ]);
+        $this->token = $settings->ms_token;
+    } else {
+        $this->token = $token;
     }
+    // dd($token);
+
+    $this->client = new Client([
+        'base_uri' => 'https://api.moysklad.ru/api/remap/1.2/',
+        'headers'  => [
+            'Authorization'   => 'Bearer ' . $this->token,
+            'Accept-Encoding' => 'gzip',
+            'Content-Type'    => 'application/json',
+        ],
+    ]);
+}
+
 
 
     // метод для выполнения запросов к API
@@ -56,8 +52,7 @@ class MoySkladClient
             return json_decode($response->getBody()->getContents(), true);
         } catch (RequestException $e) {
             $errorBody = $e->getResponse() ? $e->getResponse()->getBody()->getContents() : 'No response body';
-            Log::error("MoySklad API Error ({$method} {$url}): " . $errorBody);
-            dd($errorBody, $this->client);
+            dd('Ошибка авторизации:', $errorBody);  // Проверим ошибку от API
             return null;
         }
     }
