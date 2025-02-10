@@ -15,7 +15,7 @@ class SetMoySkladToken extends Command
         $token = $this->argument('token');
 
         // Обновляем или создаём запись в main_settings
-        MainSettings::updateOrCreate(
+        $settings = MainSettings::updateOrCreate(
             ['accountId' => config('services.moysklad.accountId')],
             [
                 'ms_token' => $token,
@@ -24,5 +24,11 @@ class SetMoySkladToken extends Command
         );
 
         $this->info('Токен МойСклад успешно сохранён.');
+
+
+        $this->info("Текущие настройки:");
+        $this->line("Account ID: " . $settings->accountId);
+        $this->line("UID MS: " . $settings->UID_ms);
+        $this->line("Токен: " . $settings->ms_token);
     }
 }

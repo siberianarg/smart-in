@@ -18,6 +18,8 @@ class MoySkladClient
 
         if (is_null($token)) {
             $settings = MainSettings::find($id);
+            // dd($settings);
+
             if (!$settings || empty($settings->ms_token)) {
                 throw new \RuntimeException("Token for MoySklad is missing.");
             }
@@ -25,6 +27,7 @@ class MoySkladClient
         } else {
             $this->token = $token;
         }
+        // dd($this->token);
 
         // Проверим токен перед выполнением запросов
         Log::info("MoySklad API Token: " . $this->token);

@@ -30,11 +30,26 @@ const routes = [
     },
     {
         path: "/products",
-        component: () =>
-            import("./components/Product/productDetailsComponent.vue"),
-        name: "productDetails.index",
-    },
-];
+        component: () => import("./components/Product/productComponent.vue"),
+        children: [
+            // {
+            //     path: "",
+            //     name: "product.index",
+            //     component: () => import("./components/Product/indexComponent.vue"),
+            // },
+            {
+                path: "add",
+                name: "product.add",
+                component: () => import("./components/Product/addProductComponent.vue"),
+            },
+            // {
+            //     path: "edit/:id",
+            //     name: "product.edit",
+            //     component: () => import("./components/Product/editComponent.vue"),
+            // },
+        ],
+    }
+]
 
 const router = createRouter({
     history: createWebHistory(),

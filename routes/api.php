@@ -23,7 +23,7 @@ Route::group(['prefix' => 'tasks'], function () {
 });
 
 Route::group(['prefix' => 'products'], function () {
-    Route::get('/', [ProductController::class, 'index']);         
+    Route::get('/{accountId}', [ProductController::class, 'index']);         
     Route::post('/', [ProductController::class, 'store']);         
     Route::put('/{id}', [ProductController::class, 'update']);
     Route::delete('/{id}', [ProductController::class, 'destroy']); 

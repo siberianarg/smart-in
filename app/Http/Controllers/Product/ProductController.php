@@ -6,6 +6,7 @@ use App\Client\MoySkladProductClient;
 use App\Client\MoySkladClient;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\MainSettings;
 use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
@@ -14,14 +15,22 @@ class ProductController extends Controller
 
     public function __construct()
     {
-        $this->moySkladClient = new MoySkladClient(null, 1); // Заменить '1' на актуальный ID настроек
+        $settings = MainSettings::first();
+        dd($settings);
+
+        if (!$settings || !$settings->ms_token || !$settings->accountId) {
+            throw new \Exception('Настройки МойСклад не найдены. Пожалуйста, установите токен и accountId.');
+        }
+
+        $this->moySkladClient = new MoySkladClient($settings->ms_token, $settings->accountId);
+        // $this->moySkladClient = new MoySkladClient(null, $accountId); 
     }
 
     // Получение списка товаров
-    public function index()
+    public function index(Request $request, $accountId)
     {
         $products = $this->moySkladClient->getProducts();
-        dd($products);
+        // dd($products);
         $rows = $products['rows'] ?? [];
         
         if (empty($rows)) {
