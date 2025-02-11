@@ -9,6 +9,7 @@ use App\Http\Controllers\Task\UpdateController;
 use App\Http\Controllers\Task\DeleteController;
 use App\Http\Controllers\Task\ShowController;
 use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\Product\DeleteProductController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -27,7 +28,7 @@ Route::prefix('products/')->group(function () {
     Route::get('/{id}', [ProductController::class, 'getProductById']);     
     Route::post('/', [ProductController::class, 'createProduct']);        
     Route::put('/{id}', [ProductController::class, 'updateProduct']);
-    Route::delete('/{id}', [ProductController::class, 'deleteProduct']);
+    Route::delete('/{id}', DeleteProductController::class);
 });
 
 // // Маршрут для получения текущего accountId
