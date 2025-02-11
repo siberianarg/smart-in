@@ -4,7 +4,6 @@ const routes = [
     {
         path: "/tasks",
         component: () => import("./components/Task/taskDetailsComponent.vue"),
-        // name: "taskDetails.index",
         children: [
             {
                 path: "",
@@ -30,23 +29,28 @@ const routes = [
     },
     {
         path: "/products",
-        component: () => import("./components/Product/productComponent.vue"),
+        component: () => import("./components/Product/productDetailsComponent.vue"), //productComponent.vue
         children: [
-            // {
-            //     path: "",
-            //     name: "product.index",
-            //     component: () => import("./components/Product/indexComponent.vue"),
-            // },
+            {
+                path: "",
+                name: "product.index",
+                component: () => import("./components/Product/indexProductComponent.vue"),
+            },
             {
                 path: "add",
                 name: "product.add",
                 component: () => import("./components/Product/addProductComponent.vue"),
             },
-            // {
-            //     path: "edit/:id",
-            //     name: "product.edit",
-            //     component: () => import("./components/Product/editComponent.vue"),
-            // },
+            {
+                path: "edit/:id",
+                name: "product.edit",
+                component: () => import("./components/Product/editProductComponent.vue"),
+            },
+            {
+                path: ":id",
+                component: () => import("./components/Product/showProductComponent.vue"),
+                name: "product.show",
+            },
         ],
     }
 ]

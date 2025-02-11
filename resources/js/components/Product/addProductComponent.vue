@@ -18,7 +18,7 @@
                 @click="store"
                 color="blue"
                 outlined
-                text="Добавить"
+                text="Создать товар"
                 />
         </div>
     </div>
