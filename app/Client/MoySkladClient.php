@@ -6,25 +6,20 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Log;
 use App\Models\MainSettings;
+use GuzzleHttp\Exception\ClientException;
 
 class MoySkladClient
 {
     private Client $client;
     private string $token;
+    private string $accountId;
 
 
-    public function __construct(?string $token = null, string $id)
+    public function __construct(?string $token = null, string $accountId)
     {
-
-        if (is_null($token)) {
-            $settings = MainSettings::find($id);
-            if (!$settings || empty($settings->ms_token)) {
-                throw new \RuntimeException("Token for MoySklad is missing.");
-            }
-            $this->token = $settings->ms_token;
-        } else {
-            $this->token = $token;
-        }
+        $this->token = $token;
+        $this->accountId = $accountId;
+        // dd($token);
 
         $this->client = new Client([
             'base_uri' => 'https://api.moysklad.ru/api/remap/1.2/',
@@ -36,7 +31,6 @@ class MoySkladClient
         ]);
     }
 
-
     // метод для выполнения запросов к API
     private function request(string $method, string $url, array $options = [])
     {
@@ -44,13 +38,13 @@ class MoySkladClient
             $response = $this->client->request($method, $url, $options);
             $statusCode = $response->getStatusCode();
 
-        if ($method === 'DELETE') {
-            return in_array($statusCode, [200, 204]);
-        }
+            if ($method === 'DELETE') {
+                return in_array($statusCode, [200, 204]);
+            }
             return json_decode($response->getBody()->getContents(), true);
         } catch (RequestException $e) {
             $errorBody = $e->getResponse() ? $e->getResponse()->getBody()->getContents() : 'No response body';
-            Log::error("MoySklad API Error ({$method} {$url}): " . $errorBody);
+            dd('Ошибка авторизации:', $errorBody);  // Проверим ошибку от API
             return null;
         }
     }
@@ -89,5 +83,52 @@ class MoySkladClient
     public function getExecutor(): ?array
     {
         return $this->request('GET', 'entity/employee');
+    }
+
+    //product methods
+    public function getProducts(): ?array
+    {
+        // return $this->request('GET', 'entity/product');
+        $response = $this->client->get('entity/product');
+        return json_decode($response->getBody(), true)['rows'];
+    }
+
+    // Создание нового продукта
+    public function createProduct(array $productData): ?array
+    {
+        return $this->request('POST', 'entity/product', ['json' => $productData]);
+    }
+
+    // Обновление продукта
+    public function updateProduct(string $productId, array $productData): ?array
+    {
+        return $this->request('PUT', "entity/product/{$productId}", ['json' => $productData]);
+    }
+
+    // Удаление продукта
+    public function deleteProduct(string $productId)
+    {
+        return $this->request('DELETE', "entity/product/{$productId}");
+    }
+
+    // Получение продукта по ID
+    public function getProductById(string $productId): ?array
+    {
+        return $this->request('GET', "entity/product/{$productId}");
+    }
+
+    public function getRetailPriceTypeMeta()
+    {
+        try {
+            $response = $this->client->get('context/companysettings/pricetype');
+            $priceTypes = json_decode($response->getBody(), true);
+
+            if (!empty($priceTypes) && isset($priceTypes[0]['meta'])) {
+                return $priceTypes[0]['meta'];
+            }
+            return null;
+        } catch (ClientException $e) {
+            return null;
+        }
     }
 }

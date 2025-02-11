@@ -15,17 +15,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'tasks'], function () {
-    Route::get('/', IndexController::class);         // Получение списка задач
-    Route::get('/{task}', ShowController::class);    // Получение задачи по ID
-    Route::post('/', StoreController::class);        // Создание новой задачи
-    Route::post('/{task}', UpdateController::class); // Обновление задачи (лучше использовать PUT)
-    Route::delete('/{task}', DeleteController::class); // Удаление задачи
+    Route::get('/', IndexController::class);         
+    Route::get('/id}', ShowController::class);    
+    Route::post('/', StoreController::class);        
+    Route::post('/{id}', UpdateController::class); // Обновление задачи (лучше использовать PUT)
+    Route::delete('/{id}', DeleteController::class); 
 });
 
-Route::prefix('products')->group(function () {
-    Route::get('/', [ProductController::class, 'index']);          // Список товаров
-    Route::post('/', [ProductController::class, 'store']);         // Создание товара
-    Route::put('/{id}', [ProductController::class, 'update']);     // Обновление товара
-    Route::delete('/{id}', [ProductController::class, 'destroy']); // Удаление товара
-    Route::get('/{id}', [ProductController::class, 'show']);       // Получение товара по ID
+Route::prefix('products/')->group(function () {
+    Route::get('/', [ProductController::class, 'index']);  
+    Route::get('/{id}', [ProductController::class, 'getProductById']);     
+    Route::post('/', [ProductController::class, 'createProduct']);        
+    Route::put('/{id}', [ProductController::class, 'updateProduct']);
+    Route::delete('/{id}', [ProductController::class, 'deleteProduct']);
 });
+
+// // Маршрут для получения текущего accountId
+// Route::get('/current-account', [ProductController::class, 'getCurrentAccountId']);
