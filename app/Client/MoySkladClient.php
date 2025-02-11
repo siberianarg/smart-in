@@ -6,38 +6,30 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Log;
 use App\Models\MainSettings;
+use GuzzleHttp\Exception\ClientException;
 
 class MoySkladClient
 {
     private Client $client;
     private string $token;
+    private string $accountId;
 
 
     public function __construct(?string $token = null, string $accountId)
-{
-    if (is_null($token)) {
-        $settings = MainSettings::where('accountId', $accountId)->first();
-
-        if (!$settings || empty($settings->ms_token)) {
-            throw new \RuntimeException("Token for MoySklad is missing.");
-        }
-        $this->token = $settings->ms_token;
-    } else {
+    {
         $this->token = $token;
+        $this->accountId = $accountId;
+        // dd($token);
+
+        $this->client = new Client([
+            'base_uri' => 'https://api.moysklad.ru/api/remap/1.2/',
+            'headers'  => [
+                'Authorization'   => 'Bearer ' . $this->token,
+                'Accept-Encoding' => 'gzip',
+                'Content-Type'    => 'application/json',
+            ],
+        ]);
     }
-    // dd($token);
-
-    $this->client = new Client([
-        'base_uri' => 'https://api.moysklad.ru/api/remap/1.2/',
-        'headers'  => [
-            'Authorization'   => 'Bearer ' . $this->token,
-            'Accept-Encoding' => 'gzip',
-            'Content-Type'    => 'application/json',
-        ],
-    ]);
-}
-
-
 
     // метод для выполнения запросов к API
     private function request(string $method, string $url, array $options = [])
@@ -96,8 +88,9 @@ class MoySkladClient
     //product methods
     public function getProducts(): ?array
     {
-        
-        return $this->request('GET', 'entity/product');
+        // return $this->request('GET', 'entity/product');
+        $response = $this->client->get('entity/product');
+        return json_decode($response->getBody(), true)['rows'];
     }
 
     // Создание нового продукта
@@ -122,5 +115,20 @@ class MoySkladClient
     public function getProductById(string $productId): ?array
     {
         return $this->request('GET', "entity/product/{$productId}");
+    }
+
+    public function getRetailPriceTypeMeta()
+    {
+        try {
+            $response = $this->client->get('context/companysettings/pricetype');
+            $priceTypes = json_decode($response->getBody(), true);
+
+            if (!empty($priceTypes) && isset($priceTypes[0]['meta'])) {
+                return $priceTypes[0]['meta'];
+            }
+            return null;
+        } catch (ClientException $e) {
+            return null;
+        }
     }
 }

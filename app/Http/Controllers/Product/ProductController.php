@@ -2,78 +2,74 @@
 
 namespace App\Http\Controllers\Product;
 
-use App\Client\MoySkladProductClient;
 use App\Client\MoySkladClient;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Product\ProductResource;
 use App\Models\MainSettings;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    private MoySkladClient $moySkladClient;
+    private $moySkladClient;
 
     public function __construct()
     {
         $settings = MainSettings::first();
-        // dd($settings);
 
-        if (!$settings || !$settings->ms_token || !$settings->accountId) {
-            throw new \Exception('Настройки МойСклад не найдены. Пожалуйста, установите токен и accountId.');
+        if (!$settings) {
+            abort(404, 'Настройки для указанного accountId не найдены.');
         }
 
         $this->moySkladClient = new MoySkladClient($settings->ms_token, $settings->accountId);
-        // $this->moySkladClient = new MoySkladClient(null, $accountId); 
     }
 
-    // Получение списка товаров
-    public function index(Request $request, $accountId)
+    // списка товаров
+    public function index()
     {
-
-        // Инициализируем MoySkladClient с использованием accountId
-        $this->moySkladClient = new MoySkladClient(null, $accountId);
-
-        // Получаем список продуктов
         $products = $this->moySkladClient->getProducts();
-
-        // Проверка на наличие товаров
-        $rows = $products['rows'] ?? [];
-
-        if (empty($rows)) {
-            return response()->json(['error' => 'No products found in MoySklad'], 400);
+        if (empty($products)) {
+            return response()->json(['message' => 'Нет товаров в системе МойСклад'], 200);
         }
-
-        // Возвращаем данные в формате JSON
-        return response()->json($rows);
+        return response()->json($products);
     }
 
-    // Создание нового товара
-    public function store(Request $request)
-    {
-        $productData = $request->all();
-        $createdProduct = $this->moySkladClient->createProduct($productData);
-        return response()->json($createdProduct);
-    }
-
-    // Обновление товара
-    public function update($id, Request $request)
-    {
-        $productData = $request->all();
-        $updatedProduct = $this->moySkladClient->updateProduct($id, $productData);
-        return response()->json($updatedProduct);
-    }
-
-    // Удаление товара
-    public function destroy($id)
-    {
-        $deleted = $this->moySkladClient->deleteProduct($id);
-        return response()->json(['success' => $deleted]);
-    }
-
-    // Получение товара по ID
-    public function show($id)
+    public function getProductById($id)
     {
         $product = $this->moySkladClient->getProductById($id);
         return response()->json($product);
+    }
+
+    public function createProduct(Request $request)
+    {
+        $uniqueCode = $this->generateUniqueProductCode();
+        $priceTypeMeta = $this->moySkladClient->getRetailPriceTypeMeta();
+
+        if (!$priceTypeMeta) {
+            return response()->json(['error' => 'Ошибка: не удалось получить тип цены'], 500);
+        }
+
+        $data = [
+            'code' => $uniqueCode,
+            'name' => $request->name,
+            'salePrices' => [
+                [
+                    'value' => $request->price * 100,
+                    'priceType' => [
+                        'meta' => [
+                            'href' => $priceTypeMeta['href'],
+                            'type' => 'pricetype',
+                            'mediaType' => 'application/json'
+                        ]
+                    ]
+                ]
+            ],
+        ];
+
+        $response = $this->moySkladClient->createProduct($data);
+        if (isset($response['id'])) {
+            return response()->json($response, 201);
+        } else {
+            return response()->json(['error' => 'Ошибка при создании товара'], 500);
+        }
     }
 }
