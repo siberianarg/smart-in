@@ -1,6 +1,6 @@
 <template>
     <div v-if="is_end">
-        <v-table density="compact">
+        <v-table class="mt-2">
             <thead>
                 <tr>
                     <th class="text-grey-darken-1">Описание</th>
@@ -38,22 +38,15 @@
                     <td>
                         <v-btn
                             class="mr-2"
-                            color="blue"
+                            color="white"
                             outlined
-                            :to="{
-                                name: 'task.edit',
-                                params: { id: task.id },
-                            }"
-                        >
-                            Изменить
-                        </v-btn>
+                            :to="{ name: 'task.edit', params: { id: task.id }}"
+                            text="Изменить"/>
                         <v-btn
                             color="red"
                             outlined
                             @click="deleteTask(task.id)"
-                        >
-                            Удалить
-                        </v-btn>
+                            text="Удалить"/>
                     </td>
                 </tr>
             </tbody>

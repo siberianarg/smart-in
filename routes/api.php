@@ -16,16 +16,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'tasks'], function () {
     Route::get('/', IndexController::class);         
-    Route::get('/{task}', ShowController::class);    
+    Route::get('/id}', ShowController::class);    
     Route::post('/', StoreController::class);        
-    Route::post('/{task}', UpdateController::class); // Обновление задачи (лучше использовать PUT)
-    Route::delete('/{task}', DeleteController::class); 
+    Route::post('/{id}', UpdateController::class); // Обновление задачи (лучше использовать PUT)
+    Route::delete('/{id}', DeleteController::class); 
 });
 
-Route::group(['prefix' => 'products'], function () {
-    Route::get('/{accountId}', [ProductController::class, 'index']);         
-    Route::post('/', [ProductController::class, 'store']);         
-    Route::put('/{id}', [ProductController::class, 'update']);
-    Route::delete('/{id}', [ProductController::class, 'destroy']); 
-    Route::get('/{id}', [ProductController::class, 'show']);       
+Route::prefix('products/')->group(function () {
+    Route::get('/', [ProductController::class, 'index']);  
+    Route::get('/{id}', [ProductController::class, 'getProductById']);     
+    Route::post('/', [ProductController::class, 'createProduct']);        
+    Route::put('/{id}', [ProductController::class, 'updateProduct']);
+    Route::delete('/{id}', [ProductController::class, 'deleteProduct']);
 });
+
+// // Маршрут для получения текущего accountId
+// Route::get('/current-account', [ProductController::class, 'getCurrentAccountId']);
