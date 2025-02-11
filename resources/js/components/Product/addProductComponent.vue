@@ -4,13 +4,30 @@
             <v-text-field
                 class="mt-3"
                 type="text"
-                v-model="description"
-                label="description"
+                v-model="name"
+                label="Название товара"
+                outlined
+            />
+        </div>
+        <div class="mb-1">
+            <v-text-field
+                class="mt-3"
+                type="number"
+                v-model="price"
+                label="Цена товара (₽)"
+                :value="price || ''"
+                :rules="[v => v > 0 || 'Цена должна быть больше 0']"
                 outlined
             />
         </div>
         <!-- <div class="mb-1">
-            <v-text-field type="number" v-model="status" label="status" outlined />
+            <v-text-field
+                class="mt-3"
+                type="text"
+                v-model="description"
+                label="Описание товара"
+                outlined
+            />
         </div> -->
         <div class="mb-1">
             <v-btn
@@ -19,20 +36,20 @@
                 color="blue"
                 outlined
                 text="Создать товар"
-                />
+            />
         </div>
     </div>
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
 export default {
     name: "createProductComponent",
     components: {},
     data() {
         return {
-            description: null,
-            is_completed: false,
+            name: null,
+            price: false,
         };
     },
     mounted() {},
@@ -40,7 +57,8 @@ export default {
         store() {
             axios
                 .post("/api/products", {
-                    description: this.description,
+                    name: this.name,
+                    price: this.price
                 })
                 .then(() => {
                     // alert(`данные ${this.description} успешно добавлены`)
@@ -56,7 +74,7 @@ export default {
     },
     computed: {
         isDisabled() {
-            return this.description
+            return this.name;
         },
     },
     watch: {},
