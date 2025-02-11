@@ -4,13 +4,19 @@
             <v-text-field
                 class="mt-3"
                 type="text"
-                v-model="description"
-                label="description"
+                v-model="name"
+                label="Название товара"
                 outlined
             />
         </div>
         <div class="mb-1">
-            <!-- <v-text-field type="number" v-model="is_completed" label="status" outlined /> -->
+            <v-text-field
+                class="mt-3"
+                type="number"
+                v-model="price"
+                label="Цена товара (₽)"
+                outlined
+            />
         </div>
         <div class="mb-1">
             <v-btn
@@ -19,59 +25,57 @@
                 color="blue"
                 outlined
                 text="Изменить товар"
-                />
+            />
         </div>
     </div>
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
 
 export default {
     name: "editProductComponent",
-    components: {},
     data() {
         return {
-            description: null,
-            is_completed: false
+            name: null,
+            price: null,
         };
     },
     mounted() {
-        this.getProduct()
+        this.getProduct();
     },
     methods: {
         getProduct() {
             axios
                 .get(`/api/products/${this.$route.params.id}`)
                 .then((result) => {
-                    this.description = result.data.data.description
-                    this.is_completed = result.data.data.status
+                    this.name = result.data.name;
+                    this.price = result.data.salePrices[0]?.value / 100;
                 })
                 .catch((error) => {
-                    console.error("ошибка загрузки данных:", error)
+                    console.error("Ошибка загрузки данных:", error);
                 });
         },
         updateProduct() {
             axios
-                .post(`/api/products/${this.$route.params.id}`, {
-                    description: this.description,
-                    isCompleated: this.isCompleated,
+                .put(`/api/products/${this.$route.params.id}`, {
+                    name: this.name,
+                    price: this.price,
                 })
                 .then(() => {
-                    // alert(`данные ${this.description} успешно обновлены`);
-                    this.$router.push({ name: "product.index" })
+                    this.$router.push({ name: "product.index" });
                 })
                 .catch((error) => {
-                    console.error("Ошибка обновления:", error)
-                })
+                    console.error("Ошибка обновления:", error);
+                });
         },
     },
     computed: {
         isDisabled() {
-            return this.description
-        }
-    }
-}
+            return this.name && this.price !== null;
+        },
+    },
+};
 </script>
 
-<style></style>
+<style scoped></style>
