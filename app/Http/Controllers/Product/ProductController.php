@@ -23,7 +23,6 @@ class ProductController extends Controller
         $this->moySkladClient = new MoySkladClient($settings->ms_token, $settings->accountId);
     }
 
-    // списка товаров
     public function index()
     {
         $products = $this->moySkladClient->getProducts();
@@ -39,21 +38,27 @@ class ProductController extends Controller
         return response()->json($product);
     }
 
-    public function createProduct(Request $request)
+    // Метод для обновления товара
+    public function updateProduct(Request $request, $id)
     {
-        $uniqueCode = $this->generateUniqueProductCode();
-        $priceTypeMeta = $this->moySkladClient->getRetailPriceTypeMeta();
+        $product = $this->moySkladClient->getProductById($id); // Получаем текущие данные о товаре
 
-        if (!$priceTypeMeta) {
-            return response()->json(['error' => 'Ошибка: не удалось получить тип цены'], 500);
+        if (!$product) {
+            return response()->json(['error' => 'Товар не найден'], 404); // Если товар не найден, возвращаем ошибку
         }
 
+        $priceTypeMeta = $this->moySkladClient->getRetailPriceTypeMeta(); // Получаем мета-данные о типе цены
+
+        if (!$priceTypeMeta) {
+            return response()->json(['error' => 'Ошибка: не удалось получить тип цены'], 500); // Возвращаем ошибку, если не удалось
+        }
+
+        // Обновляем данные товара
         $data = [
-            'code' => $uniqueCode,
-            'name' => $request->name,
+            'name' => $request->name ?? $product['name'], // Если имя не передано, оставляем старое
             'salePrices' => [
                 [
-                    'value' => $request->price * 100,
+                    'value' => ($request->price ?? ($product['salePrices'][0]['value'] / 100)) * 100, // Если цена не передана, оставляем старую
                     'priceType' => [
                         'meta' => [
                             'href' => $priceTypeMeta['href'],
@@ -65,11 +70,12 @@ class ProductController extends Controller
             ],
         ];
 
-        $response = $this->moySkladClient->createProduct($data);
+        $response = $this->moySkladClient->updateProduct($id, $data); // Отправляем запрос на обновление товара
+
         if (isset($response['id'])) {
-            return response()->json($response, 201);
+            return response()->json($response, 200); // Возвращаем обновленные данные о товаре
         } else {
-            return response()->json(['error' => 'Ошибка при создании товара'], 500);
+            return response()->json(['error' => 'Ошибка при обновлении товара'], 500); // Возвращаем ошибку, если обновление не удалось
         }
     }
 }

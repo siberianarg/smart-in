@@ -29,6 +29,7 @@ class MoySkladClient
                 'Content-Type'    => 'application/json',
             ],
         ]);
+        // dd($this->client);
     }
 
     // метод для выполнения запросов к API
@@ -44,7 +45,7 @@ class MoySkladClient
             return json_decode($response->getBody()->getContents(), true);
         } catch (RequestException $e) {
             $errorBody = $e->getResponse() ? $e->getResponse()->getBody()->getContents() : 'No response body';
-            dd('Ошибка авторизации:', $errorBody);  // Проверим ошибку от API
+            dd('Ошибка авторизации:', $errorBody, $this->client);  // Проверим ошибку от API
             return null;
         }
     }
