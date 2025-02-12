@@ -72,12 +72,12 @@
 
 <script>
 import axios from "axios";
-import LoadingComponent from "./loadingComponent.vue"; // Импортируем компонент загрузки
+import loadingComponent from "./loadingComponent.vue"; // Импортируем компонент загрузки
 
 export default {
     name: "indexProductComponent",
     components: {
-        LoadingComponent,
+        loadingComponent,
     },
     data() {
         return {
@@ -100,7 +100,7 @@ export default {
                 .catch((error) => {
                     console.error("Ошибка при загрузке товаров:", error);
                 })
-                .finally((item) => {
+                .finally(() => {
                     this.$refs.loading.dialog = false;
                 });
         },
@@ -124,6 +124,6 @@ export default {
 
 <style scoped>
 .text-grey-darken-1 {
-    color: #beb733;
+    color: #2f2f2e;
 }
 </style>
