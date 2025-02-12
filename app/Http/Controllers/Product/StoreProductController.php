@@ -17,7 +17,7 @@ class StoreProductController extends Controller
         $this->moySkladClient = $moySkladClient;
     }
 
-    public function __invoke(Request $request)
+    public function addProduct(Request $request)
     {
         $uniqueCode = $this->generateUniqueProductCode();
         $priceTypeMeta = $this->moySkladClient->getRetailPriceTypeMeta();

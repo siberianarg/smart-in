@@ -54,16 +54,14 @@
                                 name: 'product.edit',
                                 params: { id: product.id },
                             }"
-                        >
-                            Изменить
-                        </v-btn>
+                            text="Изменить"
+                        />
                         <v-btn
                             color="red"
                             outlined
                             @click="deleteProduct(product.id)"
-                        >
-                            Удалить
-                        </v-btn>
+                            text="Удалить"
+                        />
                     </td>
                 </tr>
             </tbody>
@@ -98,7 +96,7 @@ export default {
         },
         deleteProduct(id) {
             axios
-                .delete(`/api/products/${id}`, {product : this.product[id]})
+                .delete(`/api/products/${id}`)
                 .then(() => {
                     this.getProducts();
                 })

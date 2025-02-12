@@ -4,51 +4,28 @@ namespace App\Http\Controllers\Product;
 
 use App\Client\MoySkladClient;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Product\ProductResource;
-use App\Models\MainSettings;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class UpdateProductController extends Controller
 {
-    private $moySkladClient;
+    private MoySkladClient $moySkladClient;
 
-    public function __construct()
+    public function __construct(MoySkladClient $moySkladClient)
     {
-        $settings = MainSettings::first();
-
-        if (!$settings) {
-            abort(404, 'Настройки для указанного accountId не найдены.');
-        }
-
-        $this->moySkladClient = new MoySkladClient($settings->ms_token, $settings->accountId);
-    }
-
-    public function getProduct()
-    {
-        $products = $this->moySkladClient->getProducts('entity/product');
-        if (empty($products)) {
-            return response()->json(['message' => 'Нет товаров в системе МойСклад'], 200);
-        }
-        return response()->json($products);
-    }
-
-    public function getProductById($id)
-    {
-        $product = $this->moySkladClient->getProductById($id);
-        return response()->json($product);
+        $this->moySkladClient = $moySkladClient;
     }
 
     // Метод для обновления товара
     public function updateProduct(Request $request, $id)
     {
         $product = $this->moySkladClient->getProductById($id); // Получаем текущие данные о товаре
-
+        
         if (!$product) {
             return response()->json(['error' => 'Товар не найден'], 404); // Если товар не найден, возвращаем ошибку
         }
-
+        
         $priceTypeMeta = $this->moySkladClient->getRetailPriceTypeMeta(); // Получаем мета-данные о типе цены
-
+        
         if (!$priceTypeMeta) {
             return response()->json(['error' => 'Ошибка: не удалось получить тип цены'], 500); // Возвращаем ошибку, если не удалось
         }
