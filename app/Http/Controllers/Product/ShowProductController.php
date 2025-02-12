@@ -18,7 +18,8 @@ class ShowProductController extends Controller
 
     public function getProductById($id)
     {
-        $product = $this->moySkladClient->getProductById($id);
+        $url = "entity/product/{$id}";
+        $product = $this->moySkladClient->getProductById($url);
         return response()->json($product);
     }
 }

@@ -18,7 +18,8 @@ class UpdateProductController extends Controller
     // Метод для обновления товара
     public function updateProduct(Request $request, $id)
     {
-        $product = $this->moySkladClient->getProductById($id); // Получаем текущие данные о товаре
+        $url ="entity/product/{$id}";
+        $product = $this->moySkladClient->getProductById($url); // Получаем текущие данные о товаре
         
         if (!$product) {
             return response()->json(['error' => 'Товар не найден'], 404); // Если товар не найден, возвращаем ошибку
@@ -47,8 +48,7 @@ class UpdateProductController extends Controller
             ],
         ];
 
-        $updateUrl ="entity/product/{$id}";
-        $response = $this->moySkladClient->updateProduct($updateUrl, $data); // Отправляем запрос на обновление товара
+        $response = $this->moySkladClient->updateProduct($url, $data); // Отправляем запрос на обновление товара
 
         if (isset($response['id'])) {
             return response()->json($response, 200); // Возвращаем обновленные данные о товаре
