@@ -19,16 +19,16 @@ class UpdateProductController extends Controller
     public function updateProduct(Request $request, $id)
     {
         $url ="entity/product/{$id}";
-        $product = $this->moySkladClient->getProductById($url); // Получаем текущие данные о товаре
+        $product = $this->moySkladClient->getProductById($url);
         
         if (!$product) {
-            return response()->json(['error' => 'Товар не найден'], 404); // Если товар не найден, возвращаем ошибку
+            return response()->json(['error' => 'Товар не найден'], 404); 
         }
         
         $priceTypeMeta = $this->moySkladClient->getRetailPriceTypeMeta(); // Получаем мета-данные о типе цены
         
         if (!$priceTypeMeta) {
-            return response()->json(['error' => 'Ошибка: не удалось получить тип цены'], 500); // Возвращаем ошибку, если не удалось
+            return response()->json(['error' => 'Ошибка: не удалось получить тип цены'], 500);
         }
 
         // Обновляем данные товара
@@ -48,12 +48,11 @@ class UpdateProductController extends Controller
             ],
         ];
 
-        $response = $this->moySkladClient->updateProduct($url, $data); // Отправляем запрос на обновление товара
-
+        $response = $this->moySkladClient->updateProduct($url, $data); 
         if (isset($response['id'])) {
-            return response()->json($response, 200); // Возвращаем обновленные данные о товаре
+            return response()->json($response, 200);
         } else {
-            return response()->json(['error' => 'Ошибка при обновлении товара'], 500); // Возвращаем ошибку, если обновление не удалось
+            return response()->json(['error' => 'Ошибка при обновлении товара'], 500);
         }
     }
 }

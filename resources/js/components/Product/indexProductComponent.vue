@@ -1,6 +1,6 @@
 <template>
     <div v-if="is_end">
-        <h1 class="mb-4">Список товаров</h1>
+        <h1 class="mt-4">Список товаров</h1>
         <v-table class="mt-2">
             <thead>
                 <tr>
@@ -67,12 +67,18 @@
             </tbody>
         </v-table>
     </div>
+    <loading-component ref="loading" />
 </template>
 
 <script>
 import axios from "axios";
+import LoadingComponent from "./loadingComponent.vue"; // Импортируем компонент загрузки
+
 export default {
     name: "indexProductComponent",
+    components: {
+        LoadingComponent,
+    },
     data() {
         return {
             products: [],
@@ -84,6 +90,7 @@ export default {
     },
     methods: {
         getProducts() {
+            this.$refs.loading.dialog = true;
             axios
                 .get("/api/products")
                 .then((response) => {
@@ -92,27 +99,24 @@ export default {
                 })
                 .catch((error) => {
                     console.error("Ошибка при загрузке товаров:", error);
+                })
+                .finally((item) => {
+                    this.$refs.loading.dialog = false;
                 });
         },
         deleteProduct(id) {
+            this.loading = true; // Включаем индикатор загрузки
             axios
                 .delete(`/api/products/${id}`)
                 .then(() => {
-                    this.getProducts();
+                    this.getProducts(); // Обновляем список товаров после удаления
                 })
                 .catch((error) => {
                     console.error("Ошибка при удалении товара:", error);
+                })
+                .finally(() => {
+                    this.loading = false; // Выключаем индикатор загрузки
                 });
-        },
-        formatDate(date) {
-            const options = {
-                year: "numeric",
-                month: "numeric",
-                day: "numeric",
-                hour: "numeric",
-                minute: "numeric",
-            };
-            return new Date(date).toLocaleString("ru-RU", options);
         },
     },
 };
@@ -120,6 +124,6 @@ export default {
 
 <style scoped>
 .text-grey-darken-1 {
-    color: #757575;
+    color: #beb733;
 }
 </style>
