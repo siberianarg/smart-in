@@ -101,9 +101,9 @@ class MoySkladClient
     }
 
     // Обновление продукта
-    public function updateProduct(string $productId, array $productData): ?array
+    public function updateProduct(string $url, array $productData): ?array
     {
-        return $this->request('PUT', "entity/product/{$productId}", ['json' => $productData]);
+        return $this->request('PUT', $url, ['json' => $productData]);
     }
 
     // Удаление продукта

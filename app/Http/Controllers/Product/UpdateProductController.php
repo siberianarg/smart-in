@@ -47,7 +47,8 @@ class UpdateProductController extends Controller
             ],
         ];
 
-        $response = $this->moySkladClient->updateProduct($id, $data); // Отправляем запрос на обновление товара
+        $updateUrl ="entity/product/{$id}";
+        $response = $this->moySkladClient->updateProduct($updateUrl, $data); // Отправляем запрос на обновление товара
 
         if (isset($response['id'])) {
             return response()->json($response, 200); // Возвращаем обновленные данные о товаре
