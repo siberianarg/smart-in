@@ -81,14 +81,14 @@ class MoySkladClient
     }
 
     // список юзера
-    public function getExecutor($url): ?array
+    public function getExecutor(string $url): ?array
     {
         return $this->request('GET', $url); 
     }
 
     
     //product
-    public function getProducts($url): ?array
+    public function getProducts(string $url): ?array
     {
         $response = $this->client->get($url);
         return json_decode($response->getBody(), true)['rows'];
@@ -107,9 +107,9 @@ class MoySkladClient
     }
 
     // Удаление продукта
-    public function deleteProduct(string $productId)
+    public function deleteProduct(string $url)
     {
-        return $this->request('DELETE', "entity/product/{$productId}");
+        return $this->request('DELETE', $url);
     }
 
     // Получение продукта по ID
