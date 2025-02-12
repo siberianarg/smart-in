@@ -81,9 +81,9 @@ class MoySkladClient
     }
 
     // список юзера
-    public function getExecutor(): ?array
+    public function getExecutor($url): ?array
     {
-        return $this->request('GET', 'entity/employee');
+        return $this->request('GET', $url); 
     }
 
     
@@ -95,9 +95,9 @@ class MoySkladClient
     }
 
     // Создание нового продукта
-    public function createProduct(array $productData): ?array
+    public function createProduct(array $productData, string $url): ?array
     {
-        return $this->request('POST', 'entity/product', ['json' => $productData]);
+        return $this->request('POST', $url, ['json' => $productData]);
     }
 
     // Обновление продукта
