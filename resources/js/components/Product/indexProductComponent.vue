@@ -98,7 +98,7 @@ export default {
         },
         deleteProduct(id) {
             axios
-                .delete(`/api/products/${id}`)
+                .delete(`/api/products/${id}`, {product : this.product[id]})
                 .then(() => {
                     this.getProducts();
                 })

@@ -86,11 +86,11 @@ class MoySkladClient
         return $this->request('GET', 'entity/employee');
     }
 
-    //product methods
-    public function getProducts(): ?array
+    
+    //product
+    public function getProducts($url): ?array
     {
-        // return $this->request('GET', 'entity/product');
-        $response = $this->client->get('entity/product');
+        $response = $this->client->get($url);
         return json_decode($response->getBody(), true)['rows'];
     }
 

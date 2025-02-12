@@ -25,7 +25,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = $this->moySkladClient->getProducts();
+        $products = $this->moySkladClient->getProducts('entity/product');
         if (empty($products)) {
             return response()->json(['message' => 'Нет товаров в системе МойСклад'], 200);
         }
@@ -61,7 +61,7 @@ class ProductController extends Controller
                     'value' => ($request->price ?? ($product['salePrices'][0]['value'] / 100)) * 100, // Если цена не передана, оставляем старую
                     'priceType' => [
                         'meta' => [
-                            'href' => $priceTypeMeta['href'],
+                            'href' => $priceTypeMeta['href'], //'https://api.moysklad.ru/api/remap/1.2/entity/product/'.$id, - не срабатывало
                             'type' => 'pricetype',
                             'mediaType' => 'application/json'
                         ]
