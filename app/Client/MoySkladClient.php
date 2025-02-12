@@ -50,72 +50,64 @@ class MoySkladClient
         }
     }
 
-    // получить все задачи 
+    //tasks 
     public function getTasks(): ?array
     {
         return $this->request('GET', 'entity/task');
     }
 
-    // создать новую задачу
     public function createTask(array $taskData): ?array
     {
         return $this->request('POST', 'entity/task', ['json' => $taskData]);
     }
 
-    // удалить задачу по ID
     public function deleteTask(string $taskId)
     {
         return  $this->request('DELETE', "entity/task/{$taskId}");
     }
 
-    // обновить задачу
     public function updateTask(string $taskId, array $taskData): ?array
     {
         return $this->request('PUT', "entity/task/{$taskId}", ['json' => $taskData]);
     }
 
-    // получить задачу по ID
     public function getTaskById(string $taskId): ?array
     {
         return $this->request('GET', "entity/task/{$taskId}");
     }
 
     // список юзера
-    public function getExecutor(): ?array
+    public function getExecutor(string $url): ?array
     {
-        return $this->request('GET', 'entity/employee');
+        return $this->request('GET', $url); 
     }
 
-    //product methods
-    public function getProducts(): ?array
+    
+    //product
+    public function getProducts(string $url): ?array
     {
-        // return $this->request('GET', 'entity/product');
-        $response = $this->client->get('entity/product');
+        $response = $this->client->get($url);
         return json_decode($response->getBody(), true)['rows'];
     }
 
-    // Создание нового продукта
-    public function createProduct(array $productData): ?array
+    public function createProduct(array $productData, string $url): ?array
     {
-        return $this->request('POST', 'entity/product', ['json' => $productData]);
+        return $this->request('POST', $url, ['json' => $productData]);
     }
 
-    // Обновление продукта
-    public function updateProduct(string $productId, array $productData): ?array
+    public function updateProduct(string $url, array $productData): ?array
     {
-        return $this->request('PUT', "entity/product/{$productId}", ['json' => $productData]);
+        return $this->request('PUT', $url, ['json' => $productData]);
     }
 
-    // Удаление продукта
-    public function deleteProduct(string $productId)
+    public function deleteProduct(string $url)
     {
-        return $this->request('DELETE', "entity/product/{$productId}");
+        return $this->request('DELETE', $url);
     }
 
-    // Получение продукта по ID
-    public function getProductById(string $productId): ?array
+    public function getProductById(string $url): ?array
     {
-        return $this->request('GET', "entity/product/{$productId}");
+        return $this->request('GET', $url);
     }
 
     public function getRetailPriceTypeMeta()

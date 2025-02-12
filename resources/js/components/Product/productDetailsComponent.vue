@@ -8,11 +8,12 @@
                 :to="{ name: 'product.index' }"
                 text="Товары"/>
             <!-- Используем route для перехода на страницу добавления товара -->
-            <v-btn color="success" outlined :to="{ name: 'product.add' }"
-                >Добавить товар</v-btn
-            >
+            <v-btn 
+                color="success" 
+                outlined
+                :to="{ name: 'product.add' }"
+                text="Добавить товар"/>
         </v-row>
-
         <!-- для отображения дочерних компонентов -->
         <router-view class="mt-4"></router-view>
     </v-container>

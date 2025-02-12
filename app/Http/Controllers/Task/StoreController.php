@@ -20,7 +20,7 @@ class StoreController extends Controller
 
     public function __invoke(StoreRequest $request): JsonResponse
     {
-        $executors = $this->msClient->getExecutor();
+        $executors = $this->msClient->getExecutor('entity/employee');
         $rows = $executors['rows'] ?? [];
 
         if (empty($rows)) {

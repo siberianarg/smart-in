@@ -16,10 +16,11 @@ class DeleteProductController extends Controller
         $this->msClient = $msClient;
     }
 
-    public function __invoke($id)
+    public function deleteProduct($id)
     {
-        $deleted = $this->msClient->deleteProduct($id);
-
+        $url ="entity/product/{$id}";
+        $deleted = $this->msClient->deleteProduct($url);
+        
         if (!$deleted) {
             return response()->json(['error' => 'Failed to delete task in MoySklad'], 500);
         }

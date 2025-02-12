@@ -1,6 +1,6 @@
 <template>
     <div v-if="is_end">
-        <h1 class="mb-4">Список товаров</h1>
+        <h1 class="mt-4">Список товаров</h1>
         <v-table class="mt-2">
             <thead>
                 <tr>
@@ -54,27 +54,31 @@
                                 name: 'product.edit',
                                 params: { id: product.id },
                             }"
-                        >
-                            Изменить
-                        </v-btn>
+                            text="Изменить"
+                        />
                         <v-btn
                             color="red"
                             outlined
                             @click="deleteProduct(product.id)"
-                        >
-                            Удалить
-                        </v-btn>
+                            text="Удалить"
+                        />
                     </td>
                 </tr>
             </tbody>
         </v-table>
     </div>
+    <loading-component ref="loading" />
 </template>
 
 <script>
 import axios from "axios";
+import loadingComponent from "./loadingComponent.vue"; // Импортируем компонент загрузки
+
 export default {
     name: "indexProductComponent",
+    components: {
+        loadingComponent,
+    },
     data() {
         return {
             products: [],
@@ -86,6 +90,7 @@ export default {
     },
     methods: {
         getProducts() {
+            this.$refs.loading.dialog = true;
             axios
                 .get("/api/products")
                 .then((response) => {
@@ -94,27 +99,24 @@ export default {
                 })
                 .catch((error) => {
                     console.error("Ошибка при загрузке товаров:", error);
+                })
+                .finally(() => {
+                    this.$refs.loading.dialog = false;
                 });
         },
         deleteProduct(id) {
+            this.loading = true; // Включаем индикатор загрузки
             axios
                 .delete(`/api/products/${id}`)
                 .then(() => {
-                    this.getProducts();
+                    this.getProducts(); // Обновляем список товаров после удаления
                 })
                 .catch((error) => {
                     console.error("Ошибка при удалении товара:", error);
+                })
+                .finally(() => {
+                    this.loading = false; // Выключаем индикатор загрузки
                 });
-        },
-        formatDate(date) {
-            const options = {
-                year: "numeric",
-                month: "numeric",
-                day: "numeric",
-                hour: "numeric",
-                minute: "numeric",
-            };
-            return new Date(date).toLocaleString("ru-RU", options);
         },
     },
 };
@@ -122,6 +124,6 @@ export default {
 
 <style scoped>
 .text-grey-darken-1 {
-    color: #757575;
+    color: #2f2f2e;
 }
 </style>

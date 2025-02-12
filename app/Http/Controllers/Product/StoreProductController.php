@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Product;
 use App\Http\Controllers\Controller;
 use App\Client\MoySkladClient;
 use Illuminate\Http\Request;
-// use GuzzleHttp\Psr7\Request;
-
 
 class StoreProductController extends Controller
 {
@@ -17,7 +15,7 @@ class StoreProductController extends Controller
         $this->moySkladClient = $moySkladClient;
     }
 
-    public function __invoke(Request $request)
+    public function addProduct(Request $request)
     {
         $uniqueCode = $this->generateUniqueProductCode();
         $priceTypeMeta = $this->moySkladClient->getRetailPriceTypeMeta();
@@ -44,7 +42,7 @@ class StoreProductController extends Controller
             ],
         ];
 
-        $response = $this->moySkladClient->createProduct($data);
+        $response = $this->moySkladClient->createProduct($data, 'entity/product');
         if (isset($response['id'])) {
             return response()->json($response, 201);
         } else {

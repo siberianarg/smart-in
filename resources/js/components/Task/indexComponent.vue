@@ -40,25 +40,32 @@
                             class="mr-2"
                             color="white"
                             outlined
-                            :to="{ name: 'task.edit', params: { id: task.id }}"
-                            text="Изменить"/>
+                            :to="{ name: 'task.edit', params: { id: task.id } }"
+                            text="Изменить"
+                        />
                         <v-btn
                             color="red"
                             outlined
                             @click="deleteTask(task.id)"
-                            text="Удалить"/>
+                            text="Удалить"
+                        />
                     </td>
                 </tr>
             </tbody>
         </v-table>
     </div>
+    <loadingComponent ref="loading"/>
 </template>
 
 <script>
 import axios from "axios";
+import loadingComponent from "../loadingComponent.vue";
+
 export default {
     name: "indexComponent",
-    components: {},
+    components: {
+        loadingComponent,
+    },
     data() {
         return {
             tasks: [],
@@ -72,21 +79,30 @@ export default {
     },
     methods: {
         getTasks() {
+            this.$refs.loading.dialog = true;
             axios
                 .get("/api/tasks")
                 .then((result) => {
-                    this.tasks = result.data.data
+                    this.tasks = result.data.data;
                 })
-                .catch();
+                .catch()
+                .finally(() => {
+                    this.$refs.loading.dialog = false;
+                });
         },
         deleteTask(id) {
+            this.$refs.loading.dialog = true
             axios.delete(`/api/tasks/${id}`).then(() => {
                 this.getTasks();
+            })
+            .finally(()=> {
+                this.$refs.loading.dialog = false
             });
+
         },
         getStatus(isCompleted) {
-            if (isCompleted === 1) return "Завершен"
-            if (isCompleted === 0) return "Не завершен"
+            if (isCompleted === 1) return "Завершен";
+            if (isCompleted === 0) return "Не завершен";
             return "Unknown";
         },
         formatDate(date) {
@@ -97,7 +113,7 @@ export default {
                 hour: "numeric",
                 minute: "numeric",
             };
-            return new Date(date).toLocaleString("ru-RU", options)
+            return new Date(date).toLocaleString("ru-RU", options);
         },
     },
     watch: {},
