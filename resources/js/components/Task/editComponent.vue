@@ -44,8 +44,9 @@ export default {
             axios
                 .get(`/api/tasks/${this.$route.params.id}`)
                 .then((result) => {
-                    this.description = result.data.data.description
-                    this.is_completed = result.data.data.status
+                    console.log(result.data.description);
+                    this.description = result.data.description
+                    this.is_completed = result.data.status
                 })
                 .catch((error) => {
                     console.error("ошибка загрузки данных:", error)
@@ -53,7 +54,7 @@ export default {
         },
         updateTask() {
             axios
-                .post(`/api/tasks/${this.$route.params.id}`, {
+                .put(`/api/tasks/${this.$route.params.id}`, {
                     description: this.description,
                     isCompleated: this.isCompleated,
                 })
