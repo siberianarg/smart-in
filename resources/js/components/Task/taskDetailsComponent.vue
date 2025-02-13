@@ -5,26 +5,27 @@
             color="white"
             outlined
             :to="{ name: 'task.index' }"
+            @click="reloadComponent"
             text="Задачи"/>
         <v-btn color="green" outlined :to="{ name: 'task.add' }">
             Создать задачу
         </v-btn>
-        <!-- для отображения дочерних компонентов -->
-        <router-view></router-view>
+        <router-view :key="componentKey"></router-view>
     </v-container>
 </template>
 
 <script>
 export default {
     name: "taskDetailsComponent",
-    components: {},
     data() {
-        return {};
+        return {
+            componentKey: 0, //динамический ключ
+        };
     },
-    mounted() {},
-    methods: {},
-    watch: {},
+    methods: {
+        reloadComponent() {
+            this.componentKey += 1; //пересоздать <router-view>
+        },
+    },
 };
 </script>
-
-<style></style>
