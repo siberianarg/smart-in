@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function redirectToTaskPage(){
         return to_route(
             'home', [
-                'is_vue_pade' => 'task',
+                'is_vue_pade' => 'tasks',
             ]
         );
     }
