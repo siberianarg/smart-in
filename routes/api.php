@@ -19,11 +19,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'tasks'], function () {
-    Route::get('/', IndexController::class);         
-    Route::get('/id}', ShowController::class);    
-    Route::post('/', StoreController::class);        
-    Route::post('/{id}', UpdateController::class); // Обновление задачи (лучше использовать PUT)
-    Route::delete('/{id}', DeleteController::class); 
+    Route::get('/', IndexController::class);
+    Route::get('/{id}', ShowController::class);
+    Route::post('/', StoreController::class);
+    Route::put('/{id}', UpdateController::class);
+    Route::delete('/{id}', DeleteController::class);
 });
 
 Route::prefix('products/')->group(function () {
