@@ -1,21 +1,23 @@
 <template>
     <v-container>
-        <v-row justify="space-between" align="center">
-            <v-btn
-                color="white"
-                outlined
-                class="mt-2"
-                :to="{ name: 'product.index' }"
-                text="Товары"/>
-            <!-- Используем route для перехода на страницу добавления товара -->
-            <v-btn 
-                color="success" 
-                outlined
-                :to="{ name: 'product.add' }"
-                text="Добавить товар"/>
-        </v-row>
+        <v-btn
+            color="white"
+            outlined
+            class="mr-2"
+            :to="{ name: 'product.index' }"
+            @click="reloadComponent"
+            text="Товары"
+        />
+        <!-- Используем route для перехода на страницу добавления товара -->
+        <v-btn
+            color="success"
+            outlined
+            :to="{ name: 'product.add' }"
+            text="Добавить товар"
+        />
+
         <!-- для отображения дочерних компонентов -->
-        <router-view class="mt-4"></router-view>
+        <router-view class="mt-4" :key="componentKey"></router-view>
     </v-container>
 </template>
 
@@ -24,10 +26,16 @@ export default {
     name: "productDetailsComponent",
     components: {},
     data() {
-        return {};
+        return {
+            componentKey: 0,
+        };
     },
     mounted() {},
-    methods: {},
+    methods: {
+        reloadComponent() {
+            this.componentKey += 1;
+        },
+    },
     watch: {},
 };
 </script>

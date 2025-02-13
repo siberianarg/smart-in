@@ -39,7 +39,7 @@
         </v-navigation-drawer>
 
         <!-- Верхняя панель -->
-        <v-app-bar app>
+        <v-app-bar app elevation="1">
             <v-toolbar-title
                 class="text-blue text-right font-weight-bold mr-4"
                 style="margin-left: auto"
@@ -49,8 +49,10 @@
 
         <!-- Основной контент -->
         <v-main>
-            <!-- были кнопки -->
-            <router-view></router-view>
+            <v-container class="mt-4">
+                <!-- были кнопки -->
+                <router-view/>
+            </v-container>
         </v-main>
     </v-app>
 </template>
