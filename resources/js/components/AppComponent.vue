@@ -1,11 +1,7 @@
 <template>
     <v-app>
         <!-- Боковое меню -->
-        <v-navigation-drawer
-            app
-            permanent
-            class="bg-light-subtle text-light-emphasis"
-        >
+        <v-navigation-drawer app permanent class="bg-light-subtle text-light-emphasis">
             <v-list>
                 <!-- Заголовок с логотипом -->
                 <v-list-item>
@@ -28,10 +24,7 @@
                     link
                 >
                     <div style="display: flex; align-items: center">
-                        <!-- Иконка слева -->
                         <v-icon class="mr-3">{{ item.icon }}</v-icon>
-
-                        <!-- Текст справа -->
                         <span>{{ item.title }}</span>
                     </div>
                 </v-list-item>
@@ -40,18 +33,15 @@
 
         <!-- Верхняя панель -->
         <v-app-bar app elevation="1">
-            <v-toolbar-title
-                class="text-blue text-right font-weight-bold mr-4"
-                style="margin-left: auto"
-                text="SMART INNOVATIONS"
-            />
+            <v-toolbar-title class="text-blue text-right font-weight-bold mr-4">
+                SMART INNOVATIONS
+            </v-toolbar-title>
         </v-app-bar>
 
         <!-- Основной контент -->
         <v-main>
-            <v-container class="mt-4">
-                <!-- были кнопки -->
-                <router-view/>
+            <v-container class="pa-6">
+                <router-view />
             </v-container>
         </v-main>
     </v-app>
@@ -60,30 +50,20 @@
 <script>
 export default {
     name: "AppComponent",
-    components: {},
     data() {
         return {
-            drawer: true, // Открытое меню по умолчанию
             menuItems: [
-                {
-                    title: "Задачи",
-                    route: "/tasks",
-                    icon: "mdi-clipboard-text",
-                },
-                {
-                    title: "Товары",
-                    route: "/products",
-                    icon: "mdi-shopping",
-                },
+                { title: "Задачи", route: "/tasks", icon: "mdi-clipboard-text" },
+                { title: "Товары", route: "/products", icon: "mdi-shopping" },
             ],
         };
     },
-    mounted() {},
-    methods: {},
-    watch: {},
 };
 </script>
 
 <style scoped>
-/* Дополнительные стили */
+/* Добавляем отступ сверху, чтобы контент не перекрывался */
+.v-main {
+    padding-top: 20px;
+}
 </style>

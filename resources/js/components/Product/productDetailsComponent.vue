@@ -5,7 +5,6 @@
             outlined
             class="mr-2"
             :to="{ name: 'product.index' }"
-            @click="reloadComponent"
             text="Товары"
         />
         <!-- Используем route для перехода на страницу добавления товара -->
@@ -17,7 +16,7 @@
         />
 
         <!-- для отображения дочерних компонентов -->
-        <router-view class="mt-4" :key="componentKey"></router-view>
+        <router-view class="mt-4"></router-view>
     </v-container>
 </template>
 
@@ -27,14 +26,10 @@ export default {
     components: {},
     data() {
         return {
-            componentKey: 0,
         };
     },
     mounted() {},
     methods: {
-        reloadComponent() {
-            this.componentKey += 1;
-        },
     },
     watch: {},
 };

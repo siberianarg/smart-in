@@ -20,15 +20,6 @@
                 outlined
             />
         </div>
-        <!-- <div class="mb-1">
-            <v-text-field
-                class="mt-3"
-                type="text"
-                v-model="description"
-                label="Описание товара"
-                outlined
-            />
-        </div> -->
         <div class="mb-1">
             <v-btn
                 :disabled="!isDisabled"

@@ -25,7 +25,7 @@ class ProductController extends Controller
 
     public function getProduct()
     {
-        $products = $this->moySkladClient->getProducts('entity/product');
+        $products = $this->moySkladClient->getProducts('entity/product?limit=20'); //?limit=20 - опставил лимит, необходимо ПОПРАИТЬ
         if (empty($products)) {
             return response()->json(['message' => 'Нет товаров в системе МойСклад'], 200);
         }
