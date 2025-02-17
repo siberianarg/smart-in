@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers\Product;
 
-use App\Client\MoySkladClient;
+use App\Client\MSClient;
 use App\Http\Controllers\Controller;
 use App\Models\MainSettings;
 use Illuminate\Http\Request;
 
 class ShowProductController extends Controller
 {
-    private MoySkladClient $moySkladClient;
+    private MSClient $msClient;
 
-    public function __construct(MoySkladClient $moySkladClient)
+    public function __construct(MSClient $msClient)
     {
-        $this->moySkladClient = $moySkladClient;
+        $this->msClient = $msClient;
     }
 
     public function getProductById($id)
     {
         $url = "entity/product/{$id}";
-        $product = $this->moySkladClient->get($url);
+        $product = $this->msClient->get($url);
         return response()->json($product);
     }
 }

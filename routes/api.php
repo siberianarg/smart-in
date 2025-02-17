@@ -4,7 +4,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Task\StoreController;
-use App\Http\Controllers\Task\IndexController;
+use App\Http\Controllers\Task\TaskController;
 use App\Http\Controllers\Task\UpdateController;
 use App\Http\Controllers\Task\DeleteController;
 use App\Http\Controllers\Task\ShowController;
@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'tasks'], function () {
-    Route::get('/', IndexController::class);
+    Route::get('/', TaskController::class);
     Route::get('/{id}', ShowController::class);
     Route::post('/', StoreController::class);
     Route::put('/{id}', UpdateController::class);

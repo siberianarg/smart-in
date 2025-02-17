@@ -3,22 +3,22 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
-use App\Client\MoySkladClient;
+use App\Client\MSClient;
 use Illuminate\Http\Request;
 
 class StoreProductController extends Controller
 {
-    private MoySkladClient $moySkladClient;
+    private MSClient $msClient;
 
-    public function __construct(MoySkladClient $moySkladClient)
+    public function __construct(MSClient $msClient)
     {
-        $this->moySkladClient = $moySkladClient;
+        $this->msClient = $msClient;
     }
 
     public function addProduct(Request $request)
     {
         $uniqueCode = $this->generateUniqueProductCode();
-        $priceTypeMeta = $this->moySkladClient->getRetailPriceTypeMeta();
+        $priceTypeMeta = $this->msClient->getRetailPriceTypeMeta();
 
 
         if (!$priceTypeMeta) {
@@ -42,7 +42,7 @@ class StoreProductController extends Controller
             ],
         ];
 
-        $response = $this->moySkladClient->create($data, 'entity/product');
+        $response = $this->msClient->create($data, 'entity/product');
         if (isset($response['id'])) {
             return response()->json($response, 201);
         } else {

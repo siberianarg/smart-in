@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\MainSettings;
 use GuzzleHttp\Exception\ClientException;
 
-class MoySkladClient
+class MSClient
 {
     private Client $client;
     private string $token;

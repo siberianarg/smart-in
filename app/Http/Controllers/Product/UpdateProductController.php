@@ -2,30 +2,30 @@
 
 namespace App\Http\Controllers\Product;
 
-use App\Client\MoySkladClient;
+use App\Client\MSClient;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class UpdateProductController extends Controller
 {
-    private MoySkladClient $moySkladClient;
+    private MSClient $msClient;
 
-    public function __construct(MoySkladClient $moySkladClient)
+    public function __construct(MSClient $msClient)
     {
-        $this->moySkladClient = $moySkladClient;
+        $this->msClient = $msClient;
     }
 
     // Метод для обновления товара
     public function updateProduct(Request $request, $id)
     {
         $url ="entity/product/{$id}";
-        $product = $this->moySkladClient->get($url);
+        $product = $this->msClient->get($url);
         
         if (!$product) {
             return response()->json(['error' => 'Товар не найден'], 404); 
         }
         
-        $priceTypeMeta = $this->moySkladClient->getRetailPriceTypeMeta(); // Получаем мета-данные о типе цены
+        $priceTypeMeta = $this->msClient->getRetailPriceTypeMeta(); // Получаем мета-данные о типе цены
         
         if (!$priceTypeMeta) {
             return response()->json(['error' => 'Ошибка: не удалось получить тип цены'], 500);
@@ -48,7 +48,7 @@ class UpdateProductController extends Controller
             ],
         ];
 
-        $response = $this->moySkladClient->update($url, $data); 
+        $response = $this->msClient->update($url, $data); 
         if (isset($response['id'])) {
             return response()->json($response, 200);
         } else {
