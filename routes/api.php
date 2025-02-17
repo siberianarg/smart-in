@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\Order\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Task\StoreController;
@@ -13,6 +13,7 @@ use App\Http\Controllers\Product\DeleteProductController;
 use App\Http\Controllers\Product\ShowProductController;
 use App\Http\Controllers\Product\StoreProductController;
 use App\Http\Controllers\Product\UpdateProductController;
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -32,6 +33,10 @@ Route::prefix('products/')->group(function () {
     Route::post('/', [StoreProductController::class, 'addProduct']);       
     Route::put('/{id}', [UpdateProductController::class, 'updateProduct']);
     Route::delete('/{id}', [DeleteProductController::class, 'deleteProduct']);
+});
+
+Route::prefix('orders/')->group(function () {
+    Route::get('/', [OrderController::class, 'index']);  
 });
 
 // // Маршрут для получения текущего accountId

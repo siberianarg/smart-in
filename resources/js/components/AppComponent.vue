@@ -55,6 +55,7 @@ export default {
             menuItems: [
                 { title: "Задачи", route: "/tasks", icon: "mdi-clipboard-text" },
                 { title: "Товары", route: "/products", icon: "mdi-shopping" },
+                { title: "Заказы", route: "/orders", icon: "mdi-cart" },
             ],
         };
     },
