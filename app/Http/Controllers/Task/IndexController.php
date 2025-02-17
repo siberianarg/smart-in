@@ -19,14 +19,19 @@ class IndexController extends Controller
     }
 
     public function __invoke(Request $request): JsonResponse
-    {
-        $msTasks = $this->msClient->getTasks();
-        // dd($msTasks);
+    {   
+        $msTasks = $this->msClient->getTasks("entity/task");
         $rows = $msTasks['rows'] ?? [];
 
         if (empty($rows)) {
             return response()->json(['error' => 'No tasks found in MoySklad'], 400);
         }
+
+        // Получаем список `ms_uuid` из МойСклад
+        $msTaskIds = collect($rows)->pluck('id')->toArray();
+
+        // Удаляем из локальной БД задачи, которые есть в MySQL, но нет в МойСклад
+        Task::whereNotIn('ms_uuid', $msTaskIds)->delete();
 
         // Преобразуем API-ответ в коллекцию Laravel
         $msTasksCollection = collect($rows)->mapWithKeys(fn($task) => [

@@ -51,19 +51,19 @@ class MoySkladClient
     }
 
     //tasks 
-    public function getTasks(): ?array
+    public function getTasks(string $url): ?array
     {
-        return $this->request('GET', 'entity/task');
+        return $this->request('GET', $url);
     }
 
-    public function createTask(array $taskData): ?array
+    public function createTask(array $taskData, string $url): ?array
     {
-        return $this->request('POST', 'entity/task', ['json' => $taskData]);
+        return $this->request('POST', $url, ['json' => $taskData]);
     }
 
-    public function deleteTask(string $taskId)
+    public function deleteTask(string $url)
     {
-        return  $this->request('DELETE', "entity/task/{$taskId}");
+        return  $this->request('DELETE', $url);
     }
 
     public function updateTask(string $taskId, array $taskData): ?array

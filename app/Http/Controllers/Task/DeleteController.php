@@ -28,8 +28,8 @@ class DeleteController extends Controller
 
         $ms_uuid = $task->ms_uuid;
 
-        // удаляем из МойСклад
-        $deleted = $this->msClient->deleteTask($ms_uuid);
+        $url = "entity/task/{$ms_uuid}";
+        $deleted = $this->msClient->deleteTask($url);
 
         if (!$deleted) {
             return response()->json(['error' => 'Failed to delete task in MoySklad'], 500);

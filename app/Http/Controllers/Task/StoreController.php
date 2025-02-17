@@ -35,7 +35,7 @@ class StoreController extends Controller
             'assignee'    => ['meta' => $firstEmployee['meta']],
         ];
 
-        $msTask = $this->msClient->createTask($taskData);
+        $msTask = $this->msClient->createTask($taskData, 'entity/task');
 
         if (!$msTask) {
             return response()->json(['error' => 'Failed to create task'], 500);
