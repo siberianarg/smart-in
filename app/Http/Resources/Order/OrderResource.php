@@ -13,6 +13,7 @@ class OrderResource extends JsonResource
         $agentData = isset($this['agent']['meta']['href'])
             ? $client->get($this['agent']['meta']['href'])
             : null;
+            
         return [
             'id' => $this['id'],
             'externalCode' => $this['externalCode'] ?? null,

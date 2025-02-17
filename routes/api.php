@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Order\OrderController;
+use App\Http\Controllers\Order\ShowOrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Task\StoreController;
@@ -37,6 +38,7 @@ Route::prefix('products/')->group(function () {
 
 Route::prefix('orders/')->group(function () {
     Route::get('/', [OrderController::class, 'index']);  
+    Route::get('/{id}', [ShowOrderController::class, 'show']);  
 });
 
 // // Маршрут для получения текущего accountId
