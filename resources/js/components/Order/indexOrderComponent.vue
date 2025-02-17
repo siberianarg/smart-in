@@ -21,7 +21,7 @@
                     <td>
                         <v-btn
                             :to="{
-                                name: '', 
+                                name: 'order.show', 
                                 params: { id: order.id },
                             }"
                             variant="plain"
