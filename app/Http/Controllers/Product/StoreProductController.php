@@ -42,7 +42,7 @@ class StoreProductController extends Controller
             ],
         ];
 
-        $response = $this->moySkladClient->createProduct($data, 'entity/product');
+        $response = $this->moySkladClient->create($data, 'entity/product');
         if (isset($response['id'])) {
             return response()->json($response, 201);
         } else {

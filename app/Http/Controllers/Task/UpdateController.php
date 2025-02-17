@@ -36,8 +36,8 @@ class UpdateController extends Controller {
         }
 
         $url = "entity/task/{$ms_uuid}";
-        
-        $msTask = $this->msClient->getTaskById($url);
+
+        $msTask = $this->msClient->get($url);
 
         if (!$msTask) {
             Log::error("Ошибка: Задача с ms_uuid {$ms_uuid} не найдена в МойСклад.");
@@ -52,7 +52,7 @@ class UpdateController extends Controller {
             'done' => $newIsCompleted,
         ];
 
-        $updatedTask = $this->msClient->updateTask($url, $taskData);
+        $updatedTask = $this->msClient->update($url, $taskData);
 
         if ($updatedTask) {
             $task->description = $newDescription;

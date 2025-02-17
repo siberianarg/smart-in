@@ -19,7 +19,7 @@ class DeleteProductController extends Controller
     public function deleteProduct($id)
     {
         $url ="entity/product/{$id}";
-        $deleted = $this->msClient->deleteProduct($url);
+        $deleted = $this->msClient->delete($url);
         
         if (!$deleted) {
             return response()->json(['error' => 'Failed to delete task in MoySklad'], 500);
