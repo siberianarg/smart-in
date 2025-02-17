@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Client\MoySkladClient;
+use App\Client\MSClient;
 
 class HomeController extends Controller
 {
     protected $msClient;
 
-    public function __construct(MoySkladClient $msClient) {
+    public function __construct(MSClient $msClient) {
         $this->msClient = $msClient;
     }
     

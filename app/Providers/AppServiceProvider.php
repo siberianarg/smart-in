@@ -2,15 +2,15 @@
 
 namespace App\Providers;
 
-use App\Client\MoySkladClient;
+use App\Client\MSClient;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function register()
 {
-    $this->app->singleton(MoySkladClient::class, function ($app) {
-        return new MoySkladClient(
+    $this->app->singleton(MSClient::class, function ($app) {
+        return new MSClient(
             config('services.moysklad.token'),
             config('services.moysklad.accountId')
         );

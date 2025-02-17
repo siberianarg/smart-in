@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Task;
 
 use App\Http\Controllers\Controller;
 use App\Models\Task;
-use App\Client\MoySkladClient;
+use App\Client\MSClient;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class DeleteController extends Controller
 {
-    private MoySkladClient $msClient;
+    private MSClient $msClient;
 
-    public function __construct(MoySkladClient $msClient)
+    public function __construct(MSClient $msClient)
     {
         $this->msClient = $msClient;
     }

@@ -1,10 +1,10 @@
 <?php
 
-
+use App\Http\Controllers\Order\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Task\StoreController;
-use App\Http\Controllers\Task\IndexController;
+use App\Http\Controllers\Task\TaskController;
 use App\Http\Controllers\Task\UpdateController;
 use App\Http\Controllers\Task\DeleteController;
 use App\Http\Controllers\Task\ShowController;
@@ -14,12 +14,13 @@ use App\Http\Controllers\Product\ShowProductController;
 use App\Http\Controllers\Product\StoreProductController;
 use App\Http\Controllers\Product\UpdateProductController;
 
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::group(['prefix' => 'tasks'], function () {
-    Route::get('/', IndexController::class);
+    Route::get('/', TaskController::class);
     Route::get('/{id}', ShowController::class);
     Route::post('/', StoreController::class);
     Route::put('/{id}', UpdateController::class);
@@ -32,6 +33,10 @@ Route::prefix('products/')->group(function () {
     Route::post('/', [StoreProductController::class, 'addProduct']);       
     Route::put('/{id}', [UpdateProductController::class, 'updateProduct']);
     Route::delete('/{id}', [DeleteProductController::class, 'deleteProduct']);
+});
+
+Route::prefix('orders/')->group(function () {
+    Route::get('/', [OrderController::class, 'index']);  
 });
 
 // // Маршрут для получения текущего accountId

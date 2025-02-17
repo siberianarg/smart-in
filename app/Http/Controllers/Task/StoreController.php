@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Task;
 
 use App\Http\Controllers\Controller;
 use App\Models\Task;
-use App\Client\MoySkladClient;
+use App\Client\MSClient;
 use App\Http\Requests\Task\StoreRequest;
 use Illuminate\Http\JsonResponse;
 use Carbon\Carbon;
 
 class StoreController extends Controller
 {
-    private MoySkladClient $msClient;
+    private MSClient $msClient;
 
-    public function __construct(MoySkladClient $msClient)
+    public function __construct(MSClient $msClient)
     {
         $this->msClient = $msClient;
     }

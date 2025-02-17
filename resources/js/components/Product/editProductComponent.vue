@@ -14,7 +14,7 @@
                 class="mt-3"
                 type="number"
                 v-model="price"
-                label="Цена товара (₽)"
+                label="Цена товара (₸)"
                 outlined
             />
         </div>

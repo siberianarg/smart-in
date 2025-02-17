@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Task;
 
 use App\Http\Controllers\Controller;
 use App\Models\Task;
-use App\Client\MoySkladClient;
+use App\Client\MSClient;
 use App\Http\Controllers\HomeController;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Log;
 
 class UpdateController extends Controller {
 
-    private MoySkladClient $msClient;
+    private MSClient $msClient;
 
-    public function __construct(MoySkladClient $msClient)
+    public function __construct(MSClient $msClient)
     {
         $this->msClient = $msClient;
     }

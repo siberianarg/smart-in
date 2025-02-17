@@ -29,31 +29,48 @@ const routes = [
     },
     {
         path: "/products",
-        component: () => import("./components/Product/productDetailsComponent.vue"), //productComponent.vue
+        component: () =>
+            import("./components/Product/productDetailsComponent.vue"), //productComponent.vue
         children: [
             {
                 path: "",
                 name: "product.index",
-                component: () => import("./components/Product/indexProductComponent.vue"),
+                component: () =>
+                    import("./components/Product/indexProductComponent.vue"),
             },
             {
                 path: "add",
                 name: "product.add",
-                component: () => import("./components/Product/addProductComponent.vue"),
+                component: () =>
+                    import("./components/Product/addProductComponent.vue"),
             },
             {
                 path: "edit/:id",
                 name: "product.edit",
-                component: () => import("./components/Product/editProductComponent.vue"),
+                component: () =>
+                    import("./components/Product/editProductComponent.vue"),
             },
             {
                 path: ":id",
-                component: () => import("./components/Product/showProductComponent.vue"),
+                component: () =>
+                    import("./components/Product/showProductComponent.vue"),
                 name: "product.show",
             },
         ],
-    }
-]
+    },
+    {
+        path: "/orders",
+        component: () => import("./components/Order/orderDetailsComponent.vue"),
+        children: [
+            {
+                path: "",
+                name: "order.index",
+                component: () =>
+                    import("./components/Order/indexOrderComponent.vue"),
+            },
+        ],
+    },
+];
 
 const router = createRouter({
     history: createWebHistory(),

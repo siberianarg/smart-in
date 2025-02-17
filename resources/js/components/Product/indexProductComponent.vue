@@ -40,7 +40,7 @@
                             {{
                                 product.salePrices &&
                                 product.salePrices[0]?.value > 0
-                                    ? product.salePrices[0].value / 100 + " ₽"
+                                    ? product.salePrices[0].value / 100 + " ₸"
                                     : "Нет цены"
                             }}
                         </v-chip>
@@ -72,7 +72,7 @@
 
 <script>
 import axios from "axios";
-import loadingComponent from "./loadingComponent.vue"; // Импортируем компонент загрузки
+import loadingComponent from "../loadingComponent.vue"; // Импортируем компонент загрузки
 
 export default {
     name: "indexProductComponent",
@@ -87,6 +87,7 @@ export default {
     },
     mounted() {
         this.getProducts();
+        
     },
     methods: {
         getProducts() {
@@ -94,7 +95,10 @@ export default {
             axios
                 .get("/api/products")
                 .then((response) => {
+                    
+
                     this.products = response.data;
+                    console.log("ОТВЕТ API продуктов ", this.products);
                     this.is_end = true;
                 })
                 .catch((error) => {
@@ -102,10 +106,11 @@ export default {
                 })
                 .finally(() => {
                     this.$refs.loading.dialog = false;
+                    
                 });
         },
         deleteProduct(id) {
-            this.loading = true; // Включаем индикатор загрузки
+            this.$refs.loading.dialog = true; // Включаем индикатор загрузки
             axios
                 .delete(`/api/products/${id}`)
                 .then(() => {
@@ -115,7 +120,7 @@ export default {
                     console.error("Ошибка при удалении товара:", error);
                 })
                 .finally(() => {
-                    this.loading = false; // Выключаем индикатор загрузки
+                    this.$refs.loading.dialog = false; // Выключаем индикатор загрузки
                 });
         },
     },

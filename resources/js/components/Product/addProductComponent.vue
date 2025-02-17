@@ -14,7 +14,7 @@
                 class="mt-3"
                 type="number"
                 v-model="price"
-                label="Цена товара (₽)"
+                label="Цена товара (₸)"
                 :value="price || ''"
                 :rules="[v => v > 0 || 'Цена должна быть больше 0']"
                 outlined
