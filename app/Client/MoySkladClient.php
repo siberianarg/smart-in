@@ -66,14 +66,14 @@ class MoySkladClient
         return  $this->request('DELETE', $url);
     }
 
-    public function updateTask(string $taskId, array $taskData): ?array
+    public function updateTask(string $url, array $taskData): ?array
     {
-        return $this->request('PUT', "entity/task/{$taskId}", ['json' => $taskData]);
+        return $this->request('PUT', $url, ['json' => $taskData]);
     }
 
-    public function getTaskById(string $taskId): ?array
+    public function getTaskById(string $url): ?array
     {
-        return $this->request('GET', "entity/task/{$taskId}");
+        return $this->request('GET', $url);
     }
 
     // список юзера
