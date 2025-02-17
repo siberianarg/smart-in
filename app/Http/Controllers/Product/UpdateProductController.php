@@ -19,7 +19,7 @@ class UpdateProductController extends Controller
     public function updateProduct(Request $request, $id)
     {
         $url ="entity/product/{$id}";
-        $product = $this->moySkladClient->getProductById($url);
+        $product = $this->moySkladClient->get($url);
         
         if (!$product) {
             return response()->json(['error' => 'Товар не найден'], 404); 
@@ -48,7 +48,7 @@ class UpdateProductController extends Controller
             ],
         ];
 
-        $response = $this->moySkladClient->updateProduct($url, $data); 
+        $response = $this->moySkladClient->update($url, $data); 
         if (isset($response['id'])) {
             return response()->json($response, 200);
         } else {

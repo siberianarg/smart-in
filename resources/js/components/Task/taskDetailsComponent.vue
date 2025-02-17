@@ -1,16 +1,20 @@
 <template>
-    <v-container>
-        <v-btn
-            class="mr-2"
-            color="white"
-            outlined
-            :to="{ name: 'task.index' }"
-            @click="reloadComponent"
-            text="Задачи"/>
-        <v-btn color="green" outlined :to="{ name: 'task.add' }">
-            Создать задачу
-        </v-btn>
-        <router-view :key="componentKey"></router-view>
+     <v-container>
+        <!-- Кнопки действий (как кнопка Сохранить) -->
+        <v-card class="pa-4 d-flex justify-space-between align-center">
+            <v-btn
+                color="white"
+                outlined
+                :to="{ name: 'task.index' }"
+                class="text-black font-weight-bold"
+                text="Задачи"/>
+            <v-btn color="green" outlined :to="{ name: 'task.add' }">
+                Создать задачу
+            </v-btn>
+        </v-card>
+
+        <!-- Контент страниц -->
+        <router-view></router-view>
     </v-container>
 </template>
 
@@ -19,13 +23,9 @@ export default {
     name: "taskDetailsComponent",
     data() {
         return {
-            componentKey: 0, //динамический ключ
         };
     },
     methods: {
-        reloadComponent() {
-            this.componentKey += 1; //пересоздать <router-view>
-        },
     },
 };
 </script>

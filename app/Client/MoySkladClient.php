@@ -14,7 +14,6 @@ class MoySkladClient
     private string $token;
     private string $accountId;
 
-
     public function __construct(?string $token = null, string $accountId)
     {
         $this->token = $token;
@@ -50,62 +49,28 @@ class MoySkladClient
         }
     }
 
-    //tasks 
-    public function getTasks(): ?array
-    {
-        return $this->request('GET', 'entity/task');
-    }
-
-    public function createTask(array $taskData): ?array
-    {
-        return $this->request('POST', 'entity/task', ['json' => $taskData]);
-    }
-
-    public function deleteTask(string $taskId)
-    {
-        return  $this->request('DELETE', "entity/task/{$taskId}");
-    }
-
-    public function updateTask(string $taskId, array $taskData): ?array
-    {
-        return $this->request('PUT', "entity/task/{$taskId}", ['json' => $taskData]);
-    }
-
-    public function getTaskById(string $taskId): ?array
-    {
-        return $this->request('GET', "entity/task/{$taskId}");
-    }
-
-    // список юзера
-    public function getExecutor(string $url): ?array
-    {
-        return $this->request('GET', $url); 
-    }
-
-    
-    //product
-    public function getProducts(string $url): ?array
+    public function get(string $url): ?array
     {
         $response = $this->client->get($url);
-        return json_decode($response->getBody(), true)['rows'];
+        return json_decode($response->getBody(), true);
     }
 
-    public function createProduct(array $productData, string $url): ?array
+    public function create(array $Data, string $url): ?array
     {
-        return $this->request('POST', $url, ['json' => $productData]);
+        return $this->request('POST', $url, ['json' => $Data]);
     }
 
-    public function updateProduct(string $url, array $productData): ?array
+    public function update(string $url, array $Data): ?array
     {
-        return $this->request('PUT', $url, ['json' => $productData]);
+        return $this->request('PUT', $url, ['json' => $Data]);
     }
 
-    public function deleteProduct(string $url)
+    public function delete(string $url)
     {
         return $this->request('DELETE', $url);
     }
 
-    public function getProductById(string $url): ?array
+    public function getById(string $url): ?array
     {
         return $this->request('GET', $url);
     }

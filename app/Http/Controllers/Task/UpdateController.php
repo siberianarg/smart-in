@@ -35,7 +35,9 @@ class UpdateController extends Controller {
             return response()->json(['error' => 'Task does not have a linked MoySklad ID'], 400);
         }
 
-        $msTask = $this->msClient->getTaskById($ms_uuid);
+        $url = "entity/task/{$ms_uuid}";
+
+        $msTask = $this->msClient->get($url);
 
         if (!$msTask) {
             Log::error("Ошибка: Задача с ms_uuid {$ms_uuid} не найдена в МойСклад.");
@@ -50,7 +52,7 @@ class UpdateController extends Controller {
             'done' => $newIsCompleted,
         ];
 
-        $updatedTask = $this->msClient->updateTask($ms_uuid, $taskData);
+        $updatedTask = $this->msClient->update($url, $taskData);
 
         if ($updatedTask) {
             $task->description = $newDescription;

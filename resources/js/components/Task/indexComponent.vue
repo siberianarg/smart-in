@@ -11,13 +11,23 @@
             </thead>
             <tbody v-if="tasks.length > 0">
                 <tr v-for="(task, index) in tasks" :key="task.id">
-                    <v-btn
-                        :to="{ name: 'task.show', params: { id: task.id } }"
-                        variant="plain"
-                        color="black"
-                    >
-                        {{ task.description }}
-                    </v-btn>
+                    <v-list>
+                        <v-list-item link>
+                            <router-link
+                                :to="{
+                                    name: 'task.show',
+                                    params: { id: task.id },
+                                }"
+                                class="text-decoration-none text-black font-weight-bold w-100 d-block"
+                            >
+                                <v-list-item-content>
+                                    <v-list-item-title class="text-wrap">
+                                        {{ task.description }}
+                                    </v-list-item-title>
+                                </v-list-item-content>
+                            </router-link>
+                        </v-list-item>
+                    </v-list>
                     <td>
                         <v-chip
                             :color="task.is_completed ? 'green' : 'red'"
@@ -54,7 +64,7 @@
             </tbody>
         </v-table>
     </div>
-    <loadingComponent ref="loading"/>
+    <loadingComponent ref="loading" />
 </template>
 
 <script>
@@ -91,14 +101,15 @@ export default {
                 });
         },
         deleteTask(id) {
-            this.$refs.loading.dialog = true
-            axios.delete(`/api/tasks/${id}`).then(() => {
-                this.getTasks();
-            })
-            .finally(()=> {
-                this.$refs.loading.dialog = false
-            });
-
+            this.$refs.loading.dialog = true;
+            axios
+                .delete(`/api/tasks/${id}`)
+                .then(() => {
+                    this.getTasks();
+                })
+                .finally(() => {
+                    this.$refs.loading.dialog = false;
+                });
         },
         getStatus(isCompleted) {
             if (isCompleted === 1) return "Завершен";

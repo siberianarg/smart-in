@@ -20,7 +20,7 @@ class StoreController extends Controller
 
     public function __invoke(StoreRequest $request): JsonResponse
     {
-        $executors = $this->msClient->getExecutor('entity/employee');
+        $executors = $this->msClient->get('entity/employee');
         $rows = $executors['rows'] ?? [];
 
         if (empty($rows)) {
@@ -35,7 +35,7 @@ class StoreController extends Controller
             'assignee'    => ['meta' => $firstEmployee['meta']],
         ];
 
-        $msTask = $this->msClient->createTask($taskData);
+        $msTask = $this->msClient->create($taskData, 'entity/task');
 
         if (!$msTask) {
             return response()->json(['error' => 'Failed to create task'], 500);
