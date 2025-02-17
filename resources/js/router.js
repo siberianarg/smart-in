@@ -68,6 +68,13 @@ const routes = [
                 component: () =>
                     import("./components/Order/indexOrderComponent.vue"),
             },
+            {
+                path: ":id",
+                component: () => import("./components/Order/showOrderComponent.vue"),
+                name: "order.show",
+                props: true
+                
+            }
         ],
     },
 ];
