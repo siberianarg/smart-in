@@ -18,19 +18,23 @@ class UpdateProductController extends Controller
     // Метод для обновления товара
     public function updateProduct(Request $request, $id)
     {
+
+        // dd($request);
         $url ="entity/product/{$id}";
         $product = $this->msClient->get($url);
         
         if (!$product) {
             return response()->json(['error' => 'Товар не найден'], 404); 
         }
+        // dd($product);
         
         $priceTypeMeta = $this->msClient->getRetailPriceTypeMeta(); // Получаем мета-данные о типе цены
         
         if (!$priceTypeMeta) {
             return response()->json(['error' => 'Ошибка: не удалось получить тип цены'], 500);
         }
-
+        // dd($priceTypeMeta);
+        
         // Обновляем данные товара
         $data = [
             'name' => $request->name ?? $product['name'], // Если имя не передано, оставляем старое
@@ -47,6 +51,7 @@ class UpdateProductController extends Controller
                 ]
             ],
         ];
+        // dd($data['name']);
 
         $response = $this->msClient->update($url, $data); 
         if (isset($response['id'])) {

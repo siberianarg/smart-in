@@ -17,7 +17,7 @@
             </thead>
             <tbody>
                 <tr v-for="position in order.positions" :key="position.id">
-                    <td>{{ position.assortment?.name || "—" }}</td>
+                    <td>{{ position.name || "—" }}</td>
                     <td>{{ position.quantity }}</td>
                     <td>{{ position.price / 100 }} ₸</td>
                 </tr>
@@ -45,7 +45,7 @@ export default {
         fetchOrder() {
             axios
                 .get(`/api/orders/${this.id}`)
-                .then((res) => {
+                .then( (res) => {
                     console.log("Детали заказа:", res.data);
                     this.order = res.data;
                 })
