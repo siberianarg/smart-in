@@ -55,6 +55,7 @@ const routes = [
                 component: () =>
                     import("./components/Product/showProductComponent.vue"),
                 name: "product.show",
+                props: true
             },
         ],
     },
