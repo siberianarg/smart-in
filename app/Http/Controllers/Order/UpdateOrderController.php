@@ -19,7 +19,7 @@ class UpdateOrderController extends Controller
     // Обновление заказа (изменение товаров)
     public function update(Request $request, $id)
     {
-        $url = "entity/customerorder/{$id}";
+        $url = "entity/customerorder/{$id}?expand=positions.assortment";
 
         // Формируем массив позиций (товаров) в заказе
         $positions = array_map(function ($item) {

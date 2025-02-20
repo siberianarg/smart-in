@@ -28,7 +28,7 @@ class OrderDetailsResource extends JsonResource
                 'id' => $position['id'],
                 'name' => $productData['name'] ?? 'Без названия',
                 'quantity' => $position['quantity'],
-                'price' => $position['price'],
+                'price' => $position['price'] / 100, //?
                 // НЕ БЫЛО assortmentHref
                 'assortmentHref' => $position['assortment']['meta']['href'] ?? null, // Чтобы не ломался фронт
             ];

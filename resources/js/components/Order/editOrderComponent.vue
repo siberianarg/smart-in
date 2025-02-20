@@ -28,7 +28,7 @@
                     <tr>
                         <th>Название</th>
                         <th>Количество</th>
-                        <th>Цена</th>
+                        <th>Цена продажи</th>
                         <th>Действия</th>
                     </tr>
                 </thead>
@@ -38,10 +38,17 @@
                         :key="index"
                     >
                         <td>
-                            <v-text-field
+                            <!-- <v-text-field
                                 v-model="position.name"
                                 disabled
-                            ></v-text-field>
+                            ></v-text-field> -->
+                            <v-select
+                                v-model="position.assortmentHref"
+                                :items="products"
+                                item-title="name"
+                                item-value="meta.href"
+                                label="Выберите товар"
+                            ></v-select>
                         </td>
                         <td>
                             <v-text-field
@@ -86,12 +93,24 @@ export default {
                 price: 0,
                 assortmentHref: "",
             },
+            products: [],
         };
     },
     mounted() {
         this.fetchOrder();
+        this.fetchProduct();
     },
     methods: {
+        fetchProduct() {
+            axios
+                .get("/api/products")
+                .then((res) => {
+                    this.products = res.data;
+                })
+                .catch((error) => {
+                    console.log("ошибка загрузки товаров из заказа: ", error);
+                });
+        },
         fetchOrder() {
             axios
                 .get(`/api/orders/${this.id}`)
@@ -111,9 +130,7 @@ export default {
                     positions: this.order.positions.map((pos) => ({
                         quantity: pos.quantity,
                         price: pos.price,
-                        assortmentHref:
-                            // pos.assortment?.meta?.href || pos.assortmentHref,
-                            pos.assortmentHref,
+                        assortmentHref: pos.assortmentHref,
                     })),
                 })
                 .then((res) => {
@@ -126,14 +143,19 @@ export default {
                 });
         },
         addProduct() {
-            const newItem = { ...this.newProduct };
-            this.order.positions.push(newItem);
-            this.newProduct = {
-                name: "",
+            // const newItem = { ...this.newProduct };
+            // this.order.positions.push(newItem);
+            // this.newProduct = {
+            //     name: "",
+            //     quantity: 1,
+            //     price: 0,
+            //     assortmentHref: "",
+            // };
+            this.order.positions.push({
+                assortmentHref: "",
                 quantity: 1,
                 price: 0,
-                assortmentHref: "",
-            };
+            });
         },
         removeProduct(index) {
             this.order.positions.splice(index, 1);
