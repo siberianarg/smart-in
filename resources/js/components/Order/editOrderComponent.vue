@@ -3,13 +3,23 @@
         <h1>Редактирование заказа #{{ order.name }}</h1>
 
         <v-form @submit.prevent="updateOrder">
-            <v-text-field v-model="order.name" label="Название заказа" required></v-text-field>
+            <v-text-field
+                v-model="order.name"
+                label="Название заказа"
+                required
+            ></v-text-field>
             <p><strong>Код:</strong> {{ order.externalCode }}</p>
             <p><strong>ID:</strong> {{ order.id }}</p>
-            <p><strong>Сумма:</strong> {{ order.sum +" "+ order.currency}}</p>
+            <p>
+                <strong>Сумма:</strong> {{ order.sum + " " + order.currency }}
+            </p>
             <p><strong>Контрагент:</strong> {{ order.customer }}</p>
             <p><strong>Адрес:</strong> {{ order.deliveryAddress }}</p>
-            <v-text-field v-model="order.customer" label="контрагент" disabled></v-text-field>
+            <v-text-field
+                v-model="order.customer"
+                label="контрагент"
+                disabled
+            ></v-text-field>
             <p><strong>Дата создания:</strong> {{ order.createdAt }}</p>
 
             <h2>Товары в заказе</h2>
@@ -23,24 +33,38 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(position, index) in order.positions" :key="index">
+                    <tr
+                        v-for="(position, index) in order.positions"
+                        :key="index"
+                    >
                         <td>
-                            <v-text-field v-model="position.name" disabled></v-text-field>
+                            <v-text-field
+                                v-model="position.name"
+                                disabled
+                            ></v-text-field>
                         </td>
                         <td>
-                            <v-text-field v-model="position.quantity" type="number"></v-text-field>
+                            <v-text-field
+                                v-model="position.quantity"
+                                type="number"
+                            ></v-text-field>
                         </td>
                         <td>
-                            <v-text-field v-model="position.price" type="number"></v-text-field>
+                            <v-text-field
+                                v-model="position.price"
+                                type="number"
+                            ></v-text-field>
                         </td>
                         <td>
-                            <v-btn color="red" @click="removeProduct(index)">Удалить</v-btn>
+                            <v-btn color="red" @click="removeProduct(index)"
+                                >Удалить</v-btn
+                            >
                         </td>
                     </tr>
                 </tbody>
             </v-table>
 
-            <v-btn  color="success" @click="addProduct">Добавить товар</v-btn>
+            <v-btn color="success" @click="addProduct">Добавить товар</v-btn>
 
             <v-btn class="ml-4" color="primary" type="submit">Сохранить</v-btn>
         </v-form>
@@ -60,8 +84,8 @@ export default {
                 name: "",
                 quantity: 1,
                 price: 0,
-                assortmentHref: ""
-            }
+                assortmentHref: "",
+            },
         };
     },
     mounted() {
@@ -84,11 +108,13 @@ export default {
                 .put(`/api/orders/${this.id}`, {
                     name: this.order.name,
                     customerHref: this.order.customerHref,
-                    positions: this.order.positions.map(pos => ({
+                    positions: this.order.positions.map((pos) => ({
                         quantity: pos.quantity,
                         price: pos.price,
-                        assortmentHref: pos.assortment.meta.href
-                    }))
+                        assortmentHref:
+                            // pos.assortment?.meta?.href || pos.assortmentHref,
+                            pos.assortmentHref,
+                    })),
                 })
                 .then((res) => {
                     console.log("Заказ обновлен:", res.data);
@@ -102,11 +128,16 @@ export default {
         addProduct() {
             const newItem = { ...this.newProduct };
             this.order.positions.push(newItem);
-            this.newProduct = { name: "", quantity: 1, price: 0, assortmentHref: "" };
+            this.newProduct = {
+                name: "",
+                quantity: 1,
+                price: 0,
+                assortmentHref: "",
+            };
         },
         removeProduct(index) {
             this.order.positions.splice(index, 1);
-        }
-    }
+        },
+    },
 };
 </script>
