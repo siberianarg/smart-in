@@ -107,11 +107,15 @@ export default {
                 });
         },
         deleteOrder(id) {
+            if (
+                !confirm("Вы уверены, что хотите удалить этот заказ?")
+            ) { return; }
+
             this.$refs.loading.dialog = true;
             axios
                 .delete(`/api/orders/${id}`)
                 .then(() => {
-                    this.getOrders(); // Обновляем список заказов после удаления
+                    this.getOrders();
                 })
                 .catch((error) => {
                     console.error("Ошибка при удалении заказа:", error);

@@ -1,6 +1,6 @@
 <template>
     <div v-if="order">
-        <h1>Редактирование заказа #{{ order.name }}</h1>
+        <h1 class="mt-4 mb-2">Редактирование заказа #{{ order.name }}</h1>
 
         <v-form @submit.prevent="updateOrder">
             <v-text-field
@@ -142,8 +142,9 @@ export default {
                     })),
                 })
                 .then((res) => {
-                    console.log("Заказ обновлен:", res.data);
-                    alert("Заказ успешно обновлен!");
+                    // console.log("Заказ обновлен:", res.data);
+                    // alert("Заказ успешно обновлен!");
+                    this.$router.push({ name: "order.index" });
                 })
                 .catch((error) => {
                     console.error("Ошибка при обновлении заказа:", error);
