@@ -47,18 +47,19 @@
                     </td>
                     <td>
                         <v-btn
-                            class="mr-2"
                             color="white"
                             outlined
                             :to="{ name: 'task.edit', params: { id: task.id } }"
-                            text="Изменить"
-                        />
+                            ><v-icon>mdi-pencil</v-icon>
+                        </v-btn>
+                    </td>
+                    <td>
                         <v-btn
                             color="red"
                             outlined
                             @click="deleteTask(task.id)"
-                            text="Удалить"
-                        />
+                        ><v-icon>mdi-delete</v-icon>
+                    </v-btn>
                     </td>
                 </tr>
             </tbody>

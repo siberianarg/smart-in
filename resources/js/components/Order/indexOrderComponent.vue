@@ -52,8 +52,9 @@
                             color="red"
                             outlined
                             @click="deleteOrder(order.id)"
-                            text="Удалить"
-                        />
+                        >
+                            <v-icon>mdi-delete</v-icon>
+                        </v-btn>
                     </td>
                 </tr>
             </tbody>
