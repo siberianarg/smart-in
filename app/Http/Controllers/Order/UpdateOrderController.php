@@ -19,38 +19,42 @@ class UpdateOrderController extends Controller
     // Обновление заказа (изменение товаров)
     public function update(Request $request, $id)
     {
+        // dd($id);
         $url = "entity/customerorder/{$id}?expand=positions.assortment";
 
+        
+        // Проверяем, что в запросе переданы товары
+        if (!$request->has('positions')) {
+            return response()->json(['error' => 'Отсутствуют товары в заказе'], 400);
+        }
+
         // Формируем массив позиций (товаров) в заказе
+        $positionsArray = $request->input('positions.rows', []); // Берем `rows`, а не `positions`
         $positions = array_map(function ($item) {
             return [
-                'quantity' => $item['quantity'],
-                'price' => $item['price'] * 100, // Цена в копейках
+                'quantity' => $item['quantity'] ?? 0, // ✅ Добавляем `?? 0`, чтобы избежать ошибки
+                'price' => ($item['price'] ?? 0), // ✅ Если `price` нет, ставим `0`
                 'assortment' => [
                     'meta' => [
-                        'href' => $item['assortmentHref'],
+                        'href' => $item['assortment']['meta']['href'] ?? '', // ✅ Проверяем `meta.href`
                         'type' => 'product',
                         'mediaType' => 'application/json'
                     ]
                 ]
             ];
-        }, $request->input('positions', []));
+        }, $positionsArray);
+
+        // dd($positions);
+        // dd($request->input('positions'));
 
         // Формируем данные для обновления
         $data = [
             'name' => $request->input('name'),
-            // 'sum' => $request->input('sum') * 100, // Переводим в копейки
-            // 'agent' => [
-            //     'meta' => [
-            //         'href' => $request->input('customerHref'),
-            //         'type' => 'counterparty',
-            //         'mediaType' => 'application/json'
-            //     ]
-            // ],
-            // 'positions' => [
-            //     'rows' => $positions
-            // ]
+            'positions' => [
+                'rows' => $positions // ✅ Передаем `rows`, а не `positions`
+            ]
         ];
+
         // dd($data);
 
         $response = $this->msClient->update($url, $data);
@@ -62,4 +66,3 @@ class UpdateOrderController extends Controller
         }
     }
 }
-

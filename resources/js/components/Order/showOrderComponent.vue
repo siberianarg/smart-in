@@ -30,7 +30,7 @@
 import axios from "axios";
 
 export default {
-    name: "OrderDetail",
+    name: "showOrderComponent",
     components: {  },
     props: ["id"],
     data() {
@@ -53,7 +53,7 @@ export default {
                     console.error("Ошибка загрузки заказа:", error);
                 })
                 .finally(() => {
-                    this.isLoading = false;
+                    
                 });
         },
     },

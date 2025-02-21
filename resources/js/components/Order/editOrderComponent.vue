@@ -22,7 +22,7 @@
             ></v-text-field>
             <p><strong>Дата создания:</strong> {{ order.createdAt }}</p>
 
-            <h2>Товары в заказе</h2>
+            <h2 style="background-color: #f2f2f2; padding: 10px;">Товары в заказе</h2>
             <v-table>
                 <thead>
                     <tr>
@@ -38,10 +38,6 @@
                         :key="index"
                     >
                         <td>
-                            <!-- <v-text-field
-                                v-model="position.name"
-                                disabled
-                            ></v-text-field> -->
                             <v-select
                                 v-model="position.assortmentHref"
                                 :items="products"
@@ -60,6 +56,7 @@
                             <v-text-field
                                 v-model="position.price"
                                 type="number"
+                                disabled
                             ></v-text-field>
                         </td>
                         <td>
@@ -76,13 +73,18 @@
             <v-btn class="ml-4" color="primary" type="submit">Сохранить</v-btn>
         </v-form>
     </div>
+    <loading-component ref="loading" />
 </template>
 
 <script>
 import axios from "axios";
+import loadingComponent from "../loadingComponent.vue";
 
 export default {
     name: "editOrderComponent",
+    components: {
+        loadingComponent,
+    },
     props: ["id"],
     data() {
         return {
@@ -94,6 +96,7 @@ export default {
                 assortmentHref: "",
             },
             products: [],
+            is_end: false
         };
     },
     mounted() {
@@ -102,6 +105,7 @@ export default {
     },
     methods: {
         fetchProduct() {
+            this.$refs.loading.dialog = true;
             axios
                 .get("/api/products")
                 .then((res) => {
@@ -109,9 +113,13 @@ export default {
                 })
                 .catch((error) => {
                     console.log("ошибка загрузки товаров из заказа: ", error);
+                })
+                .finally(()=> {
+                    this.$refs.loading.dialog = false;
                 });
         },
         fetchOrder() {
+            
             axios
                 .get(`/api/orders/${this.id}`)
                 .then((res) => {

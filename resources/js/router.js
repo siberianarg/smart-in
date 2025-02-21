@@ -81,8 +81,12 @@ const routes = [
                 component: () => import("./components/Order/editOrderComponent.vue"),
                 name: "order.edit",
                 props: true
-                
             },
+            // {
+            //     path: "add",
+            //     component: () => import("./components/Product/addProductComponent.vue"),
+            //     name: "order.add",
+            // },
         ],
     },
 ];
