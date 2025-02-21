@@ -15,7 +15,7 @@ class StoreProductController extends Controller
         $this->msClient = $msClient;
     }
 
-    public function addProduct(Request $request)
+    public function storeProduct(Request $request)
     {
         $uniqueCode = $this->generateUniqueProductCode();
         $priceTypeMeta = $this->msClient->getRetailPriceTypeMeta();

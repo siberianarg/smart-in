@@ -82,11 +82,11 @@ const routes = [
                 name: "order.edit",
                 props: true
             },
-            // {
-            //     path: "add",
-            //     component: () => import("./components/Product/addProductComponent.vue"),
-            //     name: "order.add",
-            // },
+            {
+                path: "add",
+                component: () => import("./components/Order/addOrderComponent.vue"),
+                name: "order.add",
+            },
         ],
     },
 ];

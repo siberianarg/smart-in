@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Order\ShowOrderController;
+use App\Http\Controllers\Order\StoreOrderController;
 use App\Http\Controllers\Order\UpdateOrderController;
+use App\Http\Controllers\Order\DeleteOrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Task\StoreController;
@@ -30,9 +32,9 @@ Route::group(['prefix' => 'tasks'], function () {
 });
 
 Route::prefix('products/')->group(function () {
-    Route::get('/', [ProductController::class, 'getProduct']);  
-    Route::get('/{id}', [ShowProductController::class, 'getProductById']);     
-    Route::post('/', [StoreProductController::class, 'addProduct']);       
+    Route::get('/', [ProductController::class, 'indexProduct']);  
+    Route::get('/{id}', [ShowProductController::class, 'showProduct']);     
+    Route::post('/', [StoreProductController::class, 'storeProduct']);       
     Route::put('/{id}', [UpdateProductController::class, 'updateProduct']);
     Route::delete('/{id}', [DeleteProductController::class, 'deleteProduct']);
 });
@@ -40,7 +42,9 @@ Route::prefix('products/')->group(function () {
 Route::prefix('orders/')->group(function () {
     Route::get('/', [OrderController::class, 'index']);  
     Route::get('/{id}', [ShowOrderController::class, 'show']); 
+    Route::post('/', [StoreOrderController::class, 'store']); 
     Route::put('/{id}', [UpdateOrderController::class, 'update']); 
+    Route::delete('/{id}', [DeleteOrderController::class, 'delete']); 
 });
 
 // // Маршрут для получения текущего accountId

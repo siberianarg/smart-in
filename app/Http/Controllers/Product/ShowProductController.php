@@ -16,7 +16,7 @@ class ShowProductController extends Controller
         $this->msClient = $msClient;
     }
 
-    public function getProductById($id)
+    public function showProduct($id)
     {
         $url = "entity/product/{$id}";
         $product = $this->msClient->get($url);

@@ -47,6 +47,14 @@
                     <td>
                         {{ order.customer || "-" }}
                     </td>
+                    <td>
+                        <v-btn
+                            color="red"
+                            outlined
+                            @click="deleteOrder(order.id)"
+                            text="Удалить"
+                        />
+                    </td>
                 </tr>
             </tbody>
         </v-table>

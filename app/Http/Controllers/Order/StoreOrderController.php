@@ -15,7 +15,7 @@ class StoreOrderController extends Controller
         $this->msClient = $msClient;
     }
 
-    public function addOrder(Request $request){
+    public function store(Request $request){
         
     }
 }
