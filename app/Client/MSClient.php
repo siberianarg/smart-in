@@ -3,6 +3,7 @@
 namespace App\Client;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Cache;
 
@@ -27,14 +28,10 @@ class MSClient
         ]);
     }
 
-    public function get(string $url, array $queryParams = []): ?array
+    public function get(string $url): ?array
     {
-        try {
-            $response = $this->client->get($url, ['query' => $queryParams]);
-            return json_decode($response->getBody(), true);
-        } catch (RequestException $e) {
-            return $this->handleError($e);
-        }
+        $response = $this->client->get($url);
+        return json_decode($response->getBody(), true);
     }
 
     public function create(array $data, string $url): ?array
@@ -66,6 +63,17 @@ class MSClient
             return $this->handleError($e, false);
         }
     }
+
+    public function getRetailPriceTypeMeta() {
+        try {
+            $response = $this->client->get('context/companysettings/pricetype');
+            $priceTypes = json_decode($response->getBody(), true);
+            return !empty($priceTypes) && isset($priceTypes[0]['meta']) ? $priceTypes[0]['meta'] : null;
+        } catch (ClientException $e) {
+            return null;
+        }
+    }
+
 
     public function getRetailCustomerId(): ?string
     {

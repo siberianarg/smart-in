@@ -10,17 +10,7 @@
                         label="Название заказа"
                         outlined
                         dense
-                        :rules="[v => !!v || 'Название обязательно']"
-                    />
-
-                    <!-- Цена заказа -->
-                    <v-text-field
-                        v-model="price"
-                        label="Цена заказа (₸)"
-                        type="number"
-                        outlined
-                        dense
-                        :rules="[v => v > 0 || 'Цена должна быть больше 0']"
+                        :rules="[(v) => !!v || 'Название обязательно']"
                     />
 
                     <!-- Организация -->
@@ -32,7 +22,9 @@
                         label="Выберите организацию"
                         outlined
                         dense
-                        :rules="[v => !!v || 'Организация обязательна']"
+                        :loading="loading.organizations"
+                        :error="!!errors.organizations"
+                        :error-messages="errors.organizations"
                     />
 
                     <!-- Канал продаж -->
@@ -44,6 +36,9 @@
                         label="Выберите канал продаж"
                         outlined
                         dense
+                        :loading="loading.salesChannels"
+                        :error="!!errors.salesChannels"
+                        :error-messages="errors.salesChannels"
                     />
 
                     <!-- Проект -->
@@ -55,6 +50,9 @@
                         label="Выберите проект"
                         outlined
                         dense
+                        :loading="loading.projects"
+                        :error="!!errors.projects"
+                        :error-messages="errors.projects"
                     />
 
                     <!-- Товары -->
@@ -68,15 +66,22 @@
                         outlined
                         dense
                         chips
+                        :loading="loading.products"
+                        :error="!!errors.products"
+                        :error-messages="errors.products"
+                    />
+
+                    <!-- Итоговая цена -->
+                    <v-text-field
+                        :value="totalPrice"
+                        label="Общая сумма заказа (₸)"
+                        readonly
+                        outlined
+                        dense
                     />
 
                     <!-- Кнопка отправки -->
-                    <v-btn
-                        :disabled="!valid"
-                        @click="store"
-                        color="blue"
-                        class="mt-4"
-                        block
+                    <v-btn @click="store" color="blue" class="mt-4" block
                         >Создать заказ</v-btn
                     >
                 </v-form>
@@ -93,17 +98,36 @@ export default {
     data() {
         return {
             name: "",
-            price: null,
-            organization: null,
-            salesChannel: null,
-            project: null,
+            organization: [],
+            salesChannel: [],
+            project: [],
             selectedProducts: [],
             organizations: [],
             salesChannels: [],
             projects: [],
             products: [],
             valid: false,
+            loading: {
+                organizations: false,
+                salesChannels: false,
+                projects: false,
+                products: false,
+            },
+            errors: {
+                organizations: "",
+                salesChannels: "",
+                projects: "",
+                products: "",
+            },
         };
+    },
+    computed: {
+        totalPrice() {
+            return this.selectedProducts.reduce((sum, id) => {
+                const product = this.products.find((p) => p.id === id);
+                return sum + (product?.price || 0);
+            }, 0);
+        },
     },
     mounted() {
         this.fetchData();
@@ -111,44 +135,82 @@ export default {
     methods: {
         async fetchData() {
             try {
+                this.loading.organizations = true;
+                this.loading.salesChannels = true;
+                this.loading.projects = true;
+                this.loading.products = true;
+
                 const [orgRes, salesRes, projRes, prodRes] = await Promise.all([
-                    axios.get("/api/orders/organizations"),
-                    axios.get("/api/orders/sales-channels"),
-                    axios.get("/api/orders/projects"),
-                    axios.get("/api/orders/products"),
+                    axios.get("/api/organizations"),
+                    axios.get("/api/sales-channels"),
+                    axios.get("/api/projects"),
+                    axios.get("/api/products"),
                 ]);
 
-                this.organizations = orgRes.data;
-                this.salesChannels = salesRes.data;
-                this.projects = projRes.data;
-                this.products = prodRes.data.map((p) => ({
-                    id: p.id,
-                    name: `${p.name} (Доступно: ${p.quantity}, Цена: ${p.price})`,
-                }));
+                this.organizations = orgRes.data.length ? orgRes.data : [];
+                console.log("OOOORGAN" ,this.organizations[4].name)
+                this.salesChannels = salesRes.data.length ? salesRes.data : [];
+                console.log("канал" ,this.salesChannels[0].name)
+                this.projects = projRes.data.length ? projRes.data : [];
+                console.log("Проект" ,this.projects[0].name)
+                this.products = (prodRes.data.length ? prodRes.data : []).map(
+                    (p) => ({
+                        id: p.id,
+                        name: `${p.name} (Доступно: ${p.quantity}, Цена: ${p.price})`,
+                        price: p.price,
+                    })
+                    
+                );
             } catch (error) {
                 console.error("Ошибка при загрузке данных:", error);
+                this.errors.organizations =
+                    error.response?.data?.error ||
+                    "Ошибка загрузки организаций";
+                this.errors.salesChannels =
+                    error.response?.data?.error ||
+                    "Ошибка загрузки каналов продаж";
+                this.errors.projects =
+                    error.response?.data?.error || "Ошибка загрузки проектов";
+                this.errors.products =
+                    error.response?.data?.error || "Ошибка загрузки товаров";
+            } finally {
+                this.loading.organizations = false;
+                this.loading.salesChannels = false;
+                this.loading.projects = false;
+                this.loading.products = false;
             }
         },
-        store() {
-            axios
-                .post("/api/orders", {
+        async store() {
+            try {
+                if (!this.organization)
+                    throw new Error("Организация не выбрана!");
+                // if (!this.selectedProducts.length)
+                //     throw new Error("Выберите хотя бы один товар!");
+
+                const response = await axios.post("/api/orders", {
                     name: this.name,
-                    price: this.price,
+                    price: this.totalPrice,
                     organization: this.organization,
                     salesChannel: this.salesChannel,
                     project: this.project,
-                    positions: this.selectedProducts.map((id) => ({
-                        product_id: id,
-                        quantity: 1, // Здесь можно добавить логику выбора количества
-                        price: this.products.find((p) => p.id === id)?.price || 0,
-                    })),
-                })
-                .then(() => {
-                    this.$router.push({ name: "order.index" });
-                })
-                .catch((error) => {
-                    console.error("Ошибка при создании заказа:", error.response ? error.response.data : error.message);
+                    positions: this.selectedProducts.map((id) => {
+                        const product = this.products.find((p) => p.id === id);
+                        return {
+                            product_id: id,
+                            quantity: 1,
+                            price: product?.price || 0,
+                        };
+                    }),
                 });
+
+                console.log("Заказ создан:", response.data);
+                this.$router.push({ name: "order.index" });
+            } catch (error) {
+                console.error(
+                    "Ошибка при создании заказа:",
+                    error.response?.data || error.message
+                );
+            }
         },
     },
 };

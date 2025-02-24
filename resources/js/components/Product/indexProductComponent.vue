@@ -62,7 +62,7 @@
                         <v-btn
                             color="red"
                             outlined
-                            @click="deleteOrder(order.id)"
+                            @click="deleteProduct(product.id)"
                         >
                             <v-icon>mdi-delete</v-icon>
                         </v-btn>

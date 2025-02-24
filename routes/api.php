@@ -1,12 +1,8 @@
 <?php
 
-use App\Http\Controllers\Order\OrderController;
-use App\Http\Controllers\Order\ShowOrderController;
-use App\Http\Controllers\Order\StoreOrderController;
-use App\Http\Controllers\Order\UpdateOrderController;
-use App\Http\Controllers\Order\DeleteOrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Order\DataController;
 use App\Http\Controllers\Task\StoreController;
 use App\Http\Controllers\Task\TaskController;
 use App\Http\Controllers\Task\UpdateController;
@@ -17,6 +13,11 @@ use App\Http\Controllers\Product\DeleteProductController;
 use App\Http\Controllers\Product\ShowProductController;
 use App\Http\Controllers\Product\StoreProductController;
 use App\Http\Controllers\Product\UpdateProductController;
+use App\Http\Controllers\Order\OrderController;
+use App\Http\Controllers\Order\ShowOrderController;
+use App\Http\Controllers\Order\StoreOrderController;
+use App\Http\Controllers\Order\UpdateOrderController;
+use App\Http\Controllers\Order\DeleteOrderController;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -46,6 +47,11 @@ Route::prefix('orders/')->group(function () {
     Route::put('/{id}', [UpdateOrderController::class, 'update']); 
     Route::delete('/{id}', [DeleteOrderController::class, 'delete']); 
 });
+
+Route::get('/organizations', [DataController::class, 'getOrganizations']);
+Route::get('/sales-channels', [DataController::class, 'getSalesChannels']);
+Route::get('/projects', [DataController::class, 'getProjects']);
+Route::get('/products', [DataController::class, 'getProducts']);
 
 // // Маршрут для получения текущего accountId
 // Route::get('/current-account', [ProductController::class, 'getCurrentAccountId']);

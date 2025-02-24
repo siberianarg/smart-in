@@ -45,7 +45,7 @@ class StoreOrderController extends Controller
 
         return response()->json($projects);
     }
-
+    
     public function store(OrderRequest $request): JsonResponse
     {
         try {
