@@ -4,9 +4,7 @@ namespace App\Client;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
-use Illuminate\Support\Facades\Log;
-use App\Models\MainSettings;
-use GuzzleHttp\Exception\ClientException;
+use Illuminate\Support\Facades\Cache;
 
 class MSClient
 {
@@ -29,10 +27,10 @@ class MSClient
         ]);
     }
 
-    public function get(string $url): ?array
+    public function get(string $url, array $queryParams = []): ?array
     {
         try {
-            $response = $this->client->get($url);
+            $response = $this->client->get($url, ['query' => $queryParams]);
             return json_decode($response->getBody(), true);
         } catch (RequestException $e) {
             return $this->handleError($e);
@@ -69,14 +67,36 @@ class MSClient
         }
     }
 
-    public function getRetailPriceTypeMeta()
+    public function getRetailCustomerId(): ?string
+    {
+        return Cache::remember('retail_customer_id', 600, function () {
+            $response = $this->get('entity/counterparty', ['filter' => 'name=Розничный покупатель']);
+            if (!isset($response['rows']) || empty($response['rows'])) {
+                dd('Розничный покупатель не найден, создаём нового...');
+                return $this->createRetailCustomer();
+            }
+            return $response['rows'][0]['id'] ?? null;
+        });
+    }
+
+    private function createRetailCustomer(): ?string
     {
         try {
-            $response = $this->client->get('context/companysettings/pricetype');
-            $priceTypes = json_decode($response->getBody(), true);
+            $data = [
+                'name' => 'Розничный покупатель',
+                'description' => 'Автоматически созданный покупатель',
+            ];
 
-            return !empty($priceTypes) && isset($priceTypes[0]['meta']) ? $priceTypes[0]['meta'] : null;
-        } catch (ClientException $e) {
+            $response = $this->create($data, 'entity/counterparty');
+            if (isset($response['id'])) {
+                dd('Розничный покупатель создан с ID:', $response['id']);
+                return $response['id'];
+            }
+
+            dd('Ошибка при создании розничного покупателя: неизвестный ответ от API', $response);
+            return null;
+        } catch (\Exception $e) {
+            dd('Ошибка при создании розничного покупателя:', $e->getMessage());
             return null;
         }
     }
@@ -84,7 +104,7 @@ class MSClient
     private function handleError(RequestException $e, $returnValue = null)
     {
         $errorBody = $e->getResponse() ? $e->getResponse()->getBody()->getContents() : 'No response body';
-        dd('Ошибка запроса к API МойСклад:', $errorBody, $this->client);
+        dd('Ошибка запроса к API МойСклад:', $errorBody);
         return $returnValue;
     }
 }
