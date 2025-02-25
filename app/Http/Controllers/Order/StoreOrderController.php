@@ -52,10 +52,10 @@ class StoreOrderController extends Controller
             $validated = $request->validated();
 
             // получаем ID розничного покупателя
-            $counterpartyId = $this->msClient->getRetailCustomerId();
-            if (!$counterpartyId) {
-                return response()->json(['error' => 'Не удалось получить ID розничного покупателя'], 500);
-            }
+            // $counterpartyId = $this->msClient->getRetailCustomerId();
+            // if (!$counterpartyId) {
+            //     return response()->json(['error' => 'Не удалось получить ID розничного покупателя'], 500);
+            // }
 
             // формируем данные заказа
             $orderData = [
@@ -66,7 +66,7 @@ class StoreOrderController extends Controller
 
                 'organization' => [
                     'meta' => [
-                        'href' => $validated['organization']['meta']['href'],
+                        'href' => $validated['organization']['meta']['href'], //$counterpartyId
                         'type' => 'organization',
                         'mediaType' => 'application/json',
                     ]

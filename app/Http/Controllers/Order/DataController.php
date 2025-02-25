@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Order;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Client\MSClient;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Cache;
 
 class DataController extends Controller
 {
@@ -16,53 +14,48 @@ class DataController extends Controller
     {
         $this->msClient = $msClient;
     }
-
-    /**
-     * Получить список организаций
-     */
+    
+    //список организаций
     public function getOrganizations(): JsonResponse
     {
-        $organizations = Cache::remember('ms_organizations', 600, function () {
-            return $this->msClient->get('entity/organization')['rows'] ?? [];
-        });
-
-        return response()->json($organizations);
+        try {
+            $organizations = $this->msClient->get('entity/organization')['rows'] ?? [];
+            return response()->json($organizations);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Ошибка получения организаций: ' . $e->getMessage()], 500);
+        }
     }
 
-    /**
-     * Получить список каналов продаж
-     */
+    //список каналов продаж
     public function getSalesChannels(): JsonResponse
     {
-        $salesChannels = Cache::remember('ms_sales_channels', 600, function () {
-            return $this->msClient->get('entity/saleschannel')['rows'] ?? [];
-        });
-
-        return response()->json($salesChannels);
+        try {
+            $salesChannels = $this->msClient->get('entity/saleschannel')['rows'] ?? [];
+            return response()->json($salesChannels);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Ошибка получения каналов продаж: ' . $e->getMessage()], 500);
+        }
     }
 
-    /**
-     * Получить список проектов
-     */
+    //список к проектов
     public function getProjects(): JsonResponse
     {
-        $projects = Cache::remember('ms_projects', 600, function () {
-            return $this->msClient->get('entity/project')['rows'] ?? [];
-        });
-
-        return response()->json($projects);
+        try {
+            $projects = $this->msClient->get('entity/project')['rows'] ?? [];
+            return response()->json($projects);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Ошибка получения проектов: ' . $e->getMessage()], 500);
+        }
     }
 
-    /**
-     * Получить список товаров
-     */
-    public function getProducts(): JsonResponse
+    //список контрагентов
+    public function getCounterparties(): JsonResponse
     {
-        $products = Cache::remember('ms_products', 600, function () {
-            return $this->msClient->get('entity/product')['rows'] ?? [];
-        });
-
-        return response()->json($products);
+        try {
+            $counterparties = $this->msClient->get('entity/counterparty')['rows'] ?? [];
+            return response()->json($counterparties);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Ошибка получения контрагентов: ' . $e->getMessage()], 500);
+        }
     }
 }
-

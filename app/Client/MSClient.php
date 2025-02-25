@@ -74,45 +74,21 @@ class MSClient
         }
     }
 
-
-    public function getRetailCustomerId(): ?string
-    {
-        return Cache::remember('retail_customer_id', 600, function () {
-            $response = $this->get('entity/counterparty', ['filter' => 'name=Розничный покупатель']);
-            if (!isset($response['rows']) || empty($response['rows'])) {
-                dd('Розничный покупатель не найден, создаём нового...');
-                return $this->createRetailCustomer();
-            }
-            return $response['rows'][0]['id'] ?? null;
-        });
-    }
-
-    private function createRetailCustomer(): ?string
-    {
-        try {
-            $data = [
-                'name' => 'Розничный покупатель',
-                'description' => 'Автоматически созданный покупатель',
-            ];
-
-            $response = $this->create($data, 'entity/counterparty');
-            if (isset($response['id'])) {
-                dd('Розничный покупатель создан с ID:', $response['id']);
-                return $response['id'];
-            }
-
-            dd('Ошибка при создании розничного покупателя: неизвестный ответ от API', $response);
-            return null;
-        } catch (\Exception $e) {
-            dd('Ошибка при создании розничного покупателя:', $e->getMessage());
-            return null;
-        }
-    }
-
     private function handleError(RequestException $e, $returnValue = null)
     {
         $errorBody = $e->getResponse() ? $e->getResponse()->getBody()->getContents() : 'No response body';
         dd('Ошибка запроса к API МойСклад:', $errorBody);
         return $returnValue;
     }
+
+        // public function getRetailCustomerId(): ?string
+    // {
+    //     return Cache::remember('retail_customer_id', 600, function () {
+    //         $response = $this->get('entity/counterparty', ['filter' => 'name=Розничный покупатель']);
+    //         if (!isset($response['rows']) || empty($response['rows'])) {
+    //             dd('Розничный покупатель не найден');
+    //         }
+    //         return $response['rows'][0]['id'] ?? null;
+    //     });
+    // }
 }

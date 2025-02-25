@@ -51,7 +51,7 @@ Route::prefix('orders/')->group(function () {
 Route::get('/organizations', [DataController::class, 'getOrganizations']);
 Route::get('/sales-channels', [DataController::class, 'getSalesChannels']);
 Route::get('/projects', [DataController::class, 'getProjects']);
-Route::get('/products', [DataController::class, 'getProducts']);
+Route::get('/сounterparties', [DataController::class, 'getCounterparties']);
 
 // // Маршрут для получения текущего accountId
 // Route::get('/current-account', [ProductController::class, 'getCurrentAccountId']);
