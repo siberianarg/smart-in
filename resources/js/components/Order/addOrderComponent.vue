@@ -148,18 +148,17 @@ export default {
                 ]);
 
                 this.organizations = orgRes.data.length ? orgRes.data : [];
-                console.log("OOOORGAN" ,this.organizations[4].name)
+                console.log("OOOORGAN", this.organizations[4].name);
                 this.salesChannels = salesRes.data.length ? salesRes.data : [];
-                console.log("канал" ,this.salesChannels[0].name)
+                console.log("канал", this.salesChannels[0].name);
                 this.projects = projRes.data.length ? projRes.data : [];
-                console.log("Проект" ,this.projects[0].name)
+                console.log("Проект", this.projects[0].name);
                 this.products = (prodRes.data.length ? prodRes.data : []).map(
                     (p) => ({
                         id: p.id,
                         name: `${p.name} (Доступно: ${p.quantity}, Цена: ${p.price})`,
                         price: p.price,
                     })
-                    
                 );
             } catch (error) {
                 console.error("Ошибка при загрузке данных:", error);
@@ -184,21 +183,60 @@ export default {
             try {
                 if (!this.organization)
                     throw new Error("Организация не выбрана!");
-                // if (!this.selectedProducts.length)
-                //     throw new Error("Выберите хотя бы один товар!");
+                if (!this.selectedProducts.length)
+                    throw new Error("Выберите хотя бы один товар!");
 
                 const response = await axios.post("/api/orders", {
                     name: this.name,
-                    price: this.totalPrice,
-                    organization: this.organization,
-                    salesChannel: this.salesChannel,
-                    project: this.project,
+
+                    organization: {
+                        meta: {
+                            href: `https://api.moysklad.ru/api/remap/1.2/entity/organization/${this.organization}`,
+                            type: "organization",
+                            mediaType: "application/json",
+                        },
+                    },
+
+                    agent: {
+                        meta: {
+                            href: "https://api.moysklad.ru/api/remap/1.2/entity/counterparty/1e999adb-d141-11ec-0a80-075e00bbab3a",
+                            type: "counterparty",
+                            mediaType: "application/json",
+                        },
+                    },
+
+                    salesChannel: this.salesChannel
+                        ? {
+                            meta: {
+                                href: `https://api.moysklad.ru/api/remap/1.2/entity/saleschannel/${this.salesChannel}`,
+                                type: "saleschannel",
+                                mediaType: "application/json",
+                            },
+                        }
+                        : null,
+
+                    project: this.project
+                        ? {
+                            meta: {
+                                href: `https://api.moysklad.ru/api/remap/1.2/entity/project/${this.project}`,
+                                type: "project",
+                                mediaType: "application/json",
+                            },
+                        }
+                        : null,
+
                     positions: this.selectedProducts.map((id) => {
                         const product = this.products.find((p) => p.id === id);
                         return {
-                            product_id: id,
                             quantity: 1,
-                            price: product?.price || 0,
+                            price: product.price ? product.price * 100 : 0, // Исправлено null → 0
+                            assortment: {
+                                meta: {
+                                    href: `https://api.moysklad.ru/api/remap/1.2/entity/product/${product.id}`, // Исправлено отсутствие полного пути
+                                    type: "product",
+                                    mediaType: "application/json",
+                                },
+                            },
                         };
                     }),
                 });

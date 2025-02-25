@@ -25,7 +25,7 @@ class ProductController extends Controller
 
     public function indexProduct()
     {
-        $products = $this->msClient->get('entity/product?limit=100'); //?limit100 - опставил лимит, необходимо ПОПРАИТЬ
+        $products = $this->msClient->get('entity/product?limit=20'); //?limit20 - опставил лимит, необходимо ПОПРАИТЬ
         
         if (empty($products['rows'])) {
             return response()->json(['message' => 'Нет товаров в системе МойСклад'], 200);

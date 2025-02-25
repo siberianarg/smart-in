@@ -17,45 +17,11 @@ class StoreOrderController extends Controller
     {
         $this->msClient = $msClient;
     }
-
-    public function getProducts(): JsonResponse
-    {
-        $products = Cache::remember('ms_products', 600, function () {
-            return $this->msClient->get('entity/product')['rows'] ?? [];
-        });
-
-        return response()->json($products);
-    }
-
-    //список каналов продаж
-    public function getSalesChannels(): JsonResponse
-    {
-        $salesChannels = Cache::remember('ms_sales_channels', 600, function () {
-            return $this->msClient->get('entity/saleschannel')['rows'] ?? [];
-        });
-
-        return response()->json($salesChannels);
-    }
-
-    public function getProjects(): JsonResponse
-    {
-        $projects = Cache::remember('ms_projects', 600, function () {
-            return $this->msClient->get('entity/project')['rows'] ?? [];
-        });
-
-        return response()->json($projects);
-    }
     
     public function store(OrderRequest $request): JsonResponse
     {
         try {
             $validated = $request->validated();
-
-            // получаем ID розничного покупателя
-            // $counterpartyId = $this->msClient->getRetailCustomerId();
-            // if (!$counterpartyId) {
-            //     return response()->json(['error' => 'Не удалось получить ID розничного покупателя'], 500);
-            // }
 
             // формируем данные заказа
             $orderData = [
