@@ -11,7 +11,7 @@
         <v-btn
             color="success"
             outlined
-            :to="{ name: 'order.index' }"
+            :to="{ name: 'order.add' }"
             text="Добавить заказ"
         />
 

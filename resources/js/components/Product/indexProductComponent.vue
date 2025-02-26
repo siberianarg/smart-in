@@ -16,16 +16,18 @@
                     <td>{{ index + 1 }}</td>
                     <td>{{ product.code }}</td>
                     <td>
-                        <v-btn
+                        <v-list-item
+                            link
                             :to="{
                                 name: 'product.show',
                                 params: { id: product.id },
                             }"
                             variant="plain"
                             color="black"
+                            class="text-decoration-none text-black font-weight-bold w-100 d-block"
                         >
                             {{ product.name }}
-                        </v-btn>
+                        </v-list-item>
                     </td>
                     <td>
                         <v-chip
@@ -47,21 +49,23 @@
                     </td>
                     <td>
                         <v-btn
-                            class="mr-2"
-                            color="blue"
                             outlined
                             :to="{
                                 name: 'product.edit',
                                 params: { id: product.id },
                             }"
-                            text="Изменить"
-                        />
+                        >
+                            <v-icon>mdi-pencil</v-icon>
+                        </v-btn>
+                    </td>
+                    <td>
                         <v-btn
                             color="red"
                             outlined
                             @click="deleteProduct(product.id)"
-                            text="Удалить"
-                        />
+                        >
+                            <v-icon>mdi-delete</v-icon>
+                        </v-btn>
                     </td>
                 </tr>
             </tbody>
@@ -87,7 +91,6 @@ export default {
     },
     mounted() {
         this.getProducts();
-        
     },
     methods: {
         getProducts() {
@@ -95,8 +98,6 @@ export default {
             axios
                 .get("/api/products")
                 .then((response) => {
-                    
-
                     this.products = response.data;
                     console.log("ОТВЕТ API продуктов ", this.products);
                     this.is_end = true;
@@ -106,7 +107,6 @@ export default {
                 })
                 .finally(() => {
                     this.$refs.loading.dialog = false;
-                    
                 });
         },
         deleteProduct(id) {

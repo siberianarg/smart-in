@@ -55,6 +55,7 @@ const routes = [
                 component: () =>
                     import("./components/Product/showProductComponent.vue"),
                 name: "product.show",
+                props: true
             },
         ],
     },
@@ -74,7 +75,18 @@ const routes = [
                 name: "order.show",
                 props: true
                 
-            }
+            },
+            {
+                path: "edit/:id",
+                component: () => import("./components/Order/editOrderComponent.vue"),
+                name: "order.edit",
+                props: true
+            },
+            {
+                path: "add",
+                component: () => import("./components/Order/addOrderComponent.vue"),
+                name: "order.add",
+            },
         ],
     },
 ];

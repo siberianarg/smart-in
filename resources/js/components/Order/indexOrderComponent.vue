@@ -3,25 +3,34 @@
         <h1 class="mt-4">Список заказов</h1>
 
         <v-table class="mt-2">
-            
             <thead>
-                
                 <tr>
                     <th class="text-grey-darken-1">#</th>
                     <th class="text-grey-darken-1">Код</th>
                     <th class="text-grey-darken-1">Название</th>
                     <th class="text-grey-darken-1">Стоимость</th>
-                    <th class="text-grey-darken-1">Клиент</th> 
+                    <th class="text-grey-darken-1">Клиент</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(order, index) in orders" :key="order.id">
-                    <td>{{ index + 1 }}</td>
+                    <td>
+                        <v-btn
+                            :to="{
+                                name: 'order.show',
+                                params: { id: order.id },
+                            }"
+                            variant="plain"
+                            color="black"
+                        >
+                            {{ index + 1 }}
+                        </v-btn>
+                    </td>
                     <td>{{ order.externalCode || "—" }}</td>
                     <td>
                         <v-btn
                             :to="{
-                                name: 'order.show', 
+                                name: 'order.edit',
                                 params: { id: order.id },
                             }"
                             variant="plain"
@@ -32,11 +41,20 @@
                     </td>
                     <td>
                         <v-chip :color="order.sum > 0 ? 'green' : 'red'" dark>
-                            {{ order.sum / 100 }} ₸ 
+                            {{ order.sum }} ₸
                         </v-chip>
                     </td>
                     <td>
                         {{ order.customer || "-" }}
+                    </td>
+                    <td>
+                        <v-btn
+                            color="red"
+                            outlined
+                            @click="deleteOrder(order.id)"
+                        >
+                            <v-icon>mdi-delete</v-icon>
+                        </v-btn>
                     </td>
                 </tr>
             </tbody>
@@ -70,8 +88,14 @@ export default {
                 .get("/api/orders")
                 .then((res) => {
                     this.orders = res.data;
-                    console.log("ОТВЕТ API заказов:", JSON.parse(JSON.stringify(this.orders)));
-                    console.log("Тип данных orders:", Array.isArray(this.orders));
+                    console.log(
+                        "ОТВЕТ API заказов:",
+                        JSON.parse(JSON.stringify(this.orders))
+                    );
+                    console.log(
+                        "Тип данных orders:",
+                        Array.isArray(this.orders)
+                    );
                     this.is_end = true;
                 })
                 .catch((error) => {
@@ -83,17 +107,21 @@ export default {
                 });
         },
         deleteOrder(id) {
-            this.$refs.loading.dialog = true; 
+            if (
+                !confirm("Вы уверены, что хотите удалить этот заказ?")
+            ) { return; }
+
+            this.$refs.loading.dialog = true;
             axios
                 .delete(`/api/orders/${id}`)
                 .then(() => {
-                    this.getOrders(); // Обновляем список заказов после удаления
+                    this.getOrders();
                 })
                 .catch((error) => {
                     console.error("Ошибка при удалении заказа:", error);
                 })
                 .finally(() => {
-                    this.$refs.loading.dialog = false; 
+                    this.$refs.loading.dialog = false;
                 });
         },
     },

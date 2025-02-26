@@ -23,9 +23,9 @@ class ProductController extends Controller
         $this->msClient = new MSClient($settings->ms_token, $settings->accountId);
     }
 
-    public function getProduct()
+    public function indexProduct()
     {
-        $products = $this->msClient->get('entity/product?limit=20'); //?limit=20 - опставил лимит, необходимо ПОПРАИТЬ
+        $products = $this->msClient->get('entity/product?limit=20'); //?limit20 - опставил лимит, необходимо ПОПРАИТЬ
         
         if (empty($products['rows'])) {
             return response()->json(['message' => 'Нет товаров в системе МойСклад'], 200);

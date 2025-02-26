@@ -24,3 +24,5 @@ class ShowOrderController extends Controller
         return response()->json(new OrderDetailsResource($order));
     }
 }
+
+
