@@ -28,15 +28,15 @@ class UpdateOrderController extends Controller
             return response()->json(['error' => 'Отсутствуют товары в заказе'], 400);
         }
 
-        // Формируем массив позиций (товаров) в заказе
+        // aормируем массив позиций (товаров) в заказе
         $positionsArray = $request->input('positions.rows', []); // Берем `rows`, а не `positions`
         $positions = array_map(function ($item) {
             return [
-                'quantity' => $item['quantity'] ?? 0, // ✅ Добавляем `?? 0`, чтобы избежать ошибки
-                'price' => ($item['price'] ?? 0), // ✅ Если `price` нет, ставим `0`
+                'quantity' => $item['quantity'] ?? 0, // Добавляем `?? 0`, чтобы избежать ошибки
+                'price' => ($item['price'] ?? 0), // Если `price` нет, ставим `0`
                 'assortment' => [
                     'meta' => [
-                        'href' => $item['assortment']['meta']['href'] ?? '', // ✅ Проверяем `meta.href`
+                        'href' => $item['assortment']['meta']['href'] ?? '', // Проверяем `meta.href`
                         'type' => 'product',
                         'mediaType' => 'application/json'
                     ]

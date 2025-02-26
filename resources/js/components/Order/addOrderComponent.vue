@@ -147,19 +147,29 @@ export default {
                     axios.get("/api/products"),
                 ]);
 
-                this.organizations = orgRes.data.length ? orgRes.data : [];
-                console.log("OOOORGAN", this.organizations[4].name);
-                this.salesChannels = salesRes.data.length ? salesRes.data : [];
-                console.log("канал", this.salesChannels[0].name);
-                this.projects = projRes.data.length ? projRes.data : [];
-                console.log("Проект", this.projects[0].name);
-                this.products = (prodRes.data.length ? prodRes.data : []).map(
-                    (p) => ({
-                        id: p.id,
-                        name: `${p.name} (Доступно: ${p.quantity}, Цена: ${p.price})`,
-                        price: p.price,
-                    })
-                );
+                // Корректное форматирование данных для v-autocomplete
+                this.organizations = orgRes.data.map((org) => ({
+                    id: org.meta.href, // Используем meta.href как ID
+                    name: org.name || "Без названия",
+                }));
+
+                this.salesChannels = salesRes.data.map((channel) => ({
+                    id: channel.meta.href,
+                    name: channel.name || "Без названия",
+                }));
+
+                this.projects = projRes.data.map((project) => ({
+                    id: project.meta.href,
+                    name: project.name || "Без названия",
+                }));
+
+                this.products = prodRes.data.map((product) => ({
+                    id: product.meta.href,
+                    name: `${product.name} (Доступно: ${
+                        product.quantity || 0
+                    }, Цена: ${product.price || 0})`,
+                    price: product.price || 0,
+                }));
             } catch (error) {
                 console.error("Ошибка при загрузке данных:", error);
                 this.errors.organizations =
